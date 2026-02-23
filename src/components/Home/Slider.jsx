@@ -13,6 +13,10 @@ const Slider = ({ children , slideCount}) => {
     const prevRef = useRef(null)
     const nextRef = useRef(null)
 
+    const maxSlidesPerView = Math.max(2, slideCount || 1) 
+    const minSlidesRequired = maxSlidesPerView * 2
+    const shouldLoop = children?.length >= minSlidesRequired
+
     return (
         <div className="relative mb-4">
             {/* Custom Buttons */}
@@ -37,7 +41,7 @@ const Slider = ({ children , slideCount}) => {
             <Swiper
                 modules={[Navigation, Pagination, Autoplay]}
                 spaceBetween={20}
-                loop
+                loop={shouldLoop}
                 autoplay={{ delay: 2500 }}
                 pagination={{ clickable: true }}
            

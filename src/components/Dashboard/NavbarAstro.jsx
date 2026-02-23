@@ -27,6 +27,7 @@ const NavbarAstro = () => {
     const { toggleSidebar } = useSidebar();
     const dispatch = useDispatch()
 
+    // const  astrologer  = useSelector((state) => console.log(state));
     const { astrologer } = useSelector((state) => state.astroAuth);
     const { user } = useSelector((state) => state.userAuth)
     const [role, setRole] = useState(localStorage.getItem("role_id"))
@@ -105,7 +106,7 @@ console.log("user data",user)
                                     <Avatar className="h-10 w-10">
                                         <AvatarImage src={user ? user?.profile_image : astrologer?.profile_image} />
                                         <AvatarFallback className="bg-purple-600 text-white">
-                                            {astrologer?.name.charAt(0).toUpperCase()}
+                                            {user ? user?.name?.charAt(0).toUpperCase():astrologer?.name.charAt(0).toUpperCase()}
                                         </AvatarFallback>
                                     </Avatar>
                                 </Button>

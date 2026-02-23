@@ -11,7 +11,7 @@
 
 /* Container */
 .banner-container {
-  @apply max-w-7xl mx-auto px-10;
+  @apply max-w-6xl mx-auto px-10;
 }
 
 /* Grid Top Section */
@@ -27,7 +27,7 @@
 
 /* Heading Gradient */
 .banner-heading {
-  @apply text-3xl md:text-5xl font-extrabold leading-tight bg-gradient-to-r from-purple-500 via-pink-500 to-yellow-400 bg-clip-text text-transparent;
+  @apply text-2xl md:text-4xl font-extrabold leading-tight bg-gradient-to-r from-purple-500 via-pink-500 to-yellow-400 bg-clip-text text-transparent;
 }
 
 /* Paragraph */
@@ -55,12 +55,12 @@
 
 /* Cards Section */
 .banner-cards {
-  @apply flex justify-center flex-wrap gap-6 mt-16;
+  @apply flex justify-between flex-wrap gap-4 mt-16 mx-10;
 }
 
 /* Individual Card */
 .banner-card {
-  @apply bg-white rounded-xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-pointer w-[250px];
+  @apply bg-white rounded-xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-pointer w-[300px];
 }
 
 /* Card Content */
@@ -354,3 +354,18 @@ select {
     @apply bg-background text-foreground;
   }
 }
+
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 6s linear infinite;
+}
+

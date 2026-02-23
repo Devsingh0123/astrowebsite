@@ -6,6 +6,7 @@ const CallWithAstroBanner = () => {
 
 
   const { allastrologers, loading } = useSelector((state) => state.astroAuth);
+console.log("ass astros from callwithastrobanner",allastrologers) 
 
   if (loading) {
     return <div className="text-center py-10">Loading...</div>;

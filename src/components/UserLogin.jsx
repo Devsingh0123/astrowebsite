@@ -109,6 +109,8 @@ const UserLogin = ({ ele }) => {
       return;
     }
 
+    console.log("parsed data from userlogin",parsed.data)
+
     try {
       await dispatch(userLogin(parsed.data)).unwrap();
       toast.success("You are logged in");

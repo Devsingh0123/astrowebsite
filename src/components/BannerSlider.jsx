@@ -5,13 +5,13 @@ const BannerSlider = () => {
 
   return (
     <div className="overflow-x-hidden w-full py-4 
-bg-gradient-to-r from-red-500/90 via-orange-400/80 to-amber-300/90 
+bg-gradient-to-r from-yellow-200/90 via-orange-400/80 to-amber-300/90 
 backdrop-blur-md">
       <div className="flex w-max scrollleft">
         {[...items, ...items, ...items, ...items, ...items, ...items].map((item, index) => (
           <div
             key={index}
-            className="mx-6  py-3  flex  items-center justify-center gap-7 text-white rounded-lg text-lg whitespace-nowrap"
+            className="mx-6  py-3  flex  items-center justify-center gap-7 text-[#ffffffd7] rounded-lg text-lg whitespace-nowrap"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

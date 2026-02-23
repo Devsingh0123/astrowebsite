@@ -11,10 +11,10 @@ export const AstrologerRegister = createAsyncThunk(
       return res.data.astro;
     } catch (error) {
       return thunkApi.rejectWithValue(
-        error.response?.data?.message || "Registration failed"
+        error.response?.data?.message || "Registration failed",
       );
     }
-  }
+  },
 );
 
 export const AstrologerLogin = createAsyncThunk(
@@ -22,31 +22,27 @@ export const AstrologerLogin = createAsyncThunk(
   async (data, thunkApi) => {
     try {
       const res = await api.post("/astro/login", data);
-      console.log("checking astro login data",res.data.astro)
+      console.log("checking astro login data", res.data.astro);
 
- if (res?.data?.user?.role_id === 3) {
-                return thunkApi.rejectWithValue(
-                    "User cannot login from here"
-                );
-            } else {
-                localStorage.setItem("token", res.data.token);
-                localStorage.setItem("role_id", res?.data?.user?.role_id)
+      if (res?.data?.user?.role_id === 3) {
+        return thunkApi.rejectWithValue("User cannot login from here");
+      } else {
+        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("role_id", res?.data?.astro?.role_id);
 
-
-
-                // localStorage.setItem("token", res.data.token);
-                return res.data.astro;
-            }
+        // localStorage.setItem("token", res.data.token);
+        return res.data.astro;
+      }
 
       // localStorage.setItem("token", res?.data?.token);
       // localStorage.setItem("role_id", res?.data?.astro?.role_id);
       // return res.data.astro;
     } catch (error) {
       return thunkApi.rejectWithValue(
-        error.response?.data?.message || "Login failed"
+        error.response?.data?.message || "Login failed",
       );
     }
-  }
+  },
 );
 
 export const AstrologerProfile = createAsyncThunk(
@@ -57,10 +53,10 @@ export const AstrologerProfile = createAsyncThunk(
       return res.data.astro;
     } catch (error) {
       return thunkApi.rejectWithValue(
-        error.response?.data?.message || "Profile fetch failed"
+        error.response?.data?.message || "Profile fetch failed",
       );
     }
-  }
+  },
 );
 
 export const GetAllAstrologer = createAsyncThunk(
@@ -69,32 +65,33 @@ export const GetAllAstrologer = createAsyncThunk(
     try {
       const res = await api.get("/astro");
       const allastro = res.data.data;
+      // console.log("all astro data from astro auth",allastro)
 
       const onlineastro = allastro.filter((astro) => astro.is_online);
       const offlineastro = allastro.filter((astro) => !astro.is_online);
       return [...onlineastro, ...offlineastro];
     } catch (error) {
       return thunkApi.rejectWithValue(
-        error.response?.data?.message || "Failed to fetch astrologers"
+        error.response?.data?.message || "Failed to fetch astrologers",
       );
     }
-  }
+  },
 );
 export const GetSingleAstro = createAsyncThunk(
   "astroAuth/getSingleAstro",
   async (data, thunkApi) => {
-    console.log("get single astro api data",data);
+    console.log("get single astro api data", data);
     try {
       const res = await api.get(`/astro/${data}`);
-      console.log("get single astro api response",res.data.data)
+      console.log("get single astro api response", res.data.data);
 
       return res.data.data;
     } catch (error) {
       return thunkApi.rejectWithValue(
-        error.response?.data?.message || "Failed to fetch Single astro"
+        error.response?.data?.message || "Failed to fetch Single astro",
       );
     }
-  }
+  },
 );
 
 export const AstrologerLogout = createAsyncThunk(
@@ -105,24 +102,24 @@ export const AstrologerLogout = createAsyncThunk(
       return res.data.data;
     } catch (error) {
       return thunkApi.rejectWithValue(
-        error.response?.data?.message || "Failed to fetch astrologers"
+        error.response?.data?.message || "Failed to fetch astrologers",
       );
     }
-  }
+  },
 );
 export const AstrologerUpdate = createAsyncThunk(
   "astroAuth/update",
   async (data, thunkApi) => {
     try {
       const res = await api.post("/astro/update", data);
-      console.log(res)
+      console.log(res);
       return res.data.data;
     } catch (error) {
       return thunkApi.rejectWithValue(
-        error.response?.data?.message || "Failed to fetch astrologers"
+        error.response?.data?.message || "Failed to fetch astrologers",
       );
     }
-  }
+  },
 );
 
 /* ================== SLICE ================== */
@@ -141,7 +138,6 @@ const AstroAuthSlice = createSlice({
   name: "astroAuth",
   initialState,
   reducers: {
-
     clearAstroError: (state) => {
       state.error = null;
     },
@@ -189,13 +185,11 @@ const AstroAuthSlice = createSlice({
         state.loading = false;
         state.isAuthenticated = true;
         state.astrologer = action.payload;
-
       })
       .addCase(AstrologerProfile.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
         state.astrologer = null;
-
       })
 
       /* ---------- GET ALL ---------- */
@@ -219,7 +213,7 @@ const AstroAuthSlice = createSlice({
       .addCase(AstrologerLogout.fulfilled, (state, action) => {
         state.loading = false;
         state.isAuthenticated = false;
-        state.astrologer = null
+        state.astrologer = null;
       })
       .addCase(AstrologerLogout.rejected, (state, action) => {
         state.loading = false;

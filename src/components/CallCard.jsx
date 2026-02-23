@@ -274,7 +274,8 @@ export default function CallCard({
             <div>
               <Link to={`/astro-details/${id}`} className="hover:underline">
                 <h4 className="font-semibold text-lg text-gray-800 leading-tight">
-                  {name}
+                  <span className="line-clamp-1"> {name}</span>
+                 
                 </h4>
               </Link>
               <p className="text-xs text-gray-500">@{username}</p>

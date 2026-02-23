@@ -21,9 +21,9 @@ const LanguageSwitcher = () => {
       {/* Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 bg-yellow-400 hover:bg-yellow-500 text-black px-4 py-2 rounded-xl font-medium shadow-md transition"
+        className="flex items-center gap-2  hover:bg-yellow-300 text-black px-4 py-2 rounded-xl font-sm  transition text-sm"
       >
-        <Languages size={18} />
+        <Languages size={14} />
         {language === "en" ? "Eng" : "हिं"}
       </button>
 
@@ -32,7 +32,7 @@ const LanguageSwitcher = () => {
         <div className="absolute right-0 mt-2 w-36 bg-white rounded-xl shadow-lg border overflow-hidden z-50">
           <button
             onClick={() => changeLanguage("en")}
-            className={`w-full text-left px-4 py-2 hover:bg-gray-100 ${
+            className={`w-full text-left px-4 py-2 hover:bg-gray-100 text-sm ${
               language === "en" && "bg-gray-100 font-semibold"
             }`}
           >
@@ -41,8 +41,8 @@ const LanguageSwitcher = () => {
 
           <button
             onClick={() => changeLanguage("hi")}
-            className={`w-full text-left px-4 py-2 hover:bg-gray-100 ${
-              language === "hi" && "bg-gray-100 font-semibold"
+            className={`w-full text-left px-4 py-2 hover:bg-gray-100 text-sm ${
+              language === "hi" && "bg-gray-100 font-semibold "
             }`}
           >
             हिंदी

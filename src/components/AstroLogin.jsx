@@ -5,13 +5,14 @@ import { Button } from "@/components/ui/button";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 // import { AstrologerLogin } from "@/redux/slice/AstroAuth";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AstrologerLogin, AstrologerProfile, GetAllAstrologer } from "@/redux/slice/AstroAuth";
 
 const AstroLogin = () => {
 
     const dispatch = useDispatch();
     const { loading } = useSelector((state) => state.astroAuth);
+    const navigate = useNavigate()
 
     const [form, setForm] = useState({
         username: "",
@@ -34,7 +35,7 @@ const AstroLogin = () => {
             password: form.password,
         };
 
-        console.log("Login Data:", submitData);
+        console.log("Login Data from astrologin:", submitData);
 
         try {
             await dispatch(AstrologerLogin(submitData)).unwrap();
@@ -43,6 +44,7 @@ const AstroLogin = () => {
             }, 1000);
             toast.success("Login successful!");
             await fatchAstrologers();
+            navigate("/dashboard/profile")
             setForm({
                 username: "",
                 password: "",

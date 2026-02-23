@@ -55,7 +55,7 @@ const Astrodetails = () => {
                         {/* Details */}
                         <div className="flex-1 self-center">
                             <h2 className="text-3xl font-bold mb-2 flex items-center gap-2">
-                                {singleAstro?.name?.charAt(0).toUpperCase() + singleAstro?.name}
+                                {singleAstro?.name}
                                 {singleAstro?.is_online && (
                                     <span className="w-3 h-3 bg-green-500 rounded-full"></span>
                                 )}

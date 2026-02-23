@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import UserLogin from "./UserLogin";
-import LanguageSwitcher from "@/LanguageSwitcher";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 import logoastroremove from "@/assets/logoastroremove.png"
 
 const Navbar = () => {

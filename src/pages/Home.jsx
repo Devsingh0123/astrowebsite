@@ -12,7 +12,7 @@ import React from 'react'
 const Home = () => {
   return (
     <>
-      <Banner />
+      {/* <Banner /> */}
       <BannerSlider />
       <Astrologers />
       <Services />

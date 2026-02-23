@@ -14,7 +14,8 @@ function Dashboard() {
   if (loading) {
     return <p className="text-center   ">loading...</p>;
   }
-  useEffect(()=>{console.log((user?.pincode))},[])
+  // useEffect(()=>{console.log((user?.pincode))},[])
+  useEffect(()=>{console.log("hiiiii")},[])
   const InfoItem = ({ icon: Icon, label, value }) => (
     <div className="flex items-start gap-3 border-b  py-2.5">
       <div className="flex items-center justify-center w-9 h-9 rounded-lg bg-muted/50 flex-shrink-0">

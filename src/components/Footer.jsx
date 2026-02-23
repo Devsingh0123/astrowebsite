@@ -68,7 +68,7 @@ const Footer = () => {
             </Link>
             <div className="space-y-2">
               <h2 className="text-white border-b-2 border-b-primary/80 inline-block pb-1 font-semibold text-lg ">
-                About Astrology
+                About Astrotring
               </h2>
               <p className="text-white text-sm! ">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit.
@@ -175,7 +175,7 @@ const Footer = () => {
                   </li>
                   <li className="text-white text-sm mb-2   transition-all duration-300 hover:translate-x-2">
                     <Link to={""}>
-                      <FaAnglesRight className="me-2 inline" /> Astrotalk
+                      <FaAnglesRight className="me-2 inline" /> Astrotring
                       Reviews
                     </Link>
                   </li>
@@ -340,7 +340,7 @@ const Footer = () => {
                   </li>
                   <li className="text-white text-sm mb-2   transition-all duration-300 hover:translate-x-2">
                     <Link to={""}>
-                      <FaAnglesRight className="me-2 inline" /> Astrotalk
+                      <FaAnglesRight className="me-2 inline" /> Astrotring
                       Sitemap
                     </Link>
                   </li>
