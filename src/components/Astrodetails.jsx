@@ -2,16 +2,17 @@ import { GetSingleAstro } from "@/redux/slice/AstroAuth";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import ReviewsSection from "./ReviewsSection";
 
 const Astrodetails = () => {
     const { id } = useParams();
     const dispatch = useDispatch();
 
     const { singleAstro } = useSelector((state) => state.astroAuth);
-    console.log("single astro details", singleAstro)
 
-    // shortcut (avoid singleAstro?.[0] everywhere)
-    const astro = singleAstro?.[0];
+    const astro = Array.isArray(singleAstro)
+        ? singleAstro[0]
+        : singleAstro;
 
     useEffect(() => {
         if (id) {
@@ -19,12 +20,13 @@ const Astrodetails = () => {
         }
     }, [id, dispatch]);
 
-
-    useEffect(() => {
-        console.log(singleAstro?.[0])
-    }, [])
-
-
+    if (!astro) {
+        return (
+            <div className="flex justify-center items-center h-screen text-lg font-semibold">
+                Loading...
+            </div>
+        );
+    }
     const bars = [
         { star: 5, width: "w-full", color: "bg-green-500" },
         { star: 4, width: "w-4/5", color: "bg-blue-500" },
@@ -32,114 +34,135 @@ const Astrodetails = () => {
         { star: 2, width: "w-2/5", color: "bg-gray-200" },
         { star: 1, width: "w-1/5", color: "bg-gray-200" },
     ];
-
     return (
-        <section>
-            <div className="container">
+        <section className="min-h-screen bg-gradient-to-br from-gray-50 to-indigo-50 py-10">
+            <div className="max-w-6xl mx-auto px-4">
 
-                {/* Profile Card */}
-                <div className="mx-auto border rounded-xl p-6 bg-white shadow-sm mt-6">
-                    <div className="flex flex-col md:flex-row gap-6">
+                {/* ================= MAIN CARD ================= */}
+                <div className="bg-white rounded-3xl shadow-2xl p-8 border">
 
-                        {/* Image */}
+                    <div className="grid md:grid-cols-3 gap-10">
+
+                        {/* ========= LEFT SIDE (IMAGE) ========= */}
                         <div className="flex flex-col items-center">
-                            <div className="w-90 h-70 rounded-2xl overflow-hidden border">
+                            <div className="w-72 h-80 rounded-3xl overflow-hidden shadow-xl">
                                 <img
-                                    src={singleAstro?.profile_image}
-                                    alt="profile"
-                                    className="w-full h-full object-cover"
+                                    src={astro?.profile_image}
+                                    alt="astro"
+                                    className="w-full h-full object-cover hover:scale-105 transition duration-300"
                                 />
+                            </div>
+
+                            <div className="mt-4">
+                                {astro?.is_online ? (
+                                    <span className="px-4 py-1 bg-green-100 text-green-600 rounded-full text-xs font-semibold">
+                                        🟢 Online Now
+                                    </span>
+                                ) : (
+                                    <span className="px-4 py-1 bg-red-100 text-red-500 rounded-full text-xs font-semibold">
+                                        🔴 Offline
+                                    </span>
+                                )}
                             </div>
                         </div>
 
-                        {/* Details */}
-                        <div className="flex-1 self-center">
-                            <h2 className="text-3xl font-bold mb-2 flex items-center gap-2">
-                                {singleAstro?.name}
-                                {singleAstro?.is_online && (
-                                    <span className="w-3 h-3 bg-green-500 rounded-full"></span>
-                                )}
+                        {/* ========= RIGHT SIDE (DETAILS) ========= */}
+                        <div className="md:col-span-2 space-y-4">
+
+                            <h2 className="text-3xl font-bold text-gray-800">
+                                {astro?.name}
                             </h2>
 
-                            {/* Expertise */}
-                            <p className="text-sm text-gray-600 mb-1">
-                                <span className="font-semibold  mr-1"> Expertise: </span>{" "}
-                                {singleAstro?.expertise?.map((e, i) => (
-                                    <span key={i} className="mr-2 capitalize">
-                                        {e.replace("_", " ")}
-                                    </span>
-                                ))}
-                            </p>
-
-                            {/* Languages */}
-                            <p className="text-sm text-gray-600 mb-1">
-                                <span className="font-semibold  mr-1"> Languages: </span> {singleAstro?.languages?.join(", ")}
-                            </p>
-
-                            {/* Category */}
-                            <p className="text-sm text-gray-600 mb-1">
-                                <span className="font-semibold  mr-1">  Category: </span> {singleAstro?.category?.join(", ")}
-                            </p>
-
-                            {/* Experience */}
-                            <p className="text-sm text-gray-600 mb-1">
-                                <span className="font-semibold  mr-1"> Exp: </span> {singleAstro?.experience} Years
-                            </p>
-                            <p className="text-sm text-gray-600 flex items-center gap-2">
-                                <span className="font-semibold  mr-1">  Rating :</span>
-                                <span className="flex">
+                            {/* Rating */}
+                            <div className="flex items-center gap-3">
+                                <div className="flex">
                                     {[1, 2, 3, 4, 5].map((star) => (
                                         <span
                                             key={star}
-                                            className={`text-sm ${star <= Math.round(singleAstro?.rating || 0)
-                                                ? "text-yellow-400"
-                                                : "text-gray-300"
+                                            className={`text-lg ${star <= Math.round(astro?.rating || 0)
+                                                    ? "text-yellow-400"
+                                                    : "text-gray-300"
                                                 }`}
                                         >
                                             ★
                                         </span>
                                     ))}
+                                </div>
+                                <span className="text-sm text-gray-500">
+                                    ({astro?.rating_count || 0} Reviews)
                                 </span>
-                            </p>
-
-
-                            {/* Price */}
-                            <p className="mt-2  font-medium text-sm">
-                                ₹ {singleAstro?.chat_price}/min (Chat)
-                            </p>
-                            <p className="mt-2  font-medium text-sm">
-                                ₹ {singleAstro?.call_price}/min (Call)
-                            </p>
-
-                            <div className="flex gap-4 mt-4">
-                                <button className="border border-green-500 text-green-600 px-6 py-2 rounded-full text-sm">
-                                    Start Chat
-                                </button>
-
-                                <button className="border border-gray-400 text-gray-500 px-6 py-2 rounded-full text-sm">
-                                    Start Call
-                                    {!singleAstro?.is_online && (
-                                        <span className="block text-xs text-red-500">
-                                            Currently offline
-                                        </span>
-                                    )}
-                                </button>
                             </div>
-                        </div>
-                    </div>
 
-                    {/* About */}
-                    <div className="mt-6">
-                        <h3 className="font-semibold mb-2">About me</h3>
-                        <p className="text-sm text-gray-600 leading-relaxed">
-                            Professional astrologer helping people with clarity, guidance and
-                            spiritual insight through Vedic astrology.
-                        </p>
+                            {/* Info Grid */}
+                            <div className="grid sm:grid-cols-2 gap-4 mt-4 text-sm text-gray-600">
+
+                                <div>
+                                    <span className="font-semibold">Expertise:</span><br />
+                                    {astro?.expertise?.join(", ")}
+                                </div>
+
+                                <div>
+                                    <span className="font-semibold">Languages:</span><br />
+                                    {astro?.languages?.join(", ")}
+                                </div>
+
+                                <div>
+                                    <span className="font-semibold">Category:</span><br />
+                                    {astro?.category?.join(", ")}
+                                </div>
+
+                                <div>
+                                    <span className="font-semibold">Experience:</span><br />
+                                    {astro?.experience} Years
+                                </div>
+                            </div>
+
+                            {/* Pricing Card */}
+                            <div className="mt-6 bg-gray-50 rounded-2xl p-5 border">
+                                <div className="flex justify-between items-center">
+                                    <div>
+                                        <p className="text-green-600 font-semibold">
+                                            ₹ {astro?.chat_price}/min (Chat)
+                                        </p>
+                                        <p className="text-blue-600 font-semibold">
+                                            ₹ {astro?.call_price}/min (Call)
+                                        </p>
+                                    </div>
+
+                                    <div className="flex gap-3">
+                                        <button className="bg-green-500 hover:bg-green-600 text-white px-5 py-2 rounded-full shadow-md transition">
+                                            Start Chat
+                                        </button>
+
+                                        <button
+                                            disabled={!astro?.is_online}
+                                            className={`px-5 py-2 rounded-full shadow-md transition ${astro?.is_online
+                                                    ? "bg-blue-500 hover:bg-blue-600 text-white"
+                                                    : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                                                }`}
+                                        >
+                                            Start Call
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* About */}
+                            <div className="mt-6">
+                                <h3 className="font-semibold text-lg mb-2">
+                                    About Me
+                                </h3>
+                                <p className="text-gray-600 leading-relaxed text-sm">
+                                    {astro?.about ||
+                                        "Professional astrologer helping people with clarity, guidance and spiritual insight through Vedic astrology."}
+                                </p>
+                            </div>
+
+                        </div>
+
                     </div>
                 </div>
-
-                {/* Reviews */}
-                <div className="mx-auto mt-8 mb-10">
+                <div className="mx-auto mt-8 mb-10 bg-white rounded-3xl shadow-2xl p-8 border ">
                     <div className="border rounded-xl p-4 w-full">
                         <h3 className="font-semibold mb-3">Rating & Reviews</h3>
 
@@ -176,13 +199,13 @@ const Astrodetails = () => {
                             </div>
                         </div>
 
-                        <button className="w-full mt-4 border rounded-lg p-2 text-sm text-gray-600 flex justify-between items-center">
+                        {/* <button className="w-full mt-4 border rounded-lg p-2 text-sm text-gray-600 flex justify-between items-center">
                             Chat with Assistant?
                             <span>›</span>
-                        </button>
+                        </button> */}
                     </div>
                 </div>
-
+<ReviewsSection/>
             </div>
         </section>
     );

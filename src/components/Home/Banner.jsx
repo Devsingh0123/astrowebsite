@@ -5,10 +5,21 @@ import { Link } from "react-router-dom";
 
 import outercircle1 from "@/assets/outercircle1.png"
 import innerganesh from "@/assets/innerganesh.png"
+import bannerVideo from "@/assets/bannerVideo.mp4"
 
 const Banner = () => {
   return (
-    <section className="py-20 from-orange-50 via-yellow-100 to-red-100">
+    <section className="py-0 from-orange-50 via-yellow-100 to-red-100">
+    <div className=" w-full h-[380px] mx-auto overflow-hidden  border-8 border-white">
+  <video
+    src={bannerVideo}
+    autoPlay
+    loop
+    muted
+    playsInline
+    className="w-full h-full object-cover"
+  />
+</div>
       <div className="container">
         {/* Top Section */}
         <div className="banner-top   ">
