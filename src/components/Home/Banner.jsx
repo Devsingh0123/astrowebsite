@@ -3,13 +3,8 @@ import { MoveRight, Phone, ShoppingBag } from "lucide-react";
 import { IoIosChatbubbles } from "react-icons/io";
 import { Link } from "react-router-dom";
 
-<<<<<<< HEAD
 import outercircle1 from "@/assets/outercircle1.png"
 import innerganesh from "@/assets/innerganesh.png"
-=======
-import outercircle1 from "@/assets/outercircle1.png";
-import innerremove from "@/assets/innerganesh.png";
->>>>>>> a5cc0dba8fce58878666bf71b5ec1f0588961b6c
 
 const Banner = () => {
   return (
@@ -44,7 +39,7 @@ const Banner = () => {
             {/* Inner static image (placed first so it's behind) */}
             <div className="absolute inset-0 m-13 flex items-center justify-center">
               <img
-                src={innerremove}
+                src={innerganesh}
                 alt="inner"
                 className="w-[60%] sm:w-[65%] object-contain"
               />
