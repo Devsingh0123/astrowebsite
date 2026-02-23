@@ -10,10 +10,11 @@ const Horoscopes = () => {
     const { horoscope, loading } = useSelector((state) => state.horoscope);
 
     console.log("PATE", horoscope)
+    console.log("date", date)
 
     const horoscopeData = horoscope ? horoscope.filter(h => h.type.toLowerCase() === date.toLowerCase()) : null;
 
-    console.log(horoscopeData)
+    console.log("horoscopes data",horoscopeData)
     return (
         <>
             <HoroscopeBanner data={horoscopeData} title={`Horoscopes for ${date}`} />

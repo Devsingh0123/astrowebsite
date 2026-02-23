@@ -71,13 +71,7 @@ const Footer = () => {
                 About Astrotring
               </h2>
               <p className="text-white text-sm! ">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Temporibus sit consequatur ipsam ex atque delectus nulla animi
-                nostrum? Error, voluptatem? Aspernatur asperiores alias eum
-                temporibus pariatur ipsam cumque facilis repellendus! Lorem
-                ipsum dolor, sit amet consectetur adipisicing elit. Incidunt
-                eveniet sunt ut dolor laudantium iure omnis soluta laboriosam
-                enim quae.
+                AstroTring is your ultimate destination for accurate Vedic astrology predictions, offering personalized Kundli analysis, horoscope matching, and real-time guidance on love, marriage, career, health, and finance. Powered by AI-driven insights and expert astrologers, we decode your birth chart to reveal your cosmic blueprint and life's true purpose. From live call and chat consultations to detailed astrology reports, AstroTring makes ancient Vedic wisdom accessible anytime, anywhere. Our verified astrologers provide authentic remedies, compatibility readings, and date-of-birth predictions to help you make confident, well-guided life decisions. Rooted in tradition and driven by technology, AstroTring bridges the timeless wisdom of the cosmos with the clarity you need to navigate modern life.
               </p>
             </div>
           </div>

@@ -6,6 +6,7 @@ import Faq from '@/components/Home/Faq'
  
 import Services from '@/components/Home/Services'
 import Testmonial from '@/components/Home/Testmonial'
+import ZodiacPredictions from '@/components/Home/ZodiacPredictions'
 import TestmonialCard from '@/components/TestmonialCard'
 import React from 'react'
 
@@ -16,6 +17,7 @@ const Home = () => {
       <Banner />
       <BannerSlider />
       <Astrologers />
+      <ZodiacPredictions/>
       <Services />
       <Counter />
       <Testmonial />

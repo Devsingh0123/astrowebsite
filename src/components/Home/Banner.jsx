@@ -64,7 +64,7 @@ const Banner = () => {
                     <IoIosChatbubbles className="h-4 w-4" />
                   </span>
                   <div>
-                    <div className="font-medium">Chat</div>
+                    <div className="font-medium">Chat To Astrologer</div>
                     <div className="text-xs text-gray-500">Click here for</div>
                     <div className="text-xs text-gray-500">
                       connect instantly
@@ -85,7 +85,7 @@ const Banner = () => {
                     <Phone className="h-4 w-4" />
                   </span>
                   <div>
-                    <div className="font-medium">Talk</div>
+                    <div className="font-medium">Talk To Astrologer</div>
                     <div className="text-xs text-gray-500">Click here for</div>
                     <div className="text-xs text-gray-500">call now</div>
                   </div>
