@@ -55,7 +55,7 @@
 
 /* Cards Section */
 .banner-cards {
-  @apply flex justify-between flex-wrap gap-0 mt-13 mx-10;
+  @apply flex justify-between flex-wrap gap-4 mt-13 mx-10;
 }
 
 /* Individual Card */

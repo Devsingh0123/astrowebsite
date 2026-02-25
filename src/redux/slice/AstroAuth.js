@@ -8,7 +8,9 @@ export const AstrologerRegister = createAsyncThunk(
   async (data, thunkApi) => {
     try {
       const res = await api.post("/astro/register", data);
+      console.log("astro register",res.data.astro)
       return res.data.astro;
+
     } catch (error) {
       return thunkApi.rejectWithValue(
         error.response?.data?.message || "Registration failed",

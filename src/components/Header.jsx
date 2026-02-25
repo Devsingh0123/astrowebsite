@@ -434,6 +434,8 @@ import { AstrologerLogout, AstrologerProfile } from "@/redux/slice/AstroAuth";
 import { userLogout, userProfile } from "@/redux/slice/UserAuth";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 
+
+
 // Mobile Navigation Section Component (unchanged)
 const MobileNavSection = ({ navItems }) => {
   const [openIndex, setOpenIndex] = useState(null);
@@ -589,10 +591,12 @@ const Header = () => {
   useEffect(() => {
     if (!horoscope) {
       const fetchHoroscopes = async () => {
+         
         try {
           await dispatch(getHoroscope()).unwrap();
+          
         } catch (error) {
-          console.log(error.message);
+          console.log({error});
         }
       };
       fetchHoroscopes();

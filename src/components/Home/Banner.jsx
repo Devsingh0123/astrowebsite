@@ -65,7 +65,7 @@ const Banner = () => {
         </div>
 
         {/* Cards Section */}
-        <div className="banner-cards md:flex-nowrap mb-5 sm:flex-nowrap">
+        <div className="banner-cards md:flex-nowrap mb-5  sm:flex-nowrap">
           {/* Chat Card */}
           <Card className="banner-card sm:[150px] md:w-[300px]">
             <Link to="/talk-to-astrologer">
