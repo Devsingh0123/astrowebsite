@@ -3,7 +3,6 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import ReviewsSection from "./ReviewsSection";
-import Rating from "./Rating";
 
 const Astrodetails = () => {
     const { id } = useParams();
@@ -166,10 +165,7 @@ const Astrodetails = () => {
  
 
 
-                <Rating
-                    rating={astro?.rating || 0}
-                    ratingCount={astro?.rating_count || 0}
-                />
+             
                 <ReviewsSection astrologerId={id} />
             </div>
         </section>
