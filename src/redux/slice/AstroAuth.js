@@ -47,18 +47,34 @@ export const AstrologerLogin = createAsyncThunk(
   },
 );
 
+
+
+// export const AstrologerProfile = createAsyncThunk(
+//   "astroAuth/profile",
+//   async (_, thunkApi) => {
+//     try {
+//       const res = await api.get("/astro/profile");
+//       return res.data.astro;
+//     } catch (error) {
+//       return thunkApi.rejectWithValue(
+//         error.response?.data?.message || "Profile fetch failed"
+//       );
+//     }
+//   }
+// );
+
 export const AstrologerProfile = createAsyncThunk(
   "astroAuth/profile",
   async (_, thunkApi) => {
     try {
       const res = await api.get("/astro/profile");
-      return res.data.astro;
+      return res.data.astro; // yaha "astro" me reviews bhi hone chahiye
     } catch (error) {
       return thunkApi.rejectWithValue(
-        error.response?.data?.message || "Profile fetch failed",
+        error.response?.data?.message || "Profile fetch failed"
       );
     }
-  },
+  }
 );
 
 export const GetAllAstrologer = createAsyncThunk(

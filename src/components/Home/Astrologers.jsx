@@ -27,7 +27,7 @@ const Astrologers = () => {
                     <Slider slideCount={3} >
                         {allastrologers
                             .map((astro) => (
-                                <CallCard key={astro.id} {...astro} />
+                                <CallCard key={astro.id} {...astro} onClick={{}} />
                             ))}
                     </Slider>
                 </div>

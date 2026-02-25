@@ -250,7 +250,7 @@ function UpdateAstro() {
         </div>
 
         <div className="mb-8 flex">
-          <Card className="w-full max-w-md border-0">
+          <Card className="w-full max-w-md border-0 p-1">
             <CardContent className="pt-6 p-0">
               <div className="flex items-center gap-4">
                 <div className="relative w-fit">
@@ -258,7 +258,7 @@ function UpdateAstro() {
                     htmlFor="profileUpload"
                     className="relative cursor-pointer group block rounded-full overflow-hidden"
                   >
-                    <Avatar className="w-20 h-20 border-4 border-primary/20 transition-transform duration-300 group-hover:scale-105">
+                    <Avatar className="w-20 h-20  border-4 border-primary/20 transition-transform duration-300 group-hover:scale-105">
                       <AvatarImage src={previewImage || currentProfile?.profile_image} />
                       <AvatarFallback className="bg-gradient-to-br from-primary to-orange-500 text-white text-2xl">
                         {currentProfile?.name?.charAt(0).toUpperCase()}
@@ -305,7 +305,7 @@ function UpdateAstro() {
                   <h2 className="text-xl font-bold text-slate-800">{formData.name}</h2>
                   <p className="text-slate-500 text-md!">@{formData.username}</p>
                   {isAstrologer && (
-                    <Badge className="mt-1 bg-primary/20 text-primary border-primary">
+                    <Badge className="m-1 bg-primary/20 text-primary border-primary">
                       Astrologer
                     </Badge>
                   )}

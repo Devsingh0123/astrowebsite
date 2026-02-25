@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import ReviewsSection from "./ReviewsSection";
+import Rating from "./Rating";
 
 const Astrodetails = () => {
     const { id } = useParams();
@@ -80,8 +81,8 @@ const Astrodetails = () => {
                                         <span
                                             key={star}
                                             className={`text-lg ${star <= Math.round(astro?.rating || 0)
-                                                    ? "text-yellow-400"
-                                                    : "text-gray-300"
+                                                ? "text-yellow-400"
+                                                : "text-gray-300"
                                                 }`}
                                         >
                                             ★
@@ -137,8 +138,8 @@ const Astrodetails = () => {
                                         <button
                                             disabled={!astro?.is_online}
                                             className={`px-5 py-2 rounded-full shadow-md transition ${astro?.is_online
-                                                    ? "bg-blue-500 hover:bg-blue-600 text-white"
-                                                    : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                                                ? "bg-blue-500 hover:bg-blue-600 text-white"
+                                                : "bg-gray-300 text-gray-500 cursor-not-allowed"
                                                 }`}
                                         >
                                             Start Call
@@ -162,50 +163,14 @@ const Astrodetails = () => {
 
                     </div>
                 </div>
-                <div className="mx-auto mt-8 mb-10 bg-white rounded-3xl shadow-2xl p-8 border ">
-                    <div className="border rounded-xl p-4 w-full">
-                        <h3 className="font-semibold mb-3">Rating & Reviews</h3>
+ 
 
-                        <div className="flex gap-6">
-                            <div className="text-center">
-                                <p className="text-3xl font-bold">{singleAstro?.rating || 0}</p>
-                                <span className="flex">
-                                    {[1, 2, 3, 4, 5].map((star) => (
-                                        <span
-                                            key={star}
-                                            className={`text-sm ${star <= Math.round(singleAstro?.rating || 0)
-                                                ? "text-yellow-400"
-                                                : "text-gray-300"
-                                                }`}
-                                        >
-                                            ★
-                                        </span>
-                                    ))}
-                                </span>
-                                <p className="text-xs text-gray-500 mt-1">
-                                    {singleAstro?.rating_count} total
-                                </p>
-                            </div>
 
-                            <div className="flex-1 space-y-2">
-                                {bars.map((b) => (
-                                    <div key={b.star} className="flex items-center gap-2">
-                                        <span className="text-xs w-3">{b.star}</span>
-                                        <div className="flex-1 h-2 bg-gray-100 rounded">
-                                            <div className={`h-2 rounded ${b.color} ${b.width}`} />
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-
-                        {/* <button className="w-full mt-4 border rounded-lg p-2 text-sm text-gray-600 flex justify-between items-center">
-                            Chat with Assistant?
-                            <span>›</span>
-                        </button> */}
-                    </div>
-                </div>
-<ReviewsSection/>
+                <Rating
+                    rating={astro?.rating || 0}
+                    ratingCount={astro?.rating_count || 0}
+                />
+                <ReviewsSection astrologerId={id} />
             </div>
         </section>
     );
