@@ -21,9 +21,9 @@ const LanguageSwitcher = () => {
       {/* Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2  hover:bg-yellow-300 text-black px-4 py-2 rounded-xl font-sm  transition text-sm"
+        className="flex items-center gap-2  hover:bg-yellow-300 px-4 py-2 text-black rounded-xl font-sm  transition text-sm bg-gradient-to-r  hover:from-yellow-600 hover:to-yellow-700 hover:text-white  hover:shadow-xl "
       >
-        <Languages size={14} />
+        <Languages className="text-gray-500 hover:text-white" size={14} />
         {language === "en" ? "Eng" : "हिं"}
       </button>
 

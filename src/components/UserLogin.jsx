@@ -15,6 +15,8 @@ import { z } from "zod";
 import { useDispatch, useSelector } from "react-redux";
 import { userLogin, userProfile, userRegister } from "@/redux/slice/UserAuth";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import ForgotPassword from "./ForgotPasswordUser";
 // import LanguageSwitcher from "@/LanguageSwitcher";
 
 /* ---------------- ZOD SCHEMAS ---------------- */
@@ -44,9 +46,10 @@ const signupSchema = z
 const UserLogin = ({ ele }) => {
   const dispatch = useDispatch();
   const { user, error, loading } = useSelector((state) => state.userAuth);
-
+  const navigate = useNavigate();
   const [mode, setMode] = useState("login");
   const [open, setOpen] = useState(false);
+  const [userType, setUserType] = useState("");
 
   const [form, setForm] = useState({
     name: "",
@@ -109,7 +112,7 @@ const UserLogin = ({ ele }) => {
       return;
     }
 
-    console.log("parsed data from userlogin",parsed.data)
+    // console.log("parsed data from userlogin",parsed.data)
 
     try {
       await dispatch(userLogin(parsed.data)).unwrap();
@@ -155,13 +158,10 @@ const UserLogin = ({ ele }) => {
 
   return (
     <div className="flex items-center gap-3">
-      
-  
-
       {/* User Dialog */}
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <Button className="flex gap-2">
+          <Button className="flex gap-2 bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-white rounded-3xl shadow-lg hover:shadow-xl transition-all">
             <User />
             {ele?.name || "Account"}
           </Button>
@@ -190,9 +190,13 @@ const UserLogin = ({ ele }) => {
           {/* LOGIN FORM */}
           {mode === "login" && (
             <form onSubmit={handleLogin} className="space-y-4 mt-4">
-              <div>
+              <div className="space-y-2 ">
                 <Label>Username</Label>
-                <Input name="username" onChange={handleChange} />
+                <Input
+                  name="username"
+                  placeholder="Enter your username"
+                  onChange={handleChange}
+                />
                 {errors.fields.username && (
                   <p className="text-red-600 text-sm">
                     {errors.fields.username[0]}
@@ -200,30 +204,47 @@ const UserLogin = ({ ele }) => {
                 )}
               </div>
 
-              <div>
+              <div className="space-y-2 ">
                 <Label>Password</Label>
-                <Input type="password" name="password" onChange={handleChange} />
+                <Input
+                  type="password"
+                  name="password"
+                  placeholder="Enter your password"
+                  onChange={handleChange}
+                />
                 {errors.fields.password && (
                   <p className="text-red-600 text-sm">
                     {errors.fields.password[0]}
                   </p>
                 )}
               </div>
+              <div className="text-right cursor-pointer">
+                <span
+                  onClick={() => {
+                    setMode("forgot")
+                    setUserType("user")
+                    ;
+                  }}
+                  className="text-orange-600 text-sm hover:underline"
+                >
+                  Forgot Password?
+                </span>
+              </div>
 
-              <Button className="w-full" disabled={loading}>
+              <Button className="w-full bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-white rounded-lg shadow-lg hover:shadow-xl transition-all" disabled={loading}>
                 {loading ? "Logging in..." : "Login"}
               </Button>
 
               <p className="text-center text-sm">
                 Don't have an account?{" "}
                 <span
-                  className="underline cursor-pointer"
+                  className=" cursor-pointer text-orange-600  hover:underline"
                   onClick={() => {
                     setMode("signup");
                     setErrors({ fields: {}, form: "" });
                   }}
                 >
-                  Sign up
+                  Sign Up
                 </span>
               </p>
             </form>
@@ -266,14 +287,14 @@ const UserLogin = ({ ele }) => {
                 onChange={handleChange}
               />
 
-              <Button className="w-full" disabled={loading}>
+              <Button className="w-full bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-white rounded-lg shadow-lg hover:shadow-xl transition-all" disabled={loading}>
                 {loading ? "Creating..." : "Sign Up"}
               </Button>
 
               <p className="text-center text-sm">
                 Already have an account?{" "}
                 <span
-                  className="underline cursor-pointer"
+                  className=" cursor-pointer text-orange-600  hover:underline"
                   onClick={() => {
                     setMode("login");
                     setErrors({ fields: {}, form: "" });
@@ -284,6 +305,16 @@ const UserLogin = ({ ele }) => {
               </p>
             </form>
           )}
+
+          {mode === "forgot" && (
+            <ForgotPassword
+              onSuccess={() => {
+                setMode("login");
+              }}
+              onCancel={() => setMode("login")}
+              userType ={userType}
+            />
+          )}
         </DialogContent>
       </Dialog>
     </div>
@@ -291,6 +322,7 @@ const UserLogin = ({ ele }) => {
 };
 
 export default UserLogin;
+
 
 
 
