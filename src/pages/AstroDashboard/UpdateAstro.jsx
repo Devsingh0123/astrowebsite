@@ -26,7 +26,7 @@ const FormField = ({ label, name, type = 'text', placeholder, icon: Icon, requir
       name={name}
       type={type}
       placeholder={placeholder}
-      value={type !== "date" ? value : new Date().toISOString().split("T")[0]}
+      value={value}
       onChange={onChange}
       lang="en-GB"
       className={cn("border-slate-200 focus:border-indigo-400 focus:ring-indigo-200", className)}
@@ -141,6 +141,7 @@ function UpdateAstro() {
   const isAstrologer = role === "2";
   const currentProfile = isAstrologer ? astrologer : user;
   const loading = isAstrologer ? astroLoading : userLoading;
+  console.log("current profile",currentProfile)
 
   useEffect(() => {
     if (currentProfile) {
@@ -323,7 +324,7 @@ function UpdateAstro() {
                 Personal
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-4 mb-4">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <FormField
                   label="Full Name"
@@ -397,7 +398,7 @@ function UpdateAstro() {
                 Contact Information
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-4 mb-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <FormField
                   label="Email"
@@ -509,7 +510,7 @@ function UpdateAstro() {
               </CardTitle>
             </CardHeader>
             <CardContent className="">
-              <div className="space-y-2">
+              <div className="space-y-2 mb-4">
                 <Label htmlFor="about" className="text-sm font-medium text-slate-700">
                   {isAstrologer ? 'Professional Bio & Approach' : 'About Yourself'}
                   <p className="text-xs text-slate-500 italic">

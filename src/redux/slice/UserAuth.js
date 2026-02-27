@@ -86,6 +86,48 @@ export const userProfile = createAsyncThunk(
     }
 );
 
+// ========== FORGOT PASSWORD FLOW FOR USER ==========
+export const userForgotPasswordRequest = createAsyncThunk(
+  "user/forgotPasswordRequest",
+  async ({email,type}, thunkApi) => {
+    try {
+      const res = await api.post(`/user/forgot-password`, { email,type });
+      return res.data;
+    } catch (error) {
+      return thunkApi.rejectWithValue(
+        error.response?.data?.message || "Failed to send OTP"
+      );
+    }
+  }
+);
+
+export const userVerifyOtp = createAsyncThunk(
+  "user/verifyOtp",
+  async ({ email, otp, type }, thunkApi) => {
+    try {
+      const res = await api.post(`/user/verify-otp`, { email, otp ,type});
+      return res.data;
+    } catch (error) {
+      return thunkApi.rejectWithValue(
+        error.response?.data?.message || "OTP verification failed"
+      );
+    }
+  }
+);
+
+export const userResetPassword = createAsyncThunk(
+  "user/resetPassword",
+  async ({ email, password, password_confirmation, type}, thunkApi) => {
+    try {
+      const res = await api.post(`/user/reset-password`, { email, password, password_confirmation, type });
+      return res.data;
+    } catch (error) {
+      return thunkApi.rejectWithValue(
+        error.response?.data?.message || "Password reset failed"
+      );
+    }
+  }
+);
 
 const tokenFromStorage = localStorage.getItem("token");
 

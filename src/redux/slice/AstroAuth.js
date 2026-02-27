@@ -140,6 +140,51 @@ export const AstrologerUpdate = createAsyncThunk(
   },
 );
 
+
+// ========== FORGOT PASSWORD FLOW FOR ASTRO ==========
+export const astroForgotPasswordRequest = createAsyncThunk(
+  "user/forgotPasswordRequest",
+  async ({email,type}, thunkApi) => {
+    try {
+      const res = await api.post("/astro/forgot-password", { email,type });
+      return res.data;
+    } catch (error) {
+      return thunkApi.rejectWithValue(
+        error.response?.data?.message || "Failed to send OTP"
+      );
+    }
+  }
+);
+
+export const astroVerifyOtp = createAsyncThunk(
+  "user/verifyOtp",
+  async ({ email, otp, type }, thunkApi) => {
+    try {
+      const res = await api.post("/astro/verify-otp", { email, otp ,type});
+      return res.data;
+    } catch (error) {
+      return thunkApi.rejectWithValue(
+        error.response?.data?.message || "OTP verification failed"
+      );
+    }
+  }
+);
+
+export const astroResetPassword = createAsyncThunk(
+  "user/resetPassword",
+  async ({ email, password, password_confirmation, type}, thunkApi) => {
+    try {
+      const res = await api.post("/astro/reset-password", { email, password, password_confirmation, type });
+      return res.data;
+    } catch (error) {
+      return thunkApi.rejectWithValue(
+        error.response?.data?.message || "Password reset failed"
+      );
+    }
+  }
+);
+
+
 /* ================== SLICE ================== */
 
 const initialState = {

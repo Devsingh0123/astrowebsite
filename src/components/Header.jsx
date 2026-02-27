@@ -576,7 +576,7 @@ const Header = () => {
     },
     {
       name: "Store",
-      path: "https://store.adkrayons.com/product",
+      path: "https://store.astrotring.com/product",
       type: "link",
       hasmenu: false,
     },
@@ -637,7 +637,7 @@ const Header = () => {
     >
       <div className="container mx-auto px-4 md:px-10 flex h-16 items-center justify-between   md:justify-center  gap-2.5 ">
         {/* Left side: Home link + desktop navigation */}
-        <div className="flex items-center space-x-2 ">
+        <div className="flex items-center space-x-6 ">
           <GiStarShuriken className="text-primary size-4 me-2 hidden md:block" />
           <Link
             to="/"

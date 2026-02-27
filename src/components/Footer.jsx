@@ -156,7 +156,7 @@ const Footer = () => {
 
                 <ul className="mt-2">
                   <li className="text-white text-sm mb-2   transition-all duration-300 hover:translate-x-2">
-                    <Link to={"https://store.adkrayons.com/product"}>
+                    <Link to={"https://store.astrotring.com/product"}>
                       <FaAnglesRight className="me-2 inline" /> Store
                     </Link>
                   </li>

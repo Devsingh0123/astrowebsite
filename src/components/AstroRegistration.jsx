@@ -1484,6 +1484,7 @@ const AstroRegister = () => {
                     {form.expertise.length > 0 && (
                       <div className="flex flex-wrap gap-2 mt-3">
                         {form.expertise.map((skill) => (
+                          <div className="relative">
                           <Badge
                             key={skill}
                             variant="secondary"
@@ -1491,13 +1492,15 @@ const AstroRegister = () => {
                           >
                             {expertiseOptions.find((e) => e.value === skill)
                               ?.label || skill}
+                           
+                          </Badge>
                             <X
-                              className="w-3.5 h-3.5 ml-2 cursor-pointer"
+                              className="w-3.5 h-3.5 ml-2 cursor-pointer absolute -top-1 right-0  bg-blue-100 text-blue-700 hover:bg-blue-200   rounded-full p-0.5 shadow-sm z-10"
                               onClick={(e) =>
                                 removeMultiSelect(e, "expertise", skill)
                               }
                             />
-                          </Badge>
+                            </div>
                         ))}
                       </div>
                     )}
@@ -1535,7 +1538,9 @@ const AstroRegister = () => {
                     {form.astro_education.length > 0 && (
                       <div className="flex flex-wrap gap-2 mt-3">
                         {form.astro_education.map((qual) => (
+                          <div className="relative">
                           <Badge
+                          
                             key={qual}
                             variant="secondary"
                             className="px-3 py-1.5 bg-purple-100 text-purple-700 hover:bg-purple-200"
@@ -1543,13 +1548,14 @@ const AstroRegister = () => {
                             {astrologerQualificationOptions.find(
                               (q) => q.value === qual,
                             )?.label || qual}
+                          </Badge>
                             <X
-                              className="w-3.5 h-3.5 ml-2 cursor-pointer"
+                              className="w-3.5 h-3.5  cursor-pointer absolute -top-1 right-0  bg-purple-100 text-purple-700 hover:bg-purple-200 rounded-full p-0.5 shadow-sm z-10"
                               onClick={(e) =>
                                 removeMultiSelect(e, "astro_education", qual)
                               }
                             />
-                          </Badge>
+                            </div>
                         ))}
                       </div>
                     )}
@@ -1592,6 +1598,7 @@ const AstroRegister = () => {
                     {form.languages.length > 0 && (
                       <div className="flex flex-wrap gap-2 mt-3">
                         {form.languages.map((lang) => (
+                          <div className="relative">
                           <Badge
                             key={lang}
                             variant="secondary"
@@ -1599,13 +1606,14 @@ const AstroRegister = () => {
                           >
                             {languages.find((l) => l.value === lang)?.label ||
                               lang}
+                          </Badge>
                             <X
-                              className="w-3.5 h-3.5 ml-2 cursor-pointer"
+                              className="w-3.5 h-3.5  cursor-pointer absolute -top-1 right-0 bg-green-100 text-green-700 hover:bg-green-200  rounded-full p-0.5 shadow-sm z-10"
                               onClick={(e) =>
                                 removeMultiSelect(e, "languages", lang)
                               }
                             />
-                          </Badge>
+                          </div>
                         ))}
                       </div>
                     )}
@@ -1648,21 +1656,25 @@ const AstroRegister = () => {
                     {form.categories.length > 0 && (
                       <div className="flex flex-wrap gap-2 mt-3">
                         {form.categories.map((cat) => (
+                          <div className="relative">
                           <Badge
                             key={cat}
                             variant="secondary"
-                            className="px-3 py-1.5 bg-orange-100 text-orange-700 hover:bg-orange-200"
+                            className="px-3 py-1.5 bg-orange-100 text-orange-700 hover:bg-orange-200 "
                           >
                             {categories.find((c) => c.value === cat)?.label ||
                               cat}
-                            <X
-                              className="w-3.5 h-3.5 ml-2 cursor-pointer"
+                            
+                          </Badge>
+                          <X
+                              className="w-3.5 h-3.5 absolute -top-1 right-0  cursor-pointer bg-orange-100 text-orange-700 hover:bg-orange-200 rounded-full p-0.5 shadow-sm z-10"
                               onClick={(e) =>
                                 removeMultiSelect(e, "categories", cat)
                               }
                             />
-                          </Badge>
+                          </div>
                         ))}
+                        
                       </div>
                     )}
                   </div>
@@ -1797,7 +1809,7 @@ const AstroRegister = () => {
               </div>
             </form>
 
-            {/* Success Modal pop up */}
+            {/* Success Modal pop up for verification is in process notifaction */}
             {showSuccessModal && (
               <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
                 <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-6">
@@ -1828,7 +1840,7 @@ const AstroRegister = () => {
               Already have an account?{" "}
               <Link
                 to="/astro-login"
-                className="text-orange-600 font-semibold hover:underline"
+                className="text-orange-600  hover:underline"
               >
                 Login here
               </Link>

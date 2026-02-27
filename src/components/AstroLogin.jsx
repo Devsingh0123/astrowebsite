@@ -98,10 +98,20 @@ const AstroLogin = () => {
                                 placeholder="Enter your password"
                             />
                         </div>
+                        <div className="text-right cursor-pointer">
+                <span
+                  onClick={() => {
+                    navigate('/forgot-password-astro',{ state: { type: 'astro' } });
+                  }}
+                  className="text-orange-600 text-sm hover:underline"
+                >
+                  Forgot Password?
+                </span>
+              </div>
 
                         <Button
                             type="submit"
-                            className="w-full "
+                            className="w-full bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-white rounded-lg shadow-lg hover:shadow-xl transition-all"
                             disabled={loading}
                         >
                             {loading ? "Logging in..." : "Login"}
@@ -109,7 +119,7 @@ const AstroLogin = () => {
 
                         <p className="text-center text-sm mt-4">
                             Don't have an account?{" "}
-                            <Link to="/astro-register" className="text-black font-semibold hover:underline">
+                            <Link to="/astro-register" className="text-orange-600 hover:underline">
                                 Register here
                             </Link>
                         </p>

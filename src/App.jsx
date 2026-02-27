@@ -16,6 +16,8 @@ import Marriage from "./pages/FooterMahurat/Marriage";
 import BhumiPuja from "./pages/FooterMahurat/BhumiPuja";
 import GrihaPravesh from "./pages/FooterMahurat/GrihaPravesh";
 import Mundan from "./pages/FooterMahurat/Mundan";
+// import { ForgotPasswordAstro } from "./components/ForgotPassword";
+
 
 
 // import BlogPage from "./pages/BlogPage";
@@ -32,6 +34,9 @@ const AstroRegister = lazy(() => import("./components/AstroRegistration"));
 const HoroscopeDetails = lazy(() => import("./components/Horoscopes/HoroscopeDetails"));
 const Horoscopes = lazy(() => import("./pages/Horoscopes"));
 const UpdateUser = lazy(() => import("./components/Home/UpdateUser"));
+const ForgotPassword = lazy(() => import("./components/ForgotPasswordUser"));
+const ForgotPasswordAstro = lazy(() => import("./components/ForgotPasswordAstro"));
+
 
 const Dashboard = lazy(() => import("./pages/AstroDashboard/Dashboard"));
 const UpdateAstro = lazy(() => import("./pages/AstroDashboard/UpdateAstro"));
@@ -87,6 +92,9 @@ const App = () => {
             <Route path='/' element={<Home />} />
             <Route path='/free-kundli' element={<FreeKundli />} />
             <Route path='/update-user' element={<UpdateUser />} />
+            <Route path='/forgot-password' element={<ForgotPassword />} />
+            <Route path='/forgot-password-astro' element={<ForgotPasswordAstro />} />
+          
             {/* <Route path='/chat-with-astrologer' element={<ChatWithAstro />} /> */}
             <Route path='/talk-to-astrologer' element={<CallwithAstro />} />
             <Route path='/astro-details/:id' element={<Astrodetails />} />
