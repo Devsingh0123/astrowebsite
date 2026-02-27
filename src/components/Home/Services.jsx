@@ -12,6 +12,7 @@ import guruchandaldosh from "@/assets/guruchandaldosh.png";
 import ketudosh from "@/assets/ketudosh.png";
 import grahandosh from "@/assets/grahandosh.png";
 import rahudosh from "@/assets/rahudosh.png";
+import { servicesData } from "@/data/servicesData";
 
 const servicesData = [
   {
