@@ -150,7 +150,7 @@ function Dashboard() {
                 <InfoItem icon={User} label="Gender" value={(astrologer?.gender) || (user?.gender)} />
 
                 {role == 3 && <>
-                  <InfoItem icon={Calendar} label="Date of Birth" value={user?.dob} />
+                  <InfoItem icon={Calendar} label="Date of Birth" value={user?.dob?.split("T")[0]} />
                   <InfoItem icon={MapPin} label="Birth Place" value={user?.birth_place} />
                   <InfoItem icon={Clock} label="Birth Time" value={user?.birth_time} />
                 </>}
