@@ -32,23 +32,22 @@ const RelatedDosh = ({ currentSlug }) => {
           ))}
         </div>
       </div>
+
+      {/* Optional CTA */}
+      <div className="bg-yellow-100 mt-6 p-6 rounded-2xl shadow">
+        <h4 className="font-semibold mb-2">Need Personal Kundli Analysis?</h4>
+        <p className="text-sm mb-3">
+          Get detailed horoscope consultation from expert astrologers.
+        </p>
+        <Link
+          to="/contact"
+          className="inline-block bg-yellow-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-yellow-600 transition"
+        >
+          Book Consultation
+        </Link>
+      </div>
     </div>
   );
 };
 
 export default RelatedDosh;
-{
-  /* Optional CTA */
-}
-<div className="bg-yellow-100 mt-6 p-6 rounded-2xl shadow">
-  <h4 className="font-semibold mb-2">Need Personal Kundli Analysis?</h4>
-  <p className="text-sm mb-3">
-    Get detailed horoscope consultation from expert astrologers.
-  </p>
-  <Link
-    to="/talk-to-astrologer"
-    className="inline-block bg-yellow-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-yellow-600 transition"
-  >
-    Book Consultation
-  </Link>
-</div>;
