@@ -150,7 +150,7 @@ function Dashboard() {
                 <InfoItem icon={User} label="Gender" value={(astrologer?.gender) || (user?.gender)} />
 
                 {role == 3 && <>
-                  <InfoItem icon={Calendar} label="Date of Birth" value={user?.dob} />
+                  <InfoItem icon={Calendar} label="Date of Birth" value={user?.dob?.split("T")[0]} />
                   <InfoItem icon={MapPin} label="Birth Place" value={user?.birth_place} />
                   <InfoItem icon={Clock} label="Birth Time" value={user?.birth_time} />
                 </>}
@@ -168,7 +168,7 @@ function Dashboard() {
                   Professional Details
                 </CardTitle>
               </CardHeader>
-              <CardContent className="">
+              <CardContent className="mb-4">
                 <div className="space-y-1 grid md:grid-cols-2">
                   <InfoItem
                     icon={Briefcase}
@@ -204,7 +204,7 @@ function Dashboard() {
                 Contact Information
               </CardTitle>
             </CardHeader>
-            <CardContent className=" ">
+            <CardContent className="mb-4 ">
               <div className="space-y-1">
                 <InfoItem icon={Mail} label="Email" value={(astrologer?.email) || (user?.email)} />
                 <InfoItem
@@ -229,7 +229,7 @@ function Dashboard() {
                 Performance Metrics
               </CardTitle>
             </CardHeader>
-            <CardContent className=" ">
+            <CardContent className="mb-4 ">
               <div className="space-y-1">
                 <InfoItem
                   icon={Star}
@@ -274,7 +274,7 @@ function Dashboard() {
             </CardTitle>
 
           </CardHeader>
-          <CardContent className="">
+          <CardContent className="mb-4">
             {(astrologer?.about) || (user?.about) ? (
               <p className="text-sm text-foreground leading-relaxed">{(astrologer?.about) || (user?.about)}</p>
             ) : (
