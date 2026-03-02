@@ -16,6 +16,7 @@ import Marriage from "./pages/FooterMahurat/Marriage";
 import BhumiPuja from "./pages/FooterMahurat/BhumiPuja";
 import GrihaPravesh from "./pages/FooterMahurat/GrihaPravesh";
 import Mundan from "./pages/FooterMahurat/Mundan";
+import MonthlyHoroscope from "./pages/horoscopesMonthlyAndYearly/MonthlyHoroscope";
 // import { ForgotPasswordAstro } from "./components/ForgotPassword";
 
 
@@ -98,7 +99,17 @@ const App = () => {
             <Route
               path="/horoscopes/:time/:horos"
               element={<HoroscopeDetails />}
+              
             />
+
+{/* horocopes data monthly and yearly */}
+<Route path="/monthly/:zodiac?" element={<MonthlyHoroscope />} />
+<Route path="/monthly" element={<MonthlyHoroscope />} />
+
+
+
+
+
             <Route path="/astro-login" element={<AstroLogin />} />
             <Route path="/astro-register" element={<AstroRegister />} />
             <Route path="/blogs" element={<Blog />} />
