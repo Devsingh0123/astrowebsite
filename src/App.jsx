@@ -89,6 +89,8 @@ const App = () => {
             <Route path="/" element={<Home />} />
             <Route path="/free-kundli" element={<FreeKundli />} />
             <Route path="/update-user" element={<UpdateUser />} />
+            <Route path='/forgot-password' element={<ForgotPassword />} />
+            <Route path='/forgot-password-astro' element={<ForgotPasswordAstro />} />
             {/* <Route path='/chat-with-astrologer' element={<ChatWithAstro />} /> */}
             <Route path="/talk-to-astrologer" element={<CallwithAstro />} />
             <Route path="/astro-details/:id" element={<Astrodetails />} />
