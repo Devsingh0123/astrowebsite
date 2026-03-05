@@ -44,7 +44,7 @@ export const testimonials = [
 
 const Testmonial = () => {
     return (
-      <section className="py-20 bg-gradient-to-br from-orange-50 via-yellow-50 to-red-50">
+      <section className="py-10 bg-gradient-to-br from-orange-50 via-yellow-50 to-red-50">
 
             <div className="container">
                 <ComponentHead className="text-start mb-5"

@@ -1,9 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-// Selected 6 important FAQs (copied from original faqData)
-const featuredFaqs = [
-  {
+const faqList = [
+   {
     id: 1,
     que: "What Is Astrology?",
     ans: "Astrology is an ancient, science-backed system that decodes planetary and cosmic influences on human life. It goes beyond fortune-telling — it's a tool for self-awareness, decision-making, and personal growth. Online platforms have made this wisdom accessible, affordable, and convenient for everyone through birth chart analysis, daily horoscopes, personalized consultations, and practical remedies rooted in Vedic tradition.",
@@ -24,7 +23,69 @@ const featuredFaqs = [
         </Link>{" "}
         reads your unique birth chart, they're not guessing — they're
         interpreting a deeply personal cosmic map that reflects your
-        personality, timing, and life tendencies.
+        personality, timing, and life tendencies. It feels accurate because it's
+        specific to you, not generic.
+      </>
+    ),
+  },
+  {
+    id: 3,
+    que: "Is astrology prediction true?",
+    ans: (
+      <>
+        Astrology doesn't predict events like a script written in stone. Think
+        of it more like a weather forecast — it shows likely conditions, not
+        certainties. What it does very well is highlight patterns, timing, and
+        tendencies in your life. Many people who consult astrologers on{" "}
+        <Link to="https://astrotring.com/">
+          <strong className="text-[#0066CC] cursor-pointer">
+            AstroTring.com
+          </strong>
+        </Link>{" "}
+        find that astrological readings reflect their experiences surprisingly
+        well. Your free will always plays a role, but astrology gives you a
+        valuable heads-up about what energies are at play around you.
+      </>
+    ),
+  },
+  {
+    id: 4,
+    que: "What is astrology and how does it work?",
+    ans: (
+      <>
+        Astrology is the study of how celestial bodies — the Sun, Moon, and
+        planets — influence human life and behavior. At the moment you were
+        born, these planets were positioned in specific places in the sky. At{" "}
+        <Link to="https://astrotring.com/">
+          <strong className="text-[#0066CC] cursor-pointer">
+            AstroTring.com
+          </strong>
+        </Link>{" "}
+        , our astrologers map these positions into a birth chart and interpret
+        how they shape your personality, relationships, career, and life events.
+        It's essentially a language that translates cosmic patterns into human
+        experiences.
+      </>
+    ),
+  },
+ {
+    id: 5,
+    que: "How does Vedic astrology differ from Western astrology?",
+    ans: (
+      <>
+        Both systems study planetary positions, but they differ in approach.
+        Vedic astrology, rooted in ancient Indian tradition, uses the sidereal
+        zodiac — based on actual star positions — and places heavy emphasis on
+        the Moon sign, planetary periods (dashas), and karmic patterns. Western
+        astrology uses the tropical zodiac — based on seasons — and focuses more
+        on the Sun sign and psychological personality traits. At{" "}
+        <Link to="https://astrotring.com/">
+          <strong className="text-[#0066CC] cursor-pointer">
+            AstroTring.com
+          </strong>
+        </Link>{" "}
+        , we offer expert guidance in both systems, helping you choose the
+        approach that resonates most with your journey.
       </>
     ),
   },
@@ -43,7 +104,8 @@ const featuredFaqs = [
           </strong>
         </Link>{" "}
         , our experts use your birth chart to reveal your strengths, weaknesses,
-        emotional nature, karmic path, and the timing of key life events.
+        emotional nature, karmic path, and the timing of key life events. It's
+        the foundation of every meaningful reading we offer.
       </>
     ),
   },
@@ -61,78 +123,39 @@ const featuredFaqs = [
         </Link>{" "}
         , our astrologers help identify favorable periods for career moves,
         relationships, financial decisions, or personal growth — and also flag
-        times to be cautious.
-      </>
-    ),
-  },
-  {
-    id: 8,
-    que: "How do I consult an online astrologer?",
-    ans: (
-      <>
-        It's quite simple. Visit{" "}
-        <Link to="https://astrotring.com/">
-          <strong className="text-[#0066CC] cursor-pointer">
-            AstroTring.com
-          </strong>
-        </Link>{" "}
-        , browse through our carefully verified astrologers based on their
-        expertise, ratings, and reviews, and book a session via chat, call, or
-        video call. You'll need to share your birth date, time, and place.
-      </>
-    ),
-  },
-  {
-    id: 15,
-    que: "How much do online astrology consultations cost?",
-    ans: (
-      <>
-        At{" "}
-        <Link to="https://astrotring.com/">
-          <strong className="text-[#0066CC] cursor-pointer">
-            AstroTring.com
-          </strong>
-        </Link>{" "}
-        , we believe that divine guidance should be accessible to everyone.
-        That's why we offer free introductory sessions and free birth chart
-        generation. Paid sessions are available at very affordable rates,
-        ranging from budget-friendly per-minute chat consultations to detailed
-        personalized reports.
+        times to be cautious. It's like having a cosmic calendar that helps you
+        plan smarter and act at the right time, all from the comfort of your
+        home.
       </>
     ),
   },
 ];
 
-const FeaturedFaqsStatic = () => {
+const MinimalFaqList = () => {
   return (
-    <section className="py-12 bg-gradient-to-br from-purple-50 to-pink-50">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-10">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-3">
-            Popular Questions
-          </h2>
-          <p className="text-gray-600 max-w-2xl mx-auto">
-            Get quick answers to some of the most common questions about astrology and our services.
-          </p>
-        </div>
+    <section className="py-10  bg-white">
+      <div className="container mx-auto  ">
+        {/* Heading - Responsive text sizes */}
+        
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {featuredFaqs.map((faq) => (
-            <div
-              key={faq.id}
-              className="bg-white rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300 p-6 border border-gray-100 flex flex-col"
-            >
-              <div className="mb-3">
-                <span className="inline-block bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full">
-                  FAQ #{faq.id}
-                </span>
-              </div>
-              <h3 className="text-xl font-semibold text-gray-800 mb-3">
+        {/* FAQ List - Minimal, clean, no numbers/icons */}
+        <div className="space-y-6 md:space-y-8">
+          {faqList.map((faq, index) => (
+            <div key={faq.id}>
+              {/* Question - Responsive size */}
+              <h3 className="text-base sm:text-lg md:text-xl font-semibold text-gray-800 mb-2 md:mb-3">
                 {faq.que}
               </h3>
-              <div className="text-gray-600 text-sm leading-relaxed">
+              
+              {/* Answer - Responsive size */}
+              <div className="text-sm sm:text-base text-gray-600 leading-relaxed">
                 {faq.ans}
               </div>
+              
+              {/* Separator line - except after last item */}
+              {index < faqList.length - 1 && (
+                <hr className="mt-4 md:mt-6 border-gray-100" />
+              )}
             </div>
           ))}
         </div>
@@ -141,4 +164,4 @@ const FeaturedFaqsStatic = () => {
   );
 };
 
-export default FeaturedFaqsStatic;
+export default MinimalFaqList;

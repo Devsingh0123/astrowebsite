@@ -182,116 +182,117 @@ const StaticHoroscopesMonthlyAndYearly = () => {
           </div>
 
           {/* RIGHT COLUMN - zodiac signs - desktop */}
-          <div className="lg:col-span-1 order-2 lg:order-2 shadow-2xl">
-            {/* Desktop view - sticky column */}
-            <div className="lg:sticky lg:top-24 lg:max-h-[calc(100vh-8rem)] lg:overflow-y-auto hidden lg:block bg-white rounded-2xl shadow-sm border border-gray-100 p-4"
-              style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-              
-              <h2 className="text-lg font-semibold text-orange-800 mb-4 px-2">
-                Zodiac Signs
-              </h2>
-              
-              <div className="space-y-2">
-                {ZODIAC_SIGNS.map((sign) => (
-                  <Link
-                    key={sign.name}
-                    to={`/staticHoroschopes/${currentTimePeriod}/${sign.name}`}
-                    className={`flex items-center gap-3 p-2 rounded-xl transition-all duration-200 ${
-                      selectedZodiac === sign.name
-                        ? "bg-yellow-50 border border-amber-500 shadow-sm"
-                        : "hover:bg-yellow-100 border border-gray-300"
-                    }`}
-                  >
-                    <div className={`w-15 h-15 rounded-full  flex-shrink-0 ${
-                      selectedZodiac === sign.name
-                        ? "bg-orange-100"
-                        : "bg-gray-100"
-                    }`}>
-                      <img
-                        src={sign.img}
-                        alt={sign.display}
-                        className="w-full h-full object-contain"
-                      />
-                    </div>
-                    <span className={`font-medium text-sm ${
-                      selectedZodiac === sign.name
-                        ? "text-orange-800"
-                        : "text-gray-900"
-                    }`}>
-                      {sign.display}
-                    </span>
-                  </Link>
-                ))}
-              </div>
-              
-              <div className="bg-yellow-100 mt-6 p-6 rounded-2xl shadow">
-                <h4 className="font-semibold mb-2">Need Personal Kundli Analysis?</h4>
-                <p className="text-sm mb-3">
-                  Get detailed horoscope consultation from expert astrologers.
-                </p>
-                <Link
-                  to="/talk-to-astrologer"
-                  className="inline-block bg-yellow-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-yellow-600 transition"
-                >
-                  Book Consultation
-                </Link>
-              </div>
-            </div>
-
-            {/* Mobile view - grid layout (3 columns) */}
-            <div className="lg:hidden mt-6">
-              <h2 className="text-lg font-semibold text-orange-800 mb-4">
-                Zodiac Signs
-              </h2>
-              
-              <div className="grid grid-cols-3 md:grid-cols-4 gap-2">
-                {ZODIAC_SIGNS.map((sign) => (
-                  <Link
-                    key={sign.name}
-                    to={`/staticHoroschopes/${currentTimePeriod}/${sign.name}`}
-                    className={`flex flex-col items-center p-3 rounded-xl transition-all duration-200 ${
-                      selectedZodiac === sign.name
-                        ? "bg-yellow-50 border border-amber-500 shadow-sm"
-                        : "bg-white border border-gray-200 hover:bg-gray-50"
-                    }`}
-                  >
-                    <div className={`w-24 h-24 rounded-full p-1.5 mb-2 ${
-                      selectedZodiac === sign.name
-                        ? "bg-orange-100"
-                        : "bg-gray-100"
-                    }`}>
-                      <img
-                        src={sign.img}
-                        alt={sign.display}
-                        className="w-full h-full object-contain"
-                      />
-                    </div>
-                    <span className={`text-xs font-medium text-center ${
-                      selectedZodiac === sign.name
-                        ? "text-orange-800"
-                        : "text-gray-700"
-                    }`}>
-                      {sign.display}
-                    </span>
-                  </Link>
-                ))}
-              </div>
-
-              {/* Consultation box for mobile */}
-              <div className="bg-yellow-100 mt-6 p-5 rounded-2xl shadow">
-                <h4 className="font-semibold mb-2 text-sm">Need Personal Kundli Analysis?</h4>
-                <p className="text-xs mb-3 text-gray-700">
-                  Get detailed horoscope consultation from expert astrologers.
-                </p>
-                <Link
-                  to={"/talk-to-astrologer"}
-                  className="inline-block bg-yellow-500 text-white px-4 py-2 rounded-lg text-xs font-medium hover:bg-yellow-600 transition w-full text-center"
-                >
-                  Book Consultation
-                </Link>
-              </div>
-            </div>
+         
+<div className="lg:col-span-1 order-2 lg:order-2 bg-gray-80">
+  {/* Desktop view - sticky column */}
+  <div className="lg:sticky lg:top-24 lg:max-h-[calc(100vh-8rem)] lg:overflow-y-auto hidden lg:block bg-white rounded-2xl shadow-2xl border border-gray-100 p-4"
+    style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+    
+    <h2 className="text-lg font-semibold text-orange-800 mb-4 px-2">
+      Zodiac Signs
+    </h2>
+    
+    <div className="space-y-2">
+      {ZODIAC_SIGNS.map((sign) => (
+        <Link
+          key={sign.name}
+          to={`/staticHoroschopes/${currentTimePeriod}/${sign.name}`}
+          className={`flex items-center gap-3 p-2 rounded-xl transition-all duration-200 ${
+            selectedZodiac === sign.name
+              ? "bg-yellow-50 border border-amber-500 shadow-sm"
+              : "hover:bg-yellow-100 border border-gray-300"
+          }`}
+        >
+          <div className={`w-15 h-15 rounded-full flex-shrink-0 ${
+            selectedZodiac === sign.name
+              ? "bg-orange-100"
+              : "bg-gray-100"
+          }`}>
+            <img
+              src={sign.img}
+              alt={sign.display}
+              className="w-full h-full object-contain"
+            />
           </div>
+          <span className={`font-medium text-sm ${
+            selectedZodiac === sign.name
+              ? "text-orange-800"
+              : "text-gray-900"
+          }`}>
+            {sign.display}
+          </span>
+        </Link>
+      ))}
+    </div>
+    
+    <div className="bg-yellow-100 mt-6 p-6 rounded-2xl shadow">
+      <h4 className="font-semibold mb-2">Need Personal Kundli Analysis?</h4>
+      <p className="text-sm mb-3">
+        Get detailed horoscope consultation from expert astrologers.
+      </p>
+      <Link
+        to="/talk-to-astrologer"
+        className="inline-block bg-yellow-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-yellow-600 transition"
+      >
+        Book Consultation
+      </Link>
+    </div>
+  </div>
+
+  {/* Mobile view - grid layout (3 columns) */}
+  <div className="lg:hidden mt-6">
+    <h2 className="text-lg font-semibold text-orange-800 mb-4">
+      Zodiac Signs
+    </h2>
+    
+    <div className="grid grid-cols-3 md:grid-cols-4 gap-2">
+      {ZODIAC_SIGNS.map((sign) => (
+        <Link
+          key={sign.name}
+          to={`/staticHoroschopes/${currentTimePeriod}/${sign.name}`}
+          className={`flex flex-col items-center p-3 rounded-xl transition-all duration-200 ${
+            selectedZodiac === sign.name
+              ? "bg-yellow-50 border border-amber-500 shadow-sm"
+              : "bg-white border border-gray-200 hover:bg-gray-50"
+          }`}
+        >
+          <div className={`w-24 h-24 rounded-full p-1.5 mb-2 ${
+            selectedZodiac === sign.name
+              ? "bg-orange-100"
+              : "bg-gray-100"
+          }`}>
+            <img
+              src={sign.img}
+              alt={sign.display}
+              className="w-full h-full object-contain"
+            />
+          </div>
+          <span className={`text-xs font-medium text-center ${
+            selectedZodiac === sign.name
+              ? "text-orange-800"
+              : "text-gray-700"
+          }`}>
+            {sign.display}
+          </span>
+        </Link>
+      ))}
+    </div>
+
+    {/* Consultation box for mobile */}
+    <div className="bg-yellow-100 mt-6 p-5 rounded-2xl shadow">
+      <h4 className="font-semibold mb-2 text-sm">Need Personal Kundli Analysis?</h4>
+      <p className="text-xs mb-3 text-gray-700">
+        Get detailed horoscope consultation from expert astrologers.
+      </p>
+      <Link
+        to={"/talk-to-astrologer"}
+        className="inline-block bg-yellow-500 text-white px-4 py-2 rounded-lg text-xs font-medium hover:bg-yellow-600 transition w-full text-center"
+      >
+        Book Consultation
+      </Link>
+    </div>
+  </div>
+</div>
         </div>
       </div>
     </div>
