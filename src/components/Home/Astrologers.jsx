@@ -15,7 +15,7 @@ const Astrologers = () => {
         return <div className="text-center py-10">Loading...</div>;
     }
     return (
-       <section className="py-20 bg-gradient-to-br from-orange-50 via-yellow-100 to-red-100">
+       <section className="pt-10 pb-0 bg-gradient-to-br from-orange-50 via-yellow-100 to-red-100">
 
             <div className="container">
                 <ComponentHead

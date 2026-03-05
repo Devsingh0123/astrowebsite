@@ -5,7 +5,7 @@ import { servicesData } from "@/data/servicesData";
 
 const Services = () => {
   return (
-    <section className="py-20 bg-gradient-to-br from-orange-50 via-yellow-50 to-red-50">
+    <section className="py-10 bg-gradient-to-br from-orange-50 via-yellow-50 to-red-50">
       <div className="container mx-auto px-6">
         {/* 👇 Heading Center */}
         <div className="text-center mb-14">

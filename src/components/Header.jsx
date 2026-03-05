@@ -613,13 +613,21 @@ const Header = () => {
         const horos = [];
         horoscope.forEach((ele) => {
           if (ele.type && !horosSet.has(ele.type)) {
+
+// filhaal ke liye weekly wala horoschope ko skip kar raha hu kyuki hamare pass abhi week ka data nhi hai
+if (ele.type.toLowerCase() === 'weekly') {
+            return; 
+          }
+
+
+            
             horosSet.add(ele.type);
             horos.push({
               label:
                 ele.type.charAt(0).toUpperCase() +
                 ele.type.slice(1) +
                 " Horoscope",
-              path: `/horoscopes/${ele.type.toLowerCase()}`,
+              path: `/staticHoroschopes/${ele.type.toLowerCase()}`,
             });
           }
         });
@@ -638,8 +646,7 @@ const Header = () => {
           : "bg-white"
         }`}
     >
-       <Link to={"/staticHoroschopes/monthly"}><button>month</button></Link>
-      <Link to={"/staticHoroschopes/yearly"}><button>year</button></Link>
+      
       <div className="container mx-auto px-4 md:px-10 flex h-16 items-center justify-between   md:justify-center  gap-2.5 ">
         {/* Left side: Home link + desktop navigation */}
         <div className="flex items-center space-x-6 ">

@@ -7,7 +7,7 @@ const RelatedDosh = () => {
   const filtered = servicesData.filter((item) => item.slug !== slug);
 
   return (
-    <div className="lg:col-span-1 lg:sticky lg:top-24 lg:max-h-[calc(100vh-8rem)] lg:overflow-y-auto bg-white rounded-2xl shadow-sm border border-gray-100 p-4 order-1 lg:order-2"  style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+    <div className="lg:col-span-1 lg:sticky lg:top-24 lg:max-h-[calc(100vh-8rem)] lg:overflow-y-auto bg-white rounded-2xl shadow-2xl border border-gray-100 p-4 order-1 lg:order-2"  style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
       <h3 className="text-xl font-semibold mb-6">Related Dosh</h3>
 
       <div className="space-y-4">

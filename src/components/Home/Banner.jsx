@@ -143,10 +143,10 @@ const Banner = () => {
 
                   <div className="leading-tight">
                     <div className="font-semibold text-[10px] sm:text-xs md:text-sm lg:text-lg">
-                      Chat
+                      Talk
                     </div>
                     <div className="text-[8px] sm:text-[10px] md:text-xs opacity-90">
-                      Chat with astrologer
+                      Talk with astrologer
                     </div>
                   </div>
                 </div>
@@ -161,7 +161,7 @@ const Banner = () => {
           </Card>
 
           {/* ================= Talk Card ================= */}
-          <Card className="relative w-[130px] sm:w-[170px] md:w-[210px] lg:w-[280px] border-0 font-medium group">
+          {/* <Card className="relative w-[130px] sm:w-[170px] md:w-[210px] lg:w-[280px] border-0 font-medium group">
             <span className="absolute inset-0 transition-all duration-500 ease-out transform -skew-x-12 bg-gradient-to-r from-[#FFD54F] via-[#FFB300] to-[#F57C00] group-hover:skew-x-12" />
             <span className="absolute inset-0 transition-all duration-500 ease-out transform skew-x-12 opacity-90 bg-gradient-to-r from-[#FFF176] via-[#f9ce86] to-[#ffdbc7] group-hover:-skew-x-12" />
 
@@ -185,7 +185,7 @@ const Banner = () => {
                 <MoveRight className="w-3 h-3 sm:w-4 sm:h-4 md:w-5 md:h-5 transition-all duration-300 group-hover:translate-x-2" />
               </CardHeader>
             </Link>
-          </Card>
+          </Card> */}
 
           {/* ================= Store Card ================= */}
           <Card className="relative w-[130px] sm:w-[170px] md:w-[210px] lg:w-[280px] border-0 font-medium group">

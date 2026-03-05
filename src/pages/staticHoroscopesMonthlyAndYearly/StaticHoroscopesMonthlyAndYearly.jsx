@@ -65,7 +65,7 @@ const StaticHoroscopesMonthlyAndYearly = () => {
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           
           {/* LEFT COLUMN - horoscope details - mobile में पहले */}
-          <div className="lg:col-span-3 bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8 order-1 lg:order-1">
+          <div className="lg:col-span-3 bg-white rounded-2xl shadow-2xl border border-gray-100 p-6 md:p-8 order-1 lg:order-1">
             
             {/* header */}
             <div className="text-center mb-8">
@@ -182,7 +182,7 @@ const StaticHoroscopesMonthlyAndYearly = () => {
           </div>
 
           {/* RIGHT COLUMN - zodiac signs - desktop */}
-          <div className="lg:col-span-1 order-2 lg:order-2">
+          <div className="lg:col-span-1 order-2 lg:order-2 shadow-2xl">
             {/* Desktop view - sticky column */}
             <div className="lg:sticky lg:top-24 lg:max-h-[calc(100vh-8rem)] lg:overflow-y-auto hidden lg:block bg-white rounded-2xl shadow-sm border border-gray-100 p-4"
               style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>

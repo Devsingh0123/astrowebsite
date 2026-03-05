@@ -18,18 +18,18 @@ import { useSelector } from 'react-redux';
 
 
 const zodiacSigns = [
-  { name: 'Aries', img: ariesImg, path: '/horoscopes/weekly/aries' },
-  { name: 'Aquarius', img: aquariusImg, path: '/horoscopes/weekly/aquarius' },
-  { name: 'Cancer', img: cancerImg, path: '/horoscopes/weekly/cancer' },
-  { name: 'Capricorn', img: capricornImg, path: '/horoscopes/weekly/capricorn' },
-  { name: 'Gemini', img: geminiImg, path: '/horoscopes/weekly/gemini' },
-  { name: 'Leo', img: leoImg, path: '/horoscopes/weekly/leo' },
-  { name: 'Libra', img: libraImg, path: '/horoscopes/weekly/libra' },
-  { name: 'Pisces', img: piscesImg, path: '/horoscopes/weekly/pisces' },
-  { name: 'Sagittarius', img: sagittariusImg, path: '/horoscopes/weekly/sagittarius' },
-  { name: 'Scorpio', img: scorpioImg, path: '/horoscopes/weekly/scorpio' },
-  { name: 'Taurus', img: taurusImg, path: '/horoscopes/weekly/taurus' },
-  { name: 'Virgo', img: virgoImg, path: '/horoscopes/weekly/virgo' },
+  { name: 'Aries', img: ariesImg, path: '/staticHoroschopes/monthly/aries' },
+  { name: 'Aquarius', img: aquariusImg, path: '/staticHoroschopes/monthly/aquarius' },
+  { name: 'Cancer', img: cancerImg, path: '/staticHoroschopes/monthly/cancer' },
+  { name: 'Capricorn', img: capricornImg, path: '/staticHoroschopes/monthly/capricorn' },
+  { name: 'Gemini', img: geminiImg, path: '/staticHoroschopes/monthly/gemini' },
+  { name: 'Leo', img: leoImg, path: '/staticHoroschopes/monthly/leo' },
+  { name: 'Libra', img: libraImg, path: '/staticHoroschopes/monthly/libra' },
+  { name: 'Pisces', img: piscesImg, path: '/staticHoroschopes/monthly/pisces' },
+  { name: 'Sagittarius', img: sagittariusImg, path: '/staticHoroschopes/monthly/sagittarius' },
+  { name: 'Scorpio', img: scorpioImg, path: '/staticHoroschopes/monthly/scorpio' },
+  { name: 'Taurus', img: taurusImg, path: '/staticHoroschopes/monthly/taurus' },
+  { name: 'Virgo', img: virgoImg, path: '/staticHoroschopes/monthly/virgo' },
   
 ];
 
@@ -39,10 +39,10 @@ const ZodiacPredictions = () => {
   const { horoscope, loading } = useSelector((state) => state.horoscope);
 
   return (
-    <section className="py-16 bg-gradient-to-b from-orange-50 to-yellow-50">
+    <section className="py-10 bg-gradient-to-b from-orange-50 to-yellow-50">
       <div className="container mx-auto px-4">
         <h3 className=" font-bold text-center mb-12  bg-clip-text ">
-          Weekly Astrology Prediction
+          Monthly Astrology Prediction
         </h3>
 
         <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-4 md:gap-6">
