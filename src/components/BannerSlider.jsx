@@ -5,7 +5,7 @@ const BannerSlider = () => {
 
   return (
     <div className="overflow-x-hidden w-full py-4 
-bg-gradient-to-r from-yellow-200/90 via-orange-400/80 to-amber-300/90 
+bg-gradient-to-r from-yellow-200/90 via-orange-400/80 to-amber-300/90 mt-4
 backdrop-blur-md">
       <div className="flex w-max scrollleft">
         {[...items, ...items, ...items, ...items, ...items, ...items].map((item, index) => (
