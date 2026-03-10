@@ -1,0 +1,64 @@
+{
+  "welcome": "Welcome",
+  "home": "Home",
+  "horoscopes": "Horoscopes",
+  "chatAstrologer": "Chat / Call to Astrologer",
+  "store": "Store",
+  "blogs": "Blogs",
+  "dashboard": "Dashboard",
+  "logout": "Logout",
+  "talkAstrologer": "Talk to Astrologer",  "account": "Account",
+  "loginTitle": "Login",
+  "signupTitle": "Create Account",
+  "loginDescription": "Enter your username and password to login",
+  "signupDescription": "Fill the form to create a new account",
+  "username": "Username",
+  "password": "Password",
+  "enterUsername": "Enter your username",
+  "enterPassword": "Enter your password",
+  "forgotPassword": "Forgot Password?",
+  "loginButton": "Login",
+  "signupButton": "Sign Up",
+  "loggingIn": "Logging in...",
+  "creatingButton": "Creating...",
+  "dontHaveAccount": "Don't have an account?",
+  "alreadyHaveAccount": "Already have an account?",
+  "name": "Name",
+  "email": "Email",
+  "mobile": "Mobile",
+  "countryCode": "Country Code",
+  "profilePhoto": "Profile Photo (Optional)",
+  "confirmPassword": "Confirm Password",
+  "clickOrDragPhoto": "Click or drag photo", 
+   "talk": "Talk",
+  "talkWithAstrologer": "Talk with astrologer",
+  
+  "buyProducts": "Buy your products",
+   "freeKundli": "Free Kundli",
+  "kundliMatching": "Kundli Matching",
+  "compatibility": "Compatibility",
+
+    "topAstrologers": "Top Online Astrologers",
+  "connectAstrologers": "Connect with our expert astrologers for personalized guidance and insights.",
+  "loading": "Loading...",
+   "online": "Online",
+  "offline": "Offline",
+  "year": "Year",
+  "years": "Years",
+  "call": "Call",
+  "chat": "Chat",
+  "free": "Free",
+   
+     "languages": "Languages",
+  "lang": {
+    "hindi": "Hindi",
+    "english": "English",
+    "arabic": "Arabic"
+
+
+    
+  }
+
+
+  
+}

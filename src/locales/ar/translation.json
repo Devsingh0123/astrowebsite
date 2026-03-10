@@ -1,0 +1,64 @@
+{
+  "welcome": "مرحبا",
+  "home": "الرئيسية",
+  "horoscopes": "الأبراج",
+  "chatAstrologer": "الدردشة / الاتصال بالمنجم",
+  "store": "المتجر",
+  "blogs": "المدونات",
+  "dashboard": "لوحة التحكم",
+  "logout": "تسجيل الخروج",
+  "talkAstrologer": "التحدث مع المنجم",
+  "account": "الحساب",
+  "loginTitle": "تسجيل الدخول",
+  "signupTitle": "إنشاء حساب",
+  "loginDescription": "أدخل اسم المستخدم وكلمة المرور لتسجيل الدخول",
+  "signupDescription": "املأ النموذج لإنشاء حساب جديد",
+  "username": "اسم المستخدم",
+  "password": "كلمة المرور",
+  "enterUsername": "أدخل اسم المستخدم",
+  "enterPassword": "أدخل كلمة المرور",
+  "forgotPassword": "هل نسيت كلمة المرور؟",
+  "loginButton": "تسجيل الدخول",
+  "signupButton": "إنشاء حساب",
+  "loggingIn": "جاري تسجيل الدخول...",
+  "creatingButton": "جاري الإنشاء...",
+  "dontHaveAccount": "ليس لديك حساب؟",
+  "alreadyHaveAccount": "هل لديك حساب بالفعل؟",
+  "name": "الاسم",
+  "email": "البريد الإلكتروني",
+  "mobile": "الهاتف المحمول",
+  "countryCode": "رمز الدولة",
+  "profilePhoto": "صورة الملف الشخصي (اختياري)",
+  "confirmPassword": "تأكيد كلمة المرور",
+  "clickOrDragPhoto": "انقر أو اسحب الصورة",
+
+  "talk": "تحدث",
+  "talkWithAstrologer": "تحدث مع المنجم",
+  
+  "buyProducts": "اشترِ منتجاتك",
+
+
+   "freeKundli": "خريطة فلكية مجانية",
+  "kundliMatching": "مطابقة الكوندلي",
+  "compatibility": "التوافق",
+    "topAstrologers": "أفضل المنجمين عبر الإنترنت",
+  "connectAstrologers": "تواصل مع خبراء التنجيم لدينا للحصول على إرشادات ورؤى شخصية.",
+  "loading": "جار التحميل...",
+
+   "online": "متصل",
+  "offline": "غير متصل",
+  "year": "سنة",
+  "years": "سنوات",
+  "call": "مكالمة",
+  "chat": "دردشة",
+  "free": "مجاني",
+   "astrologer": "المنجم",
+    "languages": "اللغات",
+  "lang": {
+    "hindi": "الهندية",
+    "english": "الإنجليزية",
+    "arabic": "العربية"
+  }
+
+  
+}
