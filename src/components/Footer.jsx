@@ -1,7 +1,7 @@
-import faviconlogo from "@/assets/favicon.png";
+import faviconlogo from "@/assets/logo.png";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { Link } from "react-router-dom";
-import { FaAnglesRight } from "react-icons/fa6";
+import { FaAnglesRight, FaApple, FaGooglePlay } from "react-icons/fa6";
 import {
   TiSocialFacebook,
   TiSocialTwitter,
@@ -51,7 +51,7 @@ const Footer = () => {
   return (
     <footer className="bg-gradient-to-b from-yellow-50 to-yellow-200 text-black pt-10">
       <div className="container">
-        <div className="grid lg:grid-cols-5 md:grid-cols-2 gap-10 pb-12">
+        <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-10 pb-12">
           {/* ABOUT */}
           <div>
             <Link to="/">
@@ -67,30 +67,30 @@ const Footer = () => {
             </p>
           </div>
 
-          {/* HOROSCOPE */}
+          {/* HOROSCOPE */
+          /* SHUBH MUHURAT */}
           <div>
-            <h4 className="font-semibold text-lg border-b border-yellow-500 pb-1 inline-block">
-              Horoscope
-            </h4>
+            <div>
+              <h4 className="font-semibold text-lg border-b border-yellow-500 pb-1 inline-block">
+                Horoscope
+              </h4>
 
-            <ul className="mt-4 space-y-2">
-              {horosType.map((horos) => (
-                <li key={horos.path}>
-                  <Link
-                    to={horos.path}
-                    className="flex items-center gap-2 text-sm transition-all duration-200 hover:text-primary hover:translate-x-1"
-                  >
-                    <FaAnglesRight />
-                    {horos.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+              <ul className="mt-4 space-y-2">
+                {horosType.map((horos) => (
+                  <li key={horos.path}>
+                    <Link
+                      to={horos.path}
+                      className="flex items-center gap-2 text-sm transition-all duration-200 hover:text-primary hover:translate-x-1"
+                    >
+                      <FaAnglesRight />
+                      {horos.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-          {/* SHUBH MUHURAT */}
-          <div>
-            <h4 className="font-semibold text-lg border-b border-yellow-500 pb-1 inline-block">
+            <h4 className="font-semibold text-lg border-b border-yellow-500 pb-1 mt-6 inline-block">
               Shubh Muhurat {new Date().getFullYear()}
             </h4>
 
@@ -253,27 +253,23 @@ const Footer = () => {
               Contact Us
             </h4>
 
-            <ul className="mt-4 space-y-4 text-sm">
-              <li className="flex items-start gap-3">
-                <MapPin className="size-8 border border-gray-400 p-1.5 rounded-full shrink-0" />
-                <span>
-                  711, Plot A09, ITL Towers, Netaji Subhash Place, Pitampura,
-                  Delhi 110034
-                </span>
-              </li>
+            <p className="text-sm text-black leading-relaxed mt-4 space-y-4">
+              We are available 24x7 on chat support, click to start chat
+            </p>
 
-              <li className="flex items-center gap-3">
-                <Mail className="size-8 border border-gray-400 p-1.5 rounded-full shrink-0" />
-                reachus@krayons.co.in
-              </li>
-
-              <li className="flex items-center gap-3">
-                <Phone className="size-8 border border-gray-400 p-1.5 rounded-full shrink-0" />
-                +91 23465 12356
-              </li>
-            </ul>
-
-            {/* SOCIAL ICONS */}
+            <div className="mt-4 space-y-4">
+              <div className="flex items-center gap-3 text-sm text-black ">
+                <a
+                  href="mailto:mail@astrotring.com"
+                  className="flex items-center gap-3 text-sm text-black hover:text-primary transition"
+                >
+                  <Mail className="size-8 border border-gray-900 p-1.5 rounded-full" />
+                  <span className="underline  hover:text-bg-yellow-200 transition px-1 rounded duration-300 hover:translate-x-1">
+                    mail@astrotring.com
+                  </span>
+                </a>
+              </div>
+            </div>
 
             <div className="flex gap-3 mt-6">
               <div className="w-9 h-9 flex items-center justify-center border border-gray-400 rounded-full transition-all duration-300 hover:bg-primary hover:text-white hover:border-primary cursor-pointer">
@@ -291,6 +287,44 @@ const Footer = () => {
               <div className="w-9 h-9 flex items-center justify-center border border-gray-400 rounded-full transition-all duration-300 hover:bg-primary hover:text-white hover:border-primary cursor-pointer">
                 <TiSocialYoutube size={18} />
               </div>
+            </div>
+
+            <h3 className="mt-6 font-semibold text-black text-lg">
+              Download Our App
+            </h3>
+
+            <div className="flex flex-col sm:flex-row gap-3 mt-4">
+              {/* GOOGLE PLAY */}
+
+              <a
+                href="#"
+                target="_blank"
+                className="flex items-center justify-center gap-3 bg-black text-white 
+                  rounded-lg px-5 py-2.5 
+                  hover:bg-gray-800 transition-all duration-300 
+                  hover:scale-105 shadow-md"
+              >
+                <FaGooglePlay size={15} />
+                <div className="flex flex-col leading-tight text-left">
+                  <span className="text-sm font-semibold">Google Play</span>
+                </div>
+              </a>
+
+              {/* APP STORE */}
+
+              <a
+                href="#"
+                target="_blank"
+                className="flex items-center justify-center gap-3 bg-black text-white 
+                rounded-lg px-5 py-2.5 
+                hover:bg-gray-800 transition-all duration-300 
+                hover:scale-105 shadow-md"
+              >
+                <FaApple size={15} />
+                <div className="flex flex-col leading-tight text-left">
+                  <span className="text-sm font-semibold">App Store</span>
+                </div>
+              </a>
             </div>
           </div>
         </div>
