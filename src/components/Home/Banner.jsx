@@ -9,9 +9,10 @@ import { Link } from "react-router-dom";
 
 import outercircle1 from "@/assets/outercircle1.png";
 import innerganesh from "@/assets/innerganesh.png";
+import { useTranslation } from "react-i18next";
 // import bannerVideo from "@/assets/bannerVideo.mp4"
-
 const Banner = () => {
+    const { t} = useTranslation();
   const [banners, setBanners] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -91,8 +92,7 @@ const Banner = () => {
 
 
 
-
-          {/* ================= Talk Card ================= */}
+{/* 
           <Card className="relative w-[130px] sm:w-[170px] md:w-[210px] lg:w-[280px] border-0 font-medium group">
             <span className="absolute inset-0 transition-all duration-500 ease-out transform -skew-x-12 bg-gradient-to-r from-[#FFD54F] via-[#FFB300] to-[#F57C00] group-hover:skew-x-12" />
             <span className="absolute inset-0 transition-all duration-500 ease-out transform skew-x-12 opacity-90 bg-gradient-to-r from-[#FFF176] via-[#f9ce86] to-[#ffdbc7] group-hover:-skew-x-12" />
@@ -105,9 +105,16 @@ const Banner = () => {
                   </span>
 
                   <div className="leading-tight">
+
+
+                  
                     <div className="font-semibold text-[10px] sm:text-xs md:text-sm lg:text-lg">
                       Talk
                     </div>
+
+
+
+
                     <div className="text-[8px] sm:text-[10px] md:text-xs opacity-90">
                       Talk with astrologer
                     </div>
@@ -119,7 +126,6 @@ const Banner = () => {
             </Link>
           </Card>
 
-          {/* ================= Store Card ================= */}
           <Card className="relative w-[130px] sm:w-[170px] md:w-[210px] lg:w-[280px] border-0 font-medium group">
             <span className="absolute inset-0 transition-all duration-500 ease-out transform -skew-x-12 bg-gradient-to-r from-[#FFD54F] via-[#FFB300] to-[#F57C00] group-hover:skew-x-12" />
             <span className="absolute inset-0 transition-all duration-500 ease-out transform skew-x-12 opacity-90 bg-gradient-to-r from-[#FFF176] via-[#f9ce86] to-[#ffdbc7] group-hover:-skew-x-12" />
@@ -148,7 +154,115 @@ const Banner = () => {
                 <MoveRight className="w-3 h-3 sm:w-4 sm:h-4 md:w-5 md:h-5 transition-all duration-300 group-hover:translate-x-2" />
               </CardHeader>
             </Link>
-          </Card>
+          </Card> */}
+
+
+
+{/* <Link
+  to="/talk-to-astrologer"
+  data-twe-ripple-init
+  data-twe-ripple-color="light"
+  className="inline-flex items-center justify-between gap-3 
+  w-[130px] sm:w-[170px] md:w-[210px] lg:w-[220px]
+  rounded-lg bg-gradient-to-r from-[#FFD54F] via-[#FFB300] to-[#F57C00] px-3 py-2 sm:px-4 sm:py-3
+  text-black shadow-md
+  transition-all duration-300 ease-in-out
+  hover:bg-orange-600 hover:scale-105 hover:shadow-lg
+  active:scale-95"
+>
+  <div className="flex items-center gap-2 sm:gap-3">
+    <Phone className="h-4 w-4 sm:h-5 sm:w-5" />
+    <div className="leading-tight">
+      <div className="font-semibold text-[11px] sm:text-sm">Talk</div>
+      <div className="text-[9px] sm:text-xs opacity-90">
+        Talk with astrologer
+      </div>
+    </div>
+  </div>
+
+  <MoveRight className="w-4 h-4 transition-transform duration-300 hover:translate-x-1" />
+</Link> */}
+<Link
+  to="/talk-to-astrologer"
+  data-twe-ripple-init
+  data-twe-ripple-color="light"
+  className="group relative inline-flex items-center justify-between gap-3
+  w-[130px] sm:w-[170px] md:w-[210px] lg:w-[240px]
+  rounded-xl px-3 py-2 sm:px-4 sm:py-3
+  text-black font-medium
+  bg-gradient-to-r from-[#FFD54F] via-[#FFB300] to-[#F57C00]
+  shadow-md overflow-hidden
+  transition-all duration-300 ease-in-out
+  hover:scale-105 hover:shadow-[0_10px_25px_rgba(245,124,0,0.5)]"
+>
+
+  <span className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition duration-300"></span>
+
+  <div className="flex items-center gap-2 sm:gap-3 relative z-10">
+    <span className="flex items-center justify-center
+      w-7 h-7 sm:w-8 sm:h-8
+      rounded-full bg-white/30 backdrop-blur-md
+      transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110">
+      <Phone className="h-4 w-4 sm:h-5 sm:w-5"/>
+    </span>
+
+   <div className="leading-tight">
+  <div className="font-semibold text-[11px] sm:text-sm">
+    {t("talk")}
+  </div>
+
+  <div className="text-[9px] sm:text-xs opacity-90">
+    {t("talkWithAstrologer")}
+  </div>
+</div>
+  </div>
+
+  <MoveRight className="relative z-10 w-4 h-4 transition-all duration-300 group-hover:translate-x-2"/>
+</Link>
+
+<Link
+  to="https://store.adkrayons.com/product"
+  target="_blank"
+  data-twe-ripple-init
+  data-twe-ripple-color="light"
+  className="group relative inline-flex items-center justify-between gap-3
+  w-[130px] sm:w-[170px] md:w-[210px] lg:w-[240px]
+  rounded-xl px-3 py-2 sm:px-4 sm:py-3
+  text-black font-medium
+  bg-gradient-to-r from-[#FFD54F] via-[#FFB300] to-[#F57C00]
+  shadow-md overflow-hidden
+  transition-all duration-300 ease-in-out
+  hover:scale-105 hover:shadow-[0_10px_25px_rgba(245,124,0,0.5)]"
+>
+
+  <span className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition duration-300"></span>
+
+  <div className="flex items-center gap-2 sm:gap-3 relative z-10">
+    <span className="flex items-center justify-center
+      w-7 h-7 sm:w-8 sm:h-8
+      rounded-full bg-white/30 backdrop-blur-md
+      transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110">
+      <ShoppingBag className="h-4 w-4 sm:h-5 sm:w-5"/>
+    </span>
+
+  <div className="leading-tight">
+  <div className="font-semibold text-[11px] sm:text-sm">
+    {t("store")}
+  </div>
+
+  <div className="text-[9px] sm:text-xs opacity-90">
+    {t("buyProducts")}
+  </div>
+</div>
+  </div>
+
+  <MoveRight className="relative z-10 w-4 h-4 transition-all duration-300 group-hover:translate-x-2"/>
+</Link>
+
+
+
+
+          
         </div>
       </div>
     </section>
