@@ -45,6 +45,7 @@ const Slider = ({ children, slideCount }) => {
       </button>
 
       <Swiper
+        key={i18n.language}
         dir={isRTL ? "rtl" : "ltr"}
         modules={[Navigation, Pagination, Autoplay]}
         spaceBetween={20}
@@ -52,7 +53,7 @@ const Slider = ({ children, slideCount }) => {
         autoplay={{
           delay: 2500,
           disableOnInteraction: false,
-          reverseDirection: isRTL, // crucial for Arabic
+          reverseDirection: isRTL,
         }}
         pagination={{ clickable: true }}
         onBeforeInit={(swiper) => {
