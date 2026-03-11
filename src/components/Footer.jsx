@@ -238,10 +238,10 @@ const Footer = () => {
 
               <li>
                 <Link
-                  to="/pricing-policy"
+                  to="/shipping-policy"
                   className="flex items-center gap-2 hover:text-primary hover:translate-x-1 transition"
                 >
-                  <FaAnglesRight /> Pricing Policy
+                  <FaAnglesRight /> Shipping Policy
                 </Link>
               </li>
             </ul>

@@ -5,7 +5,7 @@ const Namkaran = () => {
   return (
     <section className="py-10">
       <div className="container mx-auto max-w-4xl space-y-8">
-        <HeadWithLogo title={"Namkaran Muhurat 2026"} />
+        <HeadWithLogo title={"Namkaran Muhurat " + new Date().getFullYear()} />
 
         {/* Kicker */}
         <p className="text-sm font-semibold tracking-widest text-orange-600 uppercase">
@@ -14,7 +14,8 @@ const Namkaran = () => {
 
         {/* Main Title */}
         <h1 className="text-3xl md:text-4xl font-bold leading-tight">
-          Namkaran 2026: The Complete Guide to Your Baby's Hindu Naming Ceremony
+          Namkaran {new Date().getFullYear()}: The Complete Guide to Your Baby's
+          Hindu Naming Ceremony
         </h1>
 
         {/* Subtitle */}
@@ -36,9 +37,9 @@ const Namkaran = () => {
           </p>
 
           <p>
-            In 2026, the ideal date depends on the baby's birth chart, the lunar
-            calendar, and planetary positions — a qualified Jyotishi can
-            calculate personalised timings.
+            In {new Date().getFullYear()}, the ideal date depends on the baby's
+            birth chart, the lunar calendar, and planetary positions — a
+            qualified Jyotishi can calculate personalised timings.
           </p>
         </div>
 
@@ -75,7 +76,8 @@ const Namkaran = () => {
         {/* Astrology Section */}
         <div className="space-y-4">
           <h2 className="text-2xl font-semibold">
-            The Astrological Logic Behind Namkaran Muhurat in 2026
+            The Astrological Logic Behind Namkaran Muhurat in{" "}
+            {new Date().getFullYear()}
           </h2>
 
           <p>
@@ -248,9 +250,9 @@ const Namkaran = () => {
         </div>
 
         <p className="text-sm text-gray-600">
-          Tags: Namkaran 2026 | Namkaran Muhurat | Hindu Naming Ceremony | Baby
-          Naming Ritual India | Namakarana Sanskar | Jyotish Shastra | Shodasha
-          Samskaras
+          Tags: Namkaran {new Date().getFullYear()} | Namkaran Muhurat | Hindu
+          Naming Ceremony | Baby Naming Ritual India | Namakarana Sanskar |
+          Jyotish Shastra | Shodasha Samskaras
         </p>
       </div>
     </section>

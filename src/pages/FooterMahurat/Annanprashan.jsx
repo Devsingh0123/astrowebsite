@@ -5,7 +5,9 @@ const Annanprashan = () => {
   return (
     <section className="py-10">
       <div className="container mx-auto max-w-4xl space-y-8">
-        <HeadWithLogo title={"Annaprashan Muhurat 2026"} />
+        <HeadWithLogo
+          title={"Annaprashan Muhurat " + new Date().getFullYear()}
+        />
 
         {/* Kicker */}
         <p className="text-sm font-semibold tracking-widest text-orange-600 uppercase">
@@ -14,8 +16,8 @@ const Annanprashan = () => {
 
         {/* Main Title */}
         <h1 className="text-3xl md:text-4xl font-bold leading-tight">
-          Annaprashan 2026: The Complete Guide to Your Baby's First Food
-          Ceremony
+          Annaprashan {new Date().getFullYear()}: The Complete Guide to Your
+          Baby's First Food Ceremony
         </h1>
 
         {/* Subtitle */}
@@ -37,9 +39,10 @@ const Annanprashan = () => {
           </p>
 
           <p>
-            The 2026 muhurat (auspicious timing) is calculated using the child's
-            birth chart, Panchang, and Jyotish Shastra. Always consult a
-            qualified astrologer for a personalised date.
+            The {new Date().getFullYear()} muhurat (auspicious timing) is
+            calculated using the child's birth chart, Panchang, and Jyotish
+            Shastra. Always consult a qualified astrologer for a personalised
+            date.
           </p>
         </div>
 
@@ -143,14 +146,15 @@ const Annanprashan = () => {
         {/* Astrology Section */}
         <div className="space-y-4">
           <h2 className="text-2xl font-semibold">
-            The Astrological Importance of Annaprashan in 2026
+            The Astrological Importance of Annaprashan in{" "}
+            {new Date().getFullYear()}
           </h2>
 
           <p>
             In Jyotish Shastra (Vedic astrology), timing is not incidental — it
-            is everything. The muhurat for Annaprashan in 2026 is chosen to
-            align the child's emerging life energy with supportive cosmic
-            forces.
+            is everything. The muhurat for Annaprashan in{" "}
+            {new Date().getFullYear()} is chosen to align the child's emerging
+            life energy with supportive cosmic forces.
           </p>
 
           <p>

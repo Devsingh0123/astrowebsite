@@ -5,7 +5,9 @@ const BhumiPuja = () => {
   return (
     <section className="py-10">
       <div className="container mx-auto max-w-4xl space-y-8">
-        <HeadWithLogo title={"Bhoomi Pujan Muhurat 2026"} />
+        <HeadWithLogo
+          title={"Bhoomi Pujan Muhurat " + new Date().getFullYear()}
+        />
 
         {/* Kicker */}
         <p className="text-sm font-semibold tracking-widest text-orange-600 uppercase">
@@ -14,15 +16,15 @@ const BhumiPuja = () => {
 
         {/* Title */}
         <h1 className="text-3xl md:text-4xl font-bold leading-tight">
-          Bhoomi Pujan 2026: The Complete Guide to India's Sacred
-          Ground-Breaking Ceremony
+          Bhoomi Pujan {new Date().getFullYear()}: The Complete Guide to India's
+          Sacred Ground-Breaking Ceremony
         </h1>
 
         {/* Subtitle */}
         <p className="text-gray-700 text-lg leading-relaxed">
           Everything you need to know before breaking ground — from the ritual's
           meaning and Vedic significance to step-by-step ceremony guidance and
-          how to find your auspicious muhurat in 2026.
+          how to find your auspicious muhurat in {new Date().getFullYear()}.
         </p>
 
         {/* Quick Answer */}
@@ -37,9 +39,10 @@ const BhumiPuja = () => {
 
           <p>
             It is an act of gratitude toward Mother Earth (Bhoomi Devi), seeking
-            her permission and blessings before the land is disturbed. In 2026,
-            the auspicious muhurat is calculated using the Panchang, the
-            landowner's birth chart, and Vastu Shastra principles.
+            her permission and blessings before the land is disturbed. In{" "}
+            {new Date().getFullYear()}, the auspicious muhurat is calculated
+            using the Panchang, the landowner's birth chart, and Vastu Shastra
+            principles.
           </p>
         </div>
 
@@ -119,7 +122,8 @@ const BhumiPuja = () => {
         {/* Astrology */}
         <div className="space-y-4">
           <h2 className="text-2xl font-semibold">
-            Astrological Factors for Bhoomi Pujan Muhurat in 2026
+            Astrological Factors for Bhoomi Pujan Muhurat in{" "}
+            {new Date().getFullYear()}
           </h2>
 
           <ul className="list-disc pl-6 space-y-2">
@@ -289,9 +293,9 @@ const BhumiPuja = () => {
         </div>
 
         <p className="text-sm text-gray-600">
-          Tags: Bhoomi Pujan 2026 | Bhoomi Puja Muhurat | Ground Breaking
-          Ceremony Hindu | Construction Puja | Vastu Shastra | Shubh Muhurat
-          Construction | Griha Pravesh 2026
+          Tags: Bhoomi Pujan {new Date().getFullYear()} | Bhoomi Puja Muhurat |
+          Ground Breaking Ceremony Hindu | Construction Puja | Vastu Shastra |
+          Shubh Muhurat Construction | Griha Pravesh {new Date().getFullYear()}
         </p>
       </div>
     </section>

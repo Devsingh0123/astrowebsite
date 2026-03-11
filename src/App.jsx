@@ -16,6 +16,11 @@ import Marriage from "./pages/FooterMahurat/Marriage";
 import BhumiPuja from "./pages/FooterMahurat/BhumiPuja";
 import GrihaPravesh from "./pages/FooterMahurat/GrihaPravesh";
 import Mundan from "./pages/FooterMahurat/Mundan";
+import RefundAndPolicy from "./pages/RefundAndPolicy";
+import PrivacyAndPolicy from "./pages/PrivacyAndPolicy";
+import ShippingAndPolicy from "./pages/ShippingAndPolicy";
+import TermAndCondition from "./pages/TermAndCondition";
+import DisclaimerPage from "./pages/DisclaimerPage";
 
 // import BlogPage from "./pages/BlogPage";
 
@@ -110,12 +115,15 @@ const App = () => {
               path="/horoscopes/:time/:horos"
               element={<HoroscopeDetails />}
             />
-
             <Route
               path="/staticHoroschopes/:timePeriod/:zodiac?"
               element={<StaticHoroscopesMonthlyAndYearly />}
             />
-
+            <Route path="/refund-policy" element={<RefundAndPolicy />} />
+            <Route path="/shipping-policy" element={<ShippingAndPolicy />} />
+            <Route path="/privacy-policy" element={<PrivacyAndPolicy />} />
+            <Route path="/terms-conditions" element={<TermAndCondition />} />
+            <Route path="/disclaimer" element={<DisclaimerPage />} />
             <Route path="/astro-login" element={<AstroLogin />} />
             <Route path="/astro-register" element={<AstroRegister />} />
             {/* <Route path="/blogs" element={<Blog />} />

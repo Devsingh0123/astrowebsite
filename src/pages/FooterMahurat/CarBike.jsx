@@ -5,7 +5,9 @@ const CarBike = () => {
   return (
     <section className="py-10">
       <div className="container mx-auto max-w-4xl space-y-8">
-        <HeadWithLogo title={"Car / Bike Muhurat 2026"} />
+        <HeadWithLogo
+          title={"Car / Bike Muhurat " + new Date().getFullYear()}
+        />
 
         {/* Kicker */}
         <p className="text-sm font-semibold tracking-widest text-orange-600 uppercase">
@@ -14,14 +16,15 @@ const CarBike = () => {
 
         {/* Title */}
         <h1 className="text-3xl md:text-4xl font-bold leading-tight">
-          Car & Bike Muhurat 2026: The Best Auspicious Times to Buy Your New
-          Vehicle
+          Car & Bike Muhurat {new Date().getFullYear()}: The Best Auspicious
+          Times to Buy Your New Vehicle
         </h1>
 
         {/* Subtitle */}
         <p className="text-gray-700 text-lg leading-relaxed">
           A clear, honest guide to why muhurat matters for vehicle purchases —
-          and how to find the right time in 2026 for your new car or bike.
+          and how to find the right time in {new Date().getFullYear()} for your
+          new car or bike.
         </p>
 
         {/* Quick Answer */}
@@ -35,10 +38,10 @@ const CarBike = () => {
           </p>
 
           <p>
-            In 2026, the ideal muhurat is calculated using Panchang elements —
-            Tithi, Nakshatra, Vara, Yoga, and Karana — along with the buyer's
-            birth chart. The goal is to begin the vehicle's journey on a
-            positive cosmic note.
+            In {new Date().getFullYear()}, the ideal muhurat is calculated using
+            Panchang elements — Tithi, Nakshatra, Vara, Yoga, and Karana — along
+            with the buyer's birth chart. The goal is to begin the vehicle's
+            journey on a positive cosmic note.
           </p>
         </div>
 
@@ -76,7 +79,8 @@ const CarBike = () => {
         {/* Panchang Table */}
         <div className="space-y-4">
           <h2 className="text-2xl font-semibold">
-            What Makes a Good Vehicle Purchase Muhurat in 2026?
+            What Makes a Good Vehicle Purchase Muhurat in{" "}
+            {new Date().getFullYear()}?
           </h2>
 
           <p>
@@ -216,9 +220,11 @@ const CarBike = () => {
         </div>
 
         <p className="text-sm text-gray-600">
-          Tags: Car Muhurat 2026 | Bike Muhurat 2026 | Vehicle Purchase
-          Auspicious Time | Shubh Muhurat New Car | Jyotish Shastra | Panchang
-          2026 | Akshaya Tritiya 2026
+          Tags: Car Muhurat {new Date().getFullYear()} | Bike Muhurat{" "}
+          {new Date().getFullYear()} | Vehicle Purchase Auspicious Time | Shubh
+          Muhurat New Car | Jyotish Shastra | Panchang
+          {new Date().getFullYear()} | Akshaya Tritiya{" "}
+          {new Date().getFullYear()}
         </p>
       </div>
     </section>

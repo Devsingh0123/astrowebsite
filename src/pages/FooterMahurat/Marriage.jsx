@@ -6,7 +6,7 @@ const Marriage = () => {
     <section className="py-10">
       <div className="container mx-auto max-w-4xl space-y-8">
 
-        <HeadWithLogo title={"Marriage Muhurat 2026"} />
+        <HeadWithLogo title={"Marriage Muhurat " + new Date().getFullYear()} />
 
         {/* Kicker */}
         <p className="text-sm font-semibold tracking-widest text-orange-600 uppercase">
@@ -15,12 +15,12 @@ const Marriage = () => {
 
         {/* Title */}
         <h1 className="text-3xl md:text-4xl font-bold leading-tight">
-          Marriage Muhurat 2026: Auspicious Wedding Dates, Tithis & What They Mean
+          Marriage Muhurat {new Date().getFullYear()}: Auspicious Wedding Dates, Tithis & What They Mean
         </h1>
 
         {/* Subtitle */}
         <p className="text-gray-700 text-lg leading-relaxed">
-          A grounded, complete guide for couples planning their wedding in 2026 —
+          A grounded, complete guide for couples planning their wedding in {new Date().getFullYear()} —
           covering why muhurat matters, which dates are considered auspicious,
           and how to find your personalised timing.
         </p>
@@ -35,7 +35,7 @@ const Marriage = () => {
           </p>
 
           <p>
-            In 2026, muhurat is calculated based on the Panchang, planetary
+            In {new Date().getFullYear()}, muhurat is calculated based on the Panchang, planetary
             positions (especially Jupiter and Venus), and the birth charts of
             both partners. Certain Tithis — like Tritiya, Saptami, and
             Trayodashi — are considered especially favourable.
@@ -70,7 +70,7 @@ const Marriage = () => {
         {/* Planetary Conditions */}
         <div className="space-y-4">
           <h2 className="text-2xl font-semibold">
-            What Makes a Good Marriage Muhurat in 2026?
+            What Makes a Good Marriage Muhurat in {new Date().getFullYear()}?
           </h2>
 
           <p>
@@ -88,7 +88,7 @@ const Marriage = () => {
         {/* Tithi Table */}
         <div className="space-y-4">
           <h2 className="text-2xl font-semibold">
-            Favourable Tithis for Marriage in 2026
+            Favourable Tithis for Marriage in {new Date().getFullYear()}
           </h2>
 
           <div className="overflow-x-auto">
@@ -163,13 +163,13 @@ const Marriage = () => {
         {/* Wedding Seasons */}
         <div className="space-y-4">
           <h2 className="text-2xl font-semibold">
-            Key Auspicious Periods for Weddings in 2026
+            Key Auspicious Periods for Weddings in {new Date().getFullYear()}
           </h2>
 
           <ul className="list-disc pl-6 space-y-2">
-            <li>January–February 2026 (post-Makar Sankranti)</li>
-            <li>April–May 2026 (Akshaya Tritiya season)</li>
-            <li>Late November–December 2026 (winter wedding season)</li>
+            <li>January–February {new Date().getFullYear()} (post-Makar Sankranti)</li>
+            <li>April–May {new Date().getFullYear()} (Akshaya Tritiya season)</li>
+            <li>Late November–December {new Date().getFullYear()} (winter wedding season)</li>
           </ul>
         </div>
 
@@ -211,9 +211,9 @@ const Marriage = () => {
         </div>
 
         <p className="text-sm text-gray-600">
-          Tags: Marriage Muhurat 2026 | Wedding Dates 2026 India |
+          Tags: Marriage Muhurat {new Date().getFullYear()} | Wedding Dates {new Date().getFullYear()} India |
           Vivah Muhurat | Shubh Muhurat Shaadi | Auspicious Wedding Dates Hindu |
-          Panchang 2026 | Kundali Milan
+          Panchang {new Date().getFullYear()} | Kundali Milan
         </p>
 
       </div>
