@@ -304,7 +304,11 @@ const Footer = () => {
                   hover:bg-gray-800 transition-all duration-300 
                   hover:scale-105 shadow-md"
               >
-                <FaGooglePlay size={15} />
+                <img
+                  src="https://upload.wikimedia.org/wikipedia/commons/d/d0/Google_Play_Arrow_logo.svg"
+                  alt="Google Play"
+                  className="w-4 h-4"
+                />
                 <div className="flex flex-col leading-tight text-left">
                   <span className="text-sm font-semibold">Google Play</span>
                 </div>
@@ -316,11 +320,11 @@ const Footer = () => {
                 href="#"
                 target="_blank"
                 className="flex items-center justify-center gap-3 bg-black text-white 
-                rounded-lg px-5 py-2.5 
-                hover:bg-gray-800 transition-all duration-300 
-                hover:scale-105 shadow-md"
+                  rounded-lg px-5 py-2.5 
+                  hover:bg-gray-800 transition-all duration-300 
+                  hover:scale-105 shadow-md"
               >
-                <FaApple size={15} />
+                <FaApple size={20} />
                 <div className="flex flex-col leading-tight text-left">
                   <span className="text-sm font-semibold">App Store</span>
                 </div>
@@ -330,7 +334,7 @@ const Footer = () => {
         </div>
       </div>
 
-      <div className="bg-white text-center text-black py-4">
+      <div className="bg-black text-center text-white py-4">
         © {new Date().getFullYear()} Astrotring. All Rights Reserved.
       </div>
     </footer>
