@@ -180,6 +180,10 @@
       "dailyHoroscope": "दैनिक राशिफल",
       "monthlyHoroscope": "मासिक राशिफल",
       "yearlyHoroscope": "वार्षिक राशिफल"
+    },
+     "horoscopeTypes": {
+      "monthly": "मासिक राशिफल",
+      "yearly": "वार्षिक राशिफल"
     }
   },
    "monthlyPrediction": "मासिक ज्योतिष भविष्यवाणी",
