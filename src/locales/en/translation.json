@@ -2,6 +2,9 @@
   "welcome": "Welcome",
   "home": "Home",
   "horoscopes": "Horoscopes",
+   "monthly": "Monthly",
+  "yearly": "Yearly",
+  "horoscope": "Horoscope",
   "chatAstrologer": "Chat / Call to Astrologer",
   "store": "Store",
   "blogs": "Blogs",
@@ -155,6 +158,122 @@
         "question": "What benefits can I expect from AstroTring.com's astrology services?",
         "answer": "Benefits include clarity, direction, and timing for decisions in love, career, health, or finances. [[link]] astrologers help you understand yourself, make wiser choices, build better relationships, and live with awareness and confidence."
       }
-    }
+    },
     
+     "footer": {
+    "aboutText": "AstroTring offers accurate Vedic astrology insights including kundli matching, horoscope predictions, and expert astrologer consultations to guide important life decisions. Our platform blends ancient astrological wisdom with modern technology to provide guidance on love, marriage, career, health, and finance.",
+    "horoscope": "Horoscope",
+    "shubhMuhurat": "Shubh Muhurat {{year}}",
+    "annanprashanMuhurat": "Annanprashan Muhurat",
+    "naamkaranMuhurat": "Naamkaran Muhurat",
+    "carBikeMuhurat": "Car/Bike Muhurat",
+    "marriageMuhurat": "Marriage Muhurat",
+    "bhoomiPujanMuhurat": "Bhoomi Pujan Muhurat",
+    "grihaPraveshMuhurat": "Griha Pravesh Muhurat",
+    "mundanMuhurat": "Mundan Muhurat",
+    "astrologer": "Astrologer",
+    "astroLogin": "Astrologer Login",
+    "astroRegister": "Astrologer Registration",
+    "blogs": "Astrology Blogs",
+    "corporateInfo": "Corporate Info",
+    "refundPolicy": "Refund & Cancellation",
+    "termsConditions": "Terms & Conditions",
+    "privacyPolicy": "Privacy Policy",
+    "disclaimer": "Disclaimer",
+    "shippingPolicy": "Shipping Policy",
+    "contactUs": "Contact Us",
+    "contactText": "We are available 24x7 on chat support, click to start chat",
+    "downloadApp": "Download Our App",
+    "googlePlay": "Google Play",
+    "appStore": "App Store",
+    "allRightsReserved": "All Rights Reserved.",
+    "horoscopeLabels": {
+      "dailyHoroscope": "Daily Horoscope",
+      "monthlyHoroscope": "Monthly Horoscope",
+      "yearlyHoroscope": "Yearly Horoscope"
+    }
+  },
+    "monthlyPrediction": "Monthly Astrology Prediction",
+  "zodiac": {
+    "aries": "Aries",
+    "aquarius": "Aquarius",
+    "cancer": "Cancer",
+    "capricorn": "Capricorn",
+    "gemini": "Gemini",
+    "leo": "Leo",
+    "libra": "Libra",
+    "pisces": "Pisces",
+    "sagittarius": "Sagittarius",
+    "scorpio": "Scorpio",
+    "taurus": "Taurus",
+    "virgo": "Virgo"
+  },
+  "services": {
+        "heading": "Astrology Dosha Services",
+    "subtitle": "Understand planetary doshas and their remedies.",
+    "mangal-dosh": {
+      "title": "Mangal Dosh (Manglik Dosh)",
+      "desc": "Formed due to the placement of Mars in specific houses of the birth chart. It may cause delays in marriage and relationship challenges."
+    },
+
+    "kaal-sarp-dosh": {
+      "title": "Kaal Sarp Dosh",
+      "desc": "Occurs when all planets are positioned between Rahu and Ketu. It can create life struggles and sudden obstacles."
+    },
+
+    "chandra-dosh": {
+      "title": "Chandra Dosh",
+      "desc": "Happens when the Moon is weak. It may lead to emotional instability and mental imbalance."
+    },
+
+    "pitra-dosh": {
+      "title": "Pitra Dosh",
+      "desc": "Associated with ancestral karmic imbalance causing obstacles in career and family life."
+    },
+
+    "shani-dosh": {
+      "title": "Shani Dosh",
+      "desc": "Formed due to challenging placement of Saturn bringing delays and hardships."
+    },
+
+    "guru-chandal-dosh": {
+      "title": "Guru Chandal Dosh",
+      "desc": "Occurs when Jupiter and Rahu are conjunct causing confusion and poor judgment."
+    },
+
+    "grahan-dosh": {
+      "title": "Grahan Dosh (Eclipse Dosh)",
+      "desc": "Happens when Sun or Moon is conjunct with Rahu or Ketu affecting confidence and peace."
+    },
+
+    "ketu-dosh": {
+      "title": "Ketu Dosh",
+      "desc": "Occurs when Ketu is adversely positioned causing detachment or unexpected losses."
+    },
+
+    "rahu-dosh": {
+      "title": "Rahu Dosh",
+      "desc": "Formed when Rahu is negatively placed causing confusion and unstable life patterns."
+    },
+
+    "viewMore": "View More"
+  },
+    "counters": {
+    "happyCustomers": "Happy Customers",
+    "consultationsDelivered": "Consultations Delivered",
+    "astrologersAvailable": "Astrologers Available",
+    "servicesOffered": "Services Offered"
+  },
+   
+ "callCard": {
+    "online": "Online",
+    "offline": "Offline",
+    "free": "Free",
+    "call": "Call",
+    "chat": "Chat",
+    "year": "Year",
+    "years": "Years",
+    "name": "{{name}}",
+    "username": "@{{username}}"
+  }
 }
