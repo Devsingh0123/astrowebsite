@@ -434,7 +434,7 @@
 // import { userLogout, userProfile } from "@/redux/slice/UserAuth";
 // import LanguageSwitcher from "@/components/LanguageSwitcher";
 
-// // Mobile Navigation Section Component (unchanged)
+// Mobile Navigation Section Component (unchanged)
 // const MobileNavSection = ({ navItems }) => {
 //   const [openIndex, setOpenIndex] = useState(null);
 
@@ -1162,26 +1162,78 @@ const Header = () => {
         </div>
 
         <Sheet>
-          <SheetTrigger asChild className="lg:hidden">
-            <Button variant="ghost" size="icon">
-              <Menu className="h-5 w-5" />
-            </Button>
-          </SheetTrigger>
+            <SheetTrigger asChild className="lg:hidden">
+              <Button variant="ghost" size="icon">
+                <Menu className="h-5 w-5" />
+              </Button>
+            </SheetTrigger>
 
-          <SheetContent side="right" className="w-80">
-            <SheetHeader>
-              <SheetTitle>{t("home")}</SheetTitle>
-            </SheetHeader>
+            <SheetContent side="right" className="w-80">
 
-            <ScrollArea className="h-[calc(100vh-8rem)] mt-6">
-              <MobileNavSection navItems={navigationItems} />
+              <SheetHeader>
+                <SheetTitle>{t("")}</SheetTitle>
+              </SheetHeader>
 
-              <div className="mt-4 px-2">
-                <LanguageSwitcher className="w-full justify-start bg-transparent text-sm font-normal" />
-              </div>
-            </ScrollArea>
-          </SheetContent>
-        </Sheet>
+              <ScrollArea className="h-[calc(100vh-8rem)] mt-6">
+
+                <MobileNavSection navItems={navigationItems} />
+
+                <div className="mt-4 px-2">
+                  <LanguageSwitcher className="w-full justify-start" />
+                </div>
+
+                {/* Mobile Account */}
+                <div className="mt-3  p-1 space-y-2">
+
+                  {astrologer?.name || user?.name ? (
+
+                    <>
+                      <div className="flex items-center gap-3 px-2">
+                        <Avatar className="h-8 w-8">
+                          <AvatarImage
+                            src={user ? user?.profile_image : astrologer?.profile_image}
+                          />
+                          <AvatarFallback>
+                            {(astrologer?.name || user?.name)?.charAt(0)}
+                          </AvatarFallback>
+                        </Avatar>
+
+                        <span className="text-sm font-medium">
+                          {astrologer?.name || user?.name}
+                        </span>
+                      </div>
+
+                      <SheetClose asChild>
+                        <Button
+                          variant="ghost"
+                          className="w-full justify-start"
+                          onClick={moveToDashboard}
+                        >
+                          {t("dashboard")}
+                        </Button>
+                      </SheetClose>
+
+                      <SheetClose asChild>
+                        <Button
+                          variant="ghost"
+                          className="w-full justify-start text-red-500"
+                          onClick={logout}
+                        >
+                          {t("logout")}
+                        </Button>
+                      </SheetClose>
+
+                    </>
+
+                  ) : (
+                    <UserLogin />
+                  )}
+
+                </div>
+
+              </ScrollArea>
+            </SheetContent>
+          </Sheet>
       </div>
     </header>
   );

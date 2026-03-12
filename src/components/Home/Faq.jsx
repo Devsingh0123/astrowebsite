@@ -327,9 +327,9 @@ const Faq = () => {
             <>
               {t("faq.subheading", "Here are the same answers, now branded with ")}
               <Link to="https://astrotring.com/">
-                <stron className="text-[#0066CC] cursor-pointer ">
+                <strong className="text-[#0066CC] cursor-pointer ">
                   AstroTring.com
-                </stron>
+                </strong>
               </Link>
             </>
           }

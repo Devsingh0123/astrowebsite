@@ -87,7 +87,7 @@ const LanguageSwitcher = ({ className = "" }) => {
       >
         <Languages size={14} />
 
-        <div className="hidden sm:block">
+        <div >
           {currentLang === "en" && "Eng"}
           {currentLang === "hi" && "हिं"}
           {currentLang === "ar" && "عرب"}
