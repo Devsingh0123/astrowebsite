@@ -180,6 +180,10 @@
       "dailyHoroscope": "الأبراج اليومية",
       "monthlyHoroscope": "الأبراج الشهرية",
       "yearlyHoroscope": "الأبراج السنوية"
+    },
+     "horoscopeTypes": {
+      "monthly": "الأبراج الشهرية",
+      "yearly": "الأبراج السنوية"
     }
   },
    "monthlyPrediction": "التوقعات الفلكية الشهرية",

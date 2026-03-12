@@ -344,6 +344,10 @@
 // };
 
 // export default Footer;
+
+
+
+
 import faviconlogo from "@/assets/logo.png";
 import { Mail } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -367,26 +371,51 @@ const Footer = () => {
     }
   }, [horoscope, dispatch]);
 
-  useEffect(() => {
-    if (horoscope?.length > 0) {
-      const set = new Set();
-      const list = [];
-      horoscope.forEach((ele) => {
-        if (ele.type && !set.has(ele.type)) {
-          if (ele.type.toLowerCase() === "weekly") return;
-          set.add(ele.type);
-          list.push({
-            label: t(`footer.${ele.type.toLowerCase()}HoroscopeLabel`, {
-              defaultValue: ele.type.charAt(0).toUpperCase() + ele.type.slice(1) + " Horoscope",
-            }),
-            path: `/staticHoroschopes/${ele.type.toLowerCase()}`,
-          });
-        }
-      });
-      setHorosType(list);
-    }
-  }, [horoscope, t]);
+//   useEffect(() => {
+//     if (horoscope?.length > 0) {
+//       const set = new Set();
+//       const list = [];
+//       horoscope.forEach((ele) => {
+//         if (ele.type && !set.has(ele.type)) {
+//           if (ele.type.toLowerCase() === "weekly") return;
+//           set.add(ele.type);
+//           list.push({
+//           label: t(`footer.${ele.type.toLowerCase()}HoroscopeLabel`, {
+//   defaultValue: ele.type.charAt(0).toUpperCase() + ele.type.slice(1) + " Horoscope",
+// }),
+//             path: `/staticHoroschopes/${ele.type.toLowerCase()}`,
+//           });
+//         }
+//       });
+//       setHorosType(list);
+//     }
+//   }, [horoscope, t]);
+useEffect(() => {
+  if (horoscope?.length > 0) {
+    const set = new Set();
+    const list = [];
 
+    horoscope.forEach((ele) => {
+      if (ele.type && !set.has(ele.type)) {
+        if (ele.type.toLowerCase() === "weekly") return;
+
+        set.add(ele.type);
+
+        const type = ele.type.toLowerCase();
+
+        list.push({
+          label: t(`footer.horoscopeTypes.${type}`, {
+            defaultValue:
+              ele.type.charAt(0).toUpperCase() + ele.type.slice(1) + " Horoscope",
+          }),
+          path: `/staticHoroschopes/${type}`,
+        });
+      }
+    });
+
+    setHorosType(list);
+  }
+}, [horoscope, t]);
   return (
     <footer className="bg-gradient-to-b from-yellow-50 to-yellow-200 text-black pt-10">
       <div className="mx-auto px-2 md:px-10">

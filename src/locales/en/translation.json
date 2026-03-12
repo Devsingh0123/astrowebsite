@@ -191,6 +191,10 @@
       "dailyHoroscope": "Daily Horoscope",
       "monthlyHoroscope": "Monthly Horoscope",
       "yearlyHoroscope": "Yearly Horoscope"
+    },
+     "horoscopeTypes": {
+      "monthly": "Monthly Horoscope",
+      "yearly": "Yearly Horoscope"
     }
   },
     "monthlyPrediction": "Monthly Astrology Prediction",
