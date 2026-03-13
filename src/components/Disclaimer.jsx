@@ -6,7 +6,7 @@ const Disclaimer = () => {
       <a href="https://www.astrotring.com" className="hover:text-primary">
         www.astrotring.com
       </a>{" "}
-      are provided for guidance and entertainment purposes only. Results may
+      are provided for guidance and knowledge purposes only. Results may
       vary. Please read our full{" "}
       <a href="/disclaimer" className="font-medium hover:text-primary">
         Disclaimer
