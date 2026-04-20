@@ -16,7 +16,6 @@ import Marriage from "./pages/FooterMahurat/Marriage";
 import BhumiPuja from "./pages/FooterMahurat/BhumiPuja";
 import GrihaPravesh from "./pages/FooterMahurat/GrihaPravesh";
 import Mundan from "./pages/FooterMahurat/Mundan";
-// import AstrologerServiceProviderTermsAndConditionsPage from "./pages/legal/AstrologerServiceProviderTermsAndConditionsPage";
 
 
 
