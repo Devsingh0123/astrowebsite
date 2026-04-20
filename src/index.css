@@ -393,20 +393,3 @@ Select {
 .animate-slide {
   animation: slideFade 2s linear;
 }
-
-
-.goog-te-banner-frame {
-  display: none !important;
-}
-
-.goog-te-gadget {
-  display: none !important;
-}
-
-body {
-  top: 0 !important;
-}
-
-html {
-  overflow-x: hidden;
-}
