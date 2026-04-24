@@ -1013,7 +1013,7 @@ useEffect(() => {
         menu: horosType,
       },
       {
-        name: t("chatAstrologer"),
+        name: t("chatAstrologer"), 
         path: "/talk-to-astrologer",
         hasmenu: false,
       },
