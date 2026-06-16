@@ -12,6 +12,8 @@ import {
 } from "@/redux/slice/aiChatSlice";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { toast } from "react-toastify";
+import { X } from "lucide-react";
 
 const AIChatBot = () => {
   const navigate = useNavigate();
@@ -24,11 +26,12 @@ const AIChatBot = () => {
     messages,
     isLoading,
     error,
+    // errorType,
   } = useSelector((state) => state.aiChat);
 
-  // const { isLoggedIn } = useSelector((state) => state.userAuth);
-
   const [input, setInput] = useState("");
+
+  const [showRechargeModal, setShowRechargeModal] = useState(false);
   const bottomRef = useRef();
 
   // Fetch topics on mount
@@ -53,13 +56,34 @@ const AIChatBot = () => {
   };
 
   // Send message
-  const handleSendMessage = async () => {
-    const message = input.trim();
-    if (!message || !sessionId) return;
-    dispatch(addUserMessageLocally(message));
-    setInput("");
-    await dispatch(sendChatMessage({ sessionId, message }));
-  };
+  // const handleSendMessage = async () => {
+  //   const message = input.trim();
+  //   if (!message || !sessionId) return;
+  //   dispatch(addUserMessageLocally(message));
+  //   setInput("");
+  //   await dispatch(sendChatMessage({ sessionId, message }));
+  // };
+const handleSendMessage = async () => {
+  const message = input.trim();
+  if (!message || !sessionId) return;
+
+  dispatch(addUserMessageLocally(message));
+  setInput("");
+
+  try {
+    await dispatch(sendChatMessage({ sessionId, message })).unwrap();
+    // Success – clear recharge modal if open
+    setShowRechargeModal(false);
+  } catch (err) {
+    console.log("Send error:", err);
+    // Both wallet and free-limit errors → show recharge modal
+    if (err.type === "wallet_error" || err.type === "free_limit_exceeded") {
+      setShowRechargeModal(true);
+    } else {
+      toast.error(err.message || "Failed to send message");
+    }
+  }
+};
 
   // Manual close session
   const handleManualCloseSession = async () => {
@@ -69,30 +93,6 @@ const AIChatBot = () => {
       // You may want to set selectedTopic to null in slice – but that's handled in closeSession.fulfilled.
     }
   };
-
-  // helpar function for AI message formating
-  //   const formatMessage = (text) => {
-  //   if (!text) return null;
-
-  //   // 1. HTML entities escape (XSS protection)
-  //   const escaped = text
-  //     .replace(/&/g, '&amp;')
-  //     .replace(/</g, '&lt;')
-  //     .replace(/>/g, '&gt;');
-
-  //   // 2. Convert newlines to <br />
-  //   let html = escaped.replace(/\n/g, '<br />');
-
-  //   // 3. Auto‑link URLs (http/https)
-  //   const urlRegex = /(https?:\/\/[^\s]+)/g;
-  //   html = html.replace(urlRegex, (url) => {
-  //     // Ensure URL is properly encoded for href attribute
-  //     const safeUrl = url.replace(/&/g, '&amp;').replace(/"/g, '&quot;');
-  //     return `<a href="${safeUrl}" target="_blank" rel="noopener noreferrer" class="text-blue-600 underline">${url}</a>`;
-  //   });
-
-  //   return <span dangerouslySetInnerHTML={{ __html: html }} />;
-  // };
 
   return (
     <div className="flex flex-col h-screen overflow-hidden bg-repeat bg-[url('/chatbg.png')]">
@@ -187,7 +187,45 @@ const AIChatBot = () => {
             )}
             <div ref={bottomRef} />
           </div>
+         
 
+          {/* Recharge Modal */}
+{/* Recharge Modal - Lightweight & Elegant */}
+{showRechargeModal && (
+  <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+    <div className="bg-white rounded-2xl shadow-2xl max-w-sm w-full p-6 relative animate-in fade-in zoom-in duration-200">
+      {/* Close button (X) */}
+      <button
+        onClick={() => setShowRechargeModal(false)}
+        className="absolute top-3 right-3 text-gray-400 hover:text-gray-600 transition-colors"
+        aria-label="Close"
+      >
+        <X className="w-5 h-5" />
+      </button>
+
+        <div className="flex flex-col items-center text-center">
+        {/* Warning / Alert Icon */}
+        <div className="w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center mb-4">
+          <svg className="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+          </svg>
+        </div>
+
+      
+
+        <h3 className="text-lg font-semibold text-gray-800">Insufficient wallet balance</h3>
+        <p className="text-sm text-gray-500 mt-1">Your wallet balance is low. Please recharge to continue.</p>
+
+        <button
+          onClick={() => navigate("/dashboard/wallet")}
+          className="mt-6 w-full bg-amber-500 hover:bg-amber-600 text-white font-medium py-2.5 px-4 rounded-xl transition-colors shadow-sm hover:shadow"
+        >
+          Recharge Now
+        </button>
+      </div>
+    </div>
+  </div>
+)}
           {/* Input area */}
           <div className="p-4 bg-white border-t border-gray-200 flex-shrink-0">
             <div className="flex gap-2">
