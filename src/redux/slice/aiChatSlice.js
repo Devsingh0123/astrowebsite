@@ -53,7 +53,7 @@ export const sendChatMessage = createAsyncThunk(
       return { reply };
     } catch (error) {
       return rejectWithValue(
-        error.response?.data?.message || "Failed to send message",
+        error.response?.data,
       );
     }
   },
@@ -174,7 +174,7 @@ const aiChatSlice = createSlice({
       })
       .addCase(sendChatMessage.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.payload;
+        state.error = action.payload?.message;
         state.messages.push({
           sender: "assistant",
           message: "Sorry, something went wrong. Please try again.",
@@ -207,6 +207,7 @@ const aiChatSlice = createSlice({
       .addCase(fetchChatHistory.rejected, (state, action) => {
         state.isLoadingHistory = false;
         state.error = action.payload;
+        
         state.messages = []; // fallback to empty array
       });
   },
