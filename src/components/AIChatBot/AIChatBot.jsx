@@ -10,13 +10,23 @@ import {
   startSession,
   fetchChatHistory,
 } from "@/redux/slice/aiChatSlice";
+import Markdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 const AIChatBot = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { selectedTopic, topics, isFetchingTopics, sessionId, messages, isLoading, error } = useSelector(
-    (state) => state.aiChat
-  );
+  const {
+    selectedTopic,
+    topics,
+    isFetchingTopics,
+    sessionId,
+    messages,
+    isLoading,
+    error,
+  } = useSelector((state) => state.aiChat);
+
+  // const { isLoggedIn } = useSelector((state) => state.userAuth);
 
   const [input, setInput] = useState("");
   const bottomRef = useRef();
@@ -36,7 +46,9 @@ const AIChatBot = () => {
     if (newTopic === selectedTopic) return;
     const result = await dispatch(startSession(newTopic));
     if (startSession.fulfilled.match(result)) {
-      await dispatch(fetchChatHistory({ sessionId: result.payload, topic: newTopic }));
+      await dispatch(
+        fetchChatHistory({ sessionId: result.payload, topic: newTopic }),
+      );
     }
   };
 
@@ -58,17 +70,51 @@ const AIChatBot = () => {
     }
   };
 
+  // helpar function for AI message formating
+  //   const formatMessage = (text) => {
+  //   if (!text) return null;
+
+  //   // 1. HTML entities escape (XSS protection)
+  //   const escaped = text
+  //     .replace(/&/g, '&amp;')
+  //     .replace(/</g, '&lt;')
+  //     .replace(/>/g, '&gt;');
+
+  //   // 2. Convert newlines to <br />
+  //   let html = escaped.replace(/\n/g, '<br />');
+
+  //   // 3. Auto‑link URLs (http/https)
+  //   const urlRegex = /(https?:\/\/[^\s]+)/g;
+  //   html = html.replace(urlRegex, (url) => {
+  //     // Ensure URL is properly encoded for href attribute
+  //     const safeUrl = url.replace(/&/g, '&amp;').replace(/"/g, '&quot;');
+  //     return `<a href="${safeUrl}" target="_blank" rel="noopener noreferrer" class="text-blue-600 underline">${url}</a>`;
+  //   });
+
+  //   return <span dangerouslySetInnerHTML={{ __html: html }} />;
+  // };
+
   return (
     <div className="flex flex-col h-screen overflow-hidden bg-repeat bg-[url('/chatbg.png')]">
       <Header />
-      <div className="flex-1 flex flex-col mt-6 shadow-2xl mb-4 mx-auto w-2xl rounded-t-2xl overflow-hidden bg-white">
-        <div className="text-center border-2 border-gray-300 rounded-t-2xl py-4 flex-shrink-0">
-          <img src="/lowerLogo.png" alt="logo" className="h-8 mx-auto" />
+      <div className="flex-1 flex flex-col sm:mt-4 shadow-2xl mb-2 mx-auto w-full sm:w-4xl sm:rounded-t-xl overflow-hidden bg-white">
+        <div className="flex justify-between border-2 border-gray-300 sm:rounded-t-xl p-2 flex-shrink-0 bg-amber-400 ">
+          <img src="/upperLogo.jpeg" alt="logo" className="h-10 " />
+          {sessionId && (
+            <div className="flex justify-end mb-2">
+              <button
+                onClick={handleManualCloseSession}
+                className="p-2 rounded-lg text-xs font-medium bg-red-100 text-red-600 hover:bg-red-200"
+              >
+                ❌ Close Session
+              </button>
+            </div>
+          )}
         </div>
 
-        <div className="flex-1 flex flex-col overflow-hidden">
+        <div className="flex-1 mt-2 flex flex-col overflow-y-auto">
           {/* Topic selector chips */}
-          <div className="border-b border-gray-200 bg-white px-4 py-2 overflow-x-auto whitespace-nowrap scrollbar-hide">
+          <div className=" flex flex-col gap-2 items-center">
             {isFetchingTopics ? (
               <span className="text-xs text-gray-400">Loading topics...</span>
             ) : (
@@ -76,10 +122,10 @@ const AIChatBot = () => {
                 <button
                   key={topic.id}
                   onClick={() => handleTopicSwitch(topic.name)}
-                  className={`inline-block px-3 py-1 mx-1 rounded-full text-sm cursor-pointer ${
+                  className={`block w-[50%] text-center  py-2 rounded-lg text-sm font-medium cursor-pointer ${
                     selectedTopic === topic.name
-                      ? "bg-amber-600 text-white"
-                      : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                      ? "bg-amber-500 text-white"
+                      : "bg-amber-200 text-black  hover:bg-amber-500"
                   }`}
                 >
                   {topic.name}
@@ -89,7 +135,7 @@ const AIChatBot = () => {
           </div>
 
           {/* Messages area */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-3">
+          <div className="flex-1  p-4 space-y-3">
             {!selectedTopic && messages.length === 0 && (
               <div className="text-center text-gray-400 mt-20">
                 Select a topic above to start chatting.
@@ -106,13 +152,29 @@ const AIChatBot = () => {
                 className={`flex ${msg.sender === "user" ? "justify-end" : "justify-start"}`}
               >
                 <span
-                  className={`inline-block px-4 py-2 rounded-lg max-w-[80%] text-sm ${
+                  className={`inline-block px-4 py-2 rounded-lg max-w-[80%] text-xs ${
                     msg.sender === "user"
-                      ? "bg-amber-500 text-white"
-                      : "bg-white border border-gray-300 text-gray-800"
+                      ? "bg-amber-400 text-white"
+                      : "bg-white border border-gray-300 text-gray-900"
                   }`}
                 >
-                  {msg.message}
+                  <Markdown
+                    remarkPlugins={[remarkGfm]}
+                    components={{
+                      a: ({ href }) => (
+                        <a
+                          href={href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-600 underline"
+                        >
+                          {href}
+                        </a>
+                      ),
+                    }}
+                  >
+                    {msg.message}
+                  </Markdown>
                 </span>
               </div>
             ))}
@@ -128,35 +190,32 @@ const AIChatBot = () => {
 
           {/* Input area */}
           <div className="p-4 bg-white border-t border-gray-200 flex-shrink-0">
-            {sessionId && (
-              <div className="flex justify-end mb-2">
-                <button
-                  onClick={handleManualCloseSession}
-                  className="px-4 py-2 rounded-full text-xs font-medium bg-red-100 text-red-600 hover:bg-red-200"
-                >
-                  ❌ Close Session
-                </button>
-              </div>
-            )}
             <div className="flex gap-2">
-              <input
-                type="text"
+              <textarea
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && handleSendMessage()}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && !e.shiftKey) {
+                    e.preventDefault();
+                    handleSendMessage();
+                  }
+                }}
                 placeholder="Type your question..."
-                className="flex-1 border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500 bg-white text-sm"
+                rows={1}
+                className="flex-1 border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500 bg-white text-sm resize-none"
                 disabled={!sessionId || isLoading}
               />
               <button
                 onClick={handleSendMessage}
                 disabled={!sessionId || isLoading}
-                className="bg-amber-600 text-white px-5 py-2 rounded-lg hover:bg-amber-700 disabled:opacity-50 transition text-sm"
+                className="bg-amber-500 text-white px-5 py-2 rounded-lg hover:bg-amber-600 disabled:opacity-50 transition text-sm cursor-pointer"
               >
                 Send
               </button>
             </div>
-            {error && <p className="text-xs text-center text-red-500 mt-1">{error}</p>}
+            {error && (
+              <p className="text-xs text-center text-red-500 mt-1">{error}</p>
+            )}
           </div>
         </div>
       </div>
