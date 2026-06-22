@@ -1,73 +1,66 @@
 import { useMemo } from "react";
 
 const ZODIAC_SIGNS = [
-  "♈︎", "♉︎", "♊︎", "♋︎", "♌︎", "♍︎",
-  "♎︎", "♏︎", "♐︎", "♑︎", "♒︎", "♓︎",
+  "♈", "♉", "♊", "♋", "♌", "♍",
+  "♎", "♏", "♐", "♑", "♒", "♓",
 ];
 
-const ORBIT_PLANETS = [
-  { r: 110, duration: 14, reverse: false, size: 12, color: "#FF8A3D", glow: "16.8px" },
-  { r: 150, duration: 22, reverse: true, size: 16, color: "#FFD166", glow: "22.4px" },
-  { r: 190, duration: 32, reverse: false, size: 10, color: "#7BD389", glow: "14px" },
-  { r: 230, duration: 48, reverse: true, size: 14, color: "#FF6B6B", glow: "19.6px" },
+/* orbit radius = fraction of --wheel-size (full box width) */
+const ORBIT_GEMS = [
+  { frac: 0.22, duration: 16, reverse: false, size: 14, from: "#FEF3C7", to: "#F59E0B", glow: "18px" },
+  { frac: 0.3, duration: 24, reverse: true, size: 17, from: "#FFEDD5", to: "#EA580C", glow: "22px" },
+  { frac: 0.38, duration: 34, reverse: false, size: 12, from: "#FFF7ED", to: "#FB923C", glow: "16px" },
+  { frac: 0.46, duration: 48, reverse: true, size: 15, from: "#FDE68A", to: "#D97706", glow: "20px" },
 ];
 
-const DASHED_RINGS = [220, 300, 380, 460];
+const RING_FRACS = [0.44, 0.6, 0.76, 0.9];
 
-const SUN_RAYS = Array.from({ length: 12 }, (_, i) => i * 30);
+const SUN_RAYS = Array.from({ length: 10 }, (_, i) => i * 36);
 
 function seededStar(index) {
-  const seed = (index * 9301 + 49297) % 233280;
-  const rnd = (n) => ((seed * (n + 1) * 17) % 10000) / 100;
+  const seed = (index * 6271 + 31415) % 233280;
+  const rnd = (n) => ((seed * (n + 2) * 11) % 10000) / 100;
   return {
     left: rnd(1),
     top: rnd(2),
-    size: 1 + (seed % 30) / 10,
-    duration: 2 + (seed % 40) / 10,
-    delay: (seed % 40) / 10,
+    size: 2 + (seed % 18) / 8,
+    duration: 2.2 + (seed % 28) / 10,
+    delay: (seed % 35) / 10,
   };
 }
 
 const ZodiacWheel = () => {
-  const radius = 230;
-  const tickRadius = 218;
+  const radius = 210;
 
   return (
-    <svg viewBox="-250 -250 500 500" className="h-full w-full overflow-visible">
-      <circle
-        cx="0"
-        cy="0"
-        r="240"
-        fill="none"
-        stroke="rgba(80,48,12,0.22)"
-        strokeWidth="1"
-        strokeDasharray="2 6"
-      />
-      <circle
-        cx="0"
-        cy="0"
-        r="220"
-        fill="none"
-        stroke="rgba(80,48,12,0.12)"
-        strokeWidth="1"
-      />
+    <svg viewBox="-240 -240 480 480" className="h-full w-full overflow-visible">
+      <defs>
+        <linearGradient id="gold-ring-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="rgba(251,191,36,0.8)" />
+          <stop offset="50%" stopColor="rgba(245,158,11,0.55)" />
+          <stop offset="100%" stopColor="rgba(234,88,12,0.65)" />
+        </linearGradient>
+      </defs>
+
+      <circle cx="0" cy="0" r="228" fill="none" stroke="url(#gold-ring-grad)" strokeWidth="2" />
+      <circle cx="0" cy="0" r="205" fill="none" stroke="rgba(180,120,40,0.2)" strokeWidth="1" strokeDasharray="3 7" />
 
       {ZODIAC_SIGNS.map((sign, i) => {
         const angle = (i * 30 - 90) * (Math.PI / 180);
         const x = radius * Math.cos(angle);
         const y = radius * Math.sin(angle);
-        const rotation = i * 30 + 90;
 
         return (
-          <g key={sign} transform={`translate(${x},${y}) rotate(${rotation})`}>
+          <g key={i} transform={`translate(${x},${y})`}>
+            <circle r="20" fill="white" stroke="rgba(245,158,11,0.45)" strokeWidth="1.5" />
             <text
               x="0"
               y="6"
               textAnchor="middle"
               fontFamily="'Segoe UI Symbol', Poppins, sans-serif"
-              fontSize="20"
-              fontWeight="500"
-              fill="rgba(42,26,5,0.85)"
+              fontSize="18"
+              fontWeight="600"
+              fill="#B45309"
             >
               {sign}
             </text>
@@ -77,11 +70,10 @@ const ZodiacWheel = () => {
 
       {Array.from({ length: 24 }, (_, i) => {
         const angle = (i * 15 - 90) * (Math.PI / 180);
-        const x1 = tickRadius * Math.cos(angle);
-        const y1 = tickRadius * Math.sin(angle);
-        const x2 = (tickRadius - 10) * Math.cos(angle);
-        const y2 = (tickRadius - 10) * Math.sin(angle);
-
+        const x1 = 218 * Math.cos(angle);
+        const y1 = 218 * Math.sin(angle);
+        const x2 = (218 - 12) * Math.cos(angle);
+        const y2 = (218 - 12) * Math.sin(angle);
         return (
           <line
             key={i}
@@ -89,8 +81,8 @@ const ZodiacWheel = () => {
             y1={y1}
             x2={x2}
             y2={y2}
-            stroke="rgba(42,26,5,0.4)"
-            strokeWidth="1.2"
+            stroke="rgba(120,72,20,0.35)"
+            strokeWidth="1.4"
           />
         );
       })}
@@ -99,69 +91,75 @@ const ZodiacWheel = () => {
 };
 
 const ConstellationLayer = () => (
-  <svg viewBox="-200 -200 400 400" className="h-full w-full">
+  <svg viewBox="-180 -180 360 360" className="h-full w-full">
     <polyline
-      points="-130,-100 -90,-70 -50,-90 -10,-60 30,-80 60,-40"
+      points="-110,-80 -70,-50 -30,-70 10,-40 50,-60 80,-30"
       fill="none"
-      stroke="rgba(255,138,40,0.55)"
-      strokeWidth="1.2"
+      stroke="rgba(245,158,11,0.5)"
+      strokeWidth="1.4"
+      strokeLinecap="round"
     />
     <polyline
-      points="80,90 120,60 150,100 110,140 70,120"
+      points="60,80 100,50 130,90 90,120 50,100"
       fill="none"
-      stroke="rgba(180,120,60,0.5)"
-      strokeWidth="1.2"
+      stroke="rgba(234,88,12,0.42)"
+      strokeWidth="1.4"
+      strokeLinecap="round"
     />
     <polyline
-      points="-160,80 -120,50 -100,90 -60,70"
+      points="-130,70 -90,40 -70,80 -30,55"
       fill="none"
-      stroke="rgba(120,72,30,0.45)"
-      strokeWidth="1.2"
+      stroke="rgba(180,100,30,0.38)"
+      strokeWidth="1.4"
+      strokeLinecap="round"
     />
     {[
-      [-130, -100, "2s"],
-      [-90, -70, "2.7s"],
-      [-50, -90, "3.4s"],
-      [-10, -60, "4.1s"],
-      [30, -80, "2s"],
-      [60, -40, "2.7s"],
-      [80, 90, "3.4s"],
-      [120, 60, "4.1s"],
-      [150, 100, "2s"],
-      [110, 140, "2.7s"],
-      [70, 120, "3.4s"],
-      [-160, 80, "4.1s"],
-      [-120, 50, "2s"],
-      [-100, 90, "2.7s"],
-      [-60, 70, "3.4s"],
+      [-110, -80, "2.4s"],
+      [-70, -50, "3s"],
+      [-30, -70, "3.6s"],
+      [10, -40, "2.8s"],
+      [50, -60, "3.2s"],
+      [80, -30, "2.5s"],
+      [60, 80, "3.4s"],
+      [100, 50, "2.7s"],
+      [130, 90, "3.8s"],
+      [90, 120, "2.2s"],
+      [50, 100, "3.1s"],
+      [-130, 70, "2.9s"],
+      [-90, 40, "3.5s"],
+      [-70, 80, "2.6s"],
+      [-30, 55, "3.3s"],
     ].map(([cx, cy, dur], i) => (
-      <circle key={i} cx={cx} cy={cy} r="2.4" fill="#FF8A3D">
-        <animate
-          attributeName="r"
-          values="1.6;3.2;1.6"
-          dur={dur}
-          repeatCount="indefinite"
-        />
-        <animate
-          attributeName="opacity"
-          values="0.4;1;0.4"
-          dur={dur}
-          repeatCount="indefinite"
-        />
+      <circle key={i} cx={cx} cy={cy} r="3" fill="#F59E0B">
+        <animate attributeName="r" values="2;3.8;2" dur={dur} repeatCount="indefinite" />
+        <animate attributeName="opacity" values="0.4;1;0.4" dur={dur} repeatCount="indefinite" />
       </circle>
     ))}
   </svg>
 );
 
 const HeroTaramandal = ({ compact = false }) => {
-  const stars = useMemo(() => Array.from({ length: 36 }, (_, i) => seededStar(i)), []);
+  const wheelSize = compact ? 130 : 520;
+  const stars = useMemo(
+    () => Array.from({ length: compact ? 20 : 36 }, (_, i) => seededStar(i)),
+    [compact],
+  );
 
   return (
     <div
-      className={`relative mx-auto aspect-square w-full ${
-        compact ? "max-w-[95px]" : "max-w-[500px] lg:max-w-[560px] xl:max-w-[620px]"
-      }`}
+      className="astro-wheel-stage relative shrink-0"
+      style={{
+        width: wheelSize,
+        height: wheelSize,
+        maxWidth: "100%",
+        ["--wheel-size"]: `${wheelSize}px`,
+      }}
+      aria-hidden="true"
     >
+      <div className="pointer-events-none absolute -inset-[12%] rounded-full bg-[radial-gradient(circle,rgba(251,191,36,0.28)_0%,rgba(249,115,22,0.08)_45%,transparent_70%)]" />
+
+      <div className="absolute inset-[4%] rounded-full bg-white/30 " />
+
       {stars.map((star, i) => (
         <span
           key={i}
@@ -186,34 +184,35 @@ const HeroTaramandal = ({ compact = false }) => {
       </div>
 
       <div className="absolute inset-0 grid place-items-center">
-        {DASHED_RINGS.map((size) => (
+        {RING_FRACS.map((frac) => (
           <div
-            key={size}
-            className="absolute rounded-full border border-dashed border-[rgba(80,48,12,0.14)]"
-            style={{ width: size, height: size }}
+            key={frac}
+            className="absolute rounded-full border border-dashed border-amber-500/25"
+            style={{
+              width: `calc(var(--wheel-size) * ${frac})`,
+              height: `calc(var(--wheel-size) * ${frac})`,
+            }}
           />
         ))}
       </div>
 
       <div className="absolute inset-0 grid place-items-center">
-        {ORBIT_PLANETS.map((planet) => (
+        {ORBIT_GEMS.map((gem, i) => (
           <div
-            key={planet.r}
-            className={`absolute h-0 w-0 ${
-              planet.reverse ? "animate-orbit-rev" : "animate-orbit"
-            }`}
+            key={i}
+            className={`absolute h-0 w-0 ${gem.reverse ? "animate-orbit-rev" : "animate-orbit"}`}
             style={{
-              "--orbit-r": `${planet.r}px`,
-              animationDuration: `${planet.duration}s`,
+              ["--orbit-r"]: `calc(var(--wheel-size) * ${gem.frac})`,
+              animationDuration: `${gem.duration}s`,
             }}
           >
             <div
               className="rounded-full"
               style={{
-                width: planet.size,
-                height: planet.size,
-                background: `radial-gradient(circle at 30% 30%, ${planet.color}cc, ${planet.color})`,
-                boxShadow: `0 0 ${planet.glow} ${planet.color}cc`,
+                width: gem.size,
+                height: gem.size,
+                background: `radial-gradient(circle at 30% 28%, ${gem.from}, ${gem.to})`,
+                boxShadow: `0 0 ${gem.glow} rgba(245,158,11,0.7)`,
                 transform: "translate(-50%, -50%)",
               }}
             />
@@ -222,40 +221,39 @@ const HeroTaramandal = ({ compact = false }) => {
       </div>
 
       <div className="absolute inset-0 grid place-items-center">
-        <div className="relative flex h-20 w-20 animate-glow-pulse items-center justify-center rounded-full bg-[radial-gradient(circle_at_30%_30%,#FFFAE0_0%,#FFD166_35%,#FF7A1A_100%)]">
-          <div className="absolute -inset-[18px] animate-taramandal-spin rounded-full border border-[rgba(255,200,80,0.4)]">
+        <div className="relative flex items-center justify-center" style={{ width: "22%", height: "22%" }}>
+          <div
+            className="absolute -inset-[35%] animate-taramandal-spin rounded-full border-2 border-amber-300/35"
+            style={{ animationDuration: "40s" }}
+          />
+          <div
+            className="absolute -inset-[55%] animate-taramandal-counter rounded-full border border-dashed border-amber-400/25"
+            style={{ animationDuration: "55s" }}
+          />
+
+          <div
+            className="relative flex h-full w-full animate-glow-pulse items-center justify-center rounded-full"
+            style={{
+              background: "radial-gradient(circle at 32% 28%, #FFFBEB 0%, #FDE68A 35%, #F59E0B 70%, #EA580C 100%)",
+            }}
+          >
             {SUN_RAYS.map((deg) => (
               <span
                 key={deg}
-                className="absolute left-1/2 top-1/2 h-3.5 w-0.5 origin-bottom bg-gradient-to-b from-[rgba(255,180,60,0.9)] to-transparent"
+                className="absolute left-1/2 top-0 w-1 origin-bottom rounded-full bg-gradient-to-t from-amber-400 to-transparent"
                 style={{
-                  transform: `translate(-50%, 50px) rotate(${deg}deg) translateY(-58px)`,
+                  height: "calc(var(--wheel-size) * 0.065)",
+                  transform: `translate(-50%, 50%) rotate(${deg}deg) translateY(calc(var(--wheel-size) * -0.075))`,
                 }}
               />
             ))}
+            <div
+              className="relative z-10 rounded-full bg-[radial-gradient(circle_at_40%_35%,#FFFFFF,#FEF3C7_55%,transparent)]"
+              style={{ width: "42%", height: "42%" }}
+            />
           </div>
         </div>
       </div>
-
-      {!compact && (
-        <>
-          <div
-            className="absolute left-[10%] top-[15%] h-0.5 w-[60px] animate-meteor opacity-90"
-            style={{
-              background: "linear-gradient(to right, transparent, #FF8A3D)",
-              animationDelay: "2s",
-            }}
-          />
-          <div
-            className="absolute left-[5%] top-1/2 h-0.5 w-[50px] animate-meteor opacity-70"
-            style={{
-              background: "linear-gradient(to right, transparent, #FF6B6B)",
-              animationDuration: "7s",
-              animationDelay: "4.5s",
-            }}
-          />
-        </>
-      )}
     </div>
   );
 };
