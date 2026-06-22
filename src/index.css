@@ -371,16 +371,16 @@ Select {
   animation: spin-slow 6s linear infinite;
 }
 
-/* Astrotalk-style hero taramandal animation */
+/* AstroTring celestial wheel animation */
 @keyframes twinkle {
   0%,
   100% {
-    opacity: 0.25;
+    opacity: 0.3;
     transform: scale(0.85);
   }
   50% {
     opacity: 1;
-    transform: scale(1.15);
+    transform: scale(1.12);
   }
 }
 
@@ -423,44 +423,45 @@ Select {
 @keyframes glow-pulse {
   0%,
   100% {
-    box-shadow: 0 0 18px rgba(255, 122, 26, 0.35);
+    box-shadow: 0 0 30px rgba(251, 191, 36, 0.45), 0 0 60px rgba(249, 115, 22, 0.2);
     transform: scale(1);
   }
   50% {
-    box-shadow: 0 0 36px rgba(255, 122, 26, 0.65);
-    transform: scale(1.04);
+    box-shadow: 0 0 55px rgba(245, 158, 11, 0.7), 0 0 90px rgba(249, 115, 22, 0.35);
+    transform: scale(1.05);
   }
 }
 
-@keyframes meteor {
-  0% {
-    transform: translateX(0) translateY(0);
-    opacity: 0;
-  }
-  8% {
-    opacity: 1;
-  }
+@keyframes astro-drift {
+  0%,
   100% {
-    transform: translateX(120px) translateY(80px);
-    opacity: 0;
+    opacity: 0.2;
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    opacity: 0.55;
+    transform: translate(12px, -8px) scale(1.15);
   }
 }
 
 .hero-star {
   position: absolute;
   border-radius: 50%;
-  background: #3a2a12;
+  background: linear-gradient(135deg, #fde68a, #f59e0b);
   animation: twinkle ease-in-out infinite;
-  filter: blur(0.3px);
-  box-shadow: 0 0 6px rgba(255, 154, 40, 0.4);
+  box-shadow: 0 0 10px rgba(251, 191, 36, 0.65);
+}
+
+.astro-wheel-stage {
+  overflow: visible;
 }
 
 .animate-taramandal-spin {
-  animation: taramandal-spin 90s linear infinite;
+  animation: taramandal-spin 105s linear infinite;
 }
 
 .animate-taramandal-counter {
-  animation: taramandal-counter 140s linear infinite;
+  animation: taramandal-counter 135s linear infinite;
 }
 
 .animate-orbit {
@@ -472,12 +473,56 @@ Select {
 }
 
 .animate-glow-pulse {
-  animation: glow-pulse 3.5s ease-in-out infinite;
+  animation: glow-pulse 4s ease-in-out infinite;
 }
 
-.animate-meteor {
-  animation: meteor 5s ease-in infinite;
-  filter: drop-shadow(0 0 4px currentColor);
+.astro-wheel-glow {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(30px);
+}
+
+.astro-wheel-glow-a {
+  top: 10%;
+  left: 14%;
+  width: 40%;
+  height: 40%;
+  background: radial-gradient(circle, rgba(251, 191, 36, 0.2), transparent 70%);
+}
+
+.astro-wheel-glow-b {
+  bottom: 8%;
+  right: 12%;
+  width: 36%;
+  height: 36%;
+  background: radial-gradient(circle, rgba(249, 115, 22, 0.14), transparent 70%);
+}
+
+.astro-dust {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(18px);
+  animation: astro-drift 9s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.astro-dust-1 {
+  top: 18%;
+  right: 14%;
+  width: 28%;
+  height: 12%;
+  background: linear-gradient(90deg, transparent, rgba(251, 191, 36, 0.35), transparent);
+}
+
+.astro-dust-2 {
+  bottom: 22%;
+  left: 10%;
+  width: 24%;
+  height: 10%;
+  background: linear-gradient(90deg, transparent, rgba(251, 146, 60, 0.28), transparent);
+  animation-delay: 3s;
+  animation-duration: 11s;
 }
 
 

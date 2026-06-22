@@ -23,7 +23,7 @@ const Home = () => {
       <Banner />
       <BannerCopy />
       <BannerSlider />
-      <AiChat />
+      {/* <AiChat /> */}
       <Astrologers />
       <ZodiacPredictions />
       <Services />
