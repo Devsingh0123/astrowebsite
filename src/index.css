@@ -269,7 +269,7 @@
   }
 
   section {
-    @apply py-20;
+    @apply py-10 md:py-16;
   }
 }
 
@@ -369,6 +369,115 @@ Select {
 
 .animate-spin-slow {
   animation: spin-slow 6s linear infinite;
+}
+
+/* Astrotalk-style hero taramandal animation */
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.25;
+    transform: scale(0.85);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+}
+
+@keyframes taramandal-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes taramandal-counter {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes orbit {
+  from {
+    transform: rotate(0deg) translateX(var(--orbit-r)) rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg) translateX(var(--orbit-r)) rotate(-360deg);
+  }
+}
+
+@keyframes orbit-rev {
+  from {
+    transform: rotate(360deg) translateX(var(--orbit-r)) rotate(-360deg);
+  }
+  to {
+    transform: rotate(0deg) translateX(var(--orbit-r)) rotate(0deg);
+  }
+}
+
+@keyframes glow-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 18px rgba(255, 122, 26, 0.35);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 36px rgba(255, 122, 26, 0.65);
+    transform: scale(1.04);
+  }
+}
+
+@keyframes meteor {
+  0% {
+    transform: translateX(0) translateY(0);
+    opacity: 0;
+  }
+  8% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(120px) translateY(80px);
+    opacity: 0;
+  }
+}
+
+.hero-star {
+  position: absolute;
+  border-radius: 50%;
+  background: #3a2a12;
+  animation: twinkle ease-in-out infinite;
+  filter: blur(0.3px);
+  box-shadow: 0 0 6px rgba(255, 154, 40, 0.4);
+}
+
+.animate-taramandal-spin {
+  animation: taramandal-spin 90s linear infinite;
+}
+
+.animate-taramandal-counter {
+  animation: taramandal-counter 140s linear infinite;
+}
+
+.animate-orbit {
+  animation: orbit linear infinite;
+}
+
+.animate-orbit-rev {
+  animation: orbit-rev linear infinite;
+}
+
+.animate-glow-pulse {
+  animation: glow-pulse 3.5s ease-in-out infinite;
+}
+
+.animate-meteor {
+  animation: meteor 5s ease-in infinite;
+  filter: drop-shadow(0 0 4px currentColor);
 }
 
 
