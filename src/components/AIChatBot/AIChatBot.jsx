@@ -167,7 +167,11 @@ const AIChatBot = () => {
           {/* Header */}
           <div className="flex justify-between border-2 border-gray-300 p-2 flex-shrink-0 bg-amber-400">
             <div className="flex justify-center items-center gap-2">
-              <ChevronLeft size={20} className="text-gray-700 cursor-pointer" onClick={()=>navigate(-1)}/>
+              <ChevronLeft
+                size={20}
+                className="text-gray-700 cursor-pointer"
+                onClick={() => navigate(-1)}
+              />
               <Link to="/">
                 <img src={logo} alt="logo" className="h-10" />
               </Link>
@@ -251,7 +255,21 @@ const AIChatBot = () => {
                     }`}
                   >
                     <div className="prose prose-xs max-w-none prose-p:my-2 prose-pre:bg-gray-900 prose-code:text-red-500">
-                      <Markdown remarkPlugins={[remarkGfm]}>
+                      <Markdown
+                        remarkPlugins={[remarkGfm]}
+                        components={{
+                          a: ({ href, children }) => (
+                            <a
+                              href={href}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-blue-600 underline hover:text-blue-800"
+                            >
+                              {children}
+                            </a>
+                          ),
+                        }}
+                      >
                         {msg.message}
                       </Markdown>
                     </div>
