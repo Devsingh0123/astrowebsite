@@ -75,7 +75,7 @@ const AiAstrologerDetails = () => {
 
   return (
     <>
-      <div className="min-h-screen mt-4 bg-gradient-to-t from-amber-100 to-white py-8 px-4 sm:px-10">
+      <div className="relative min-h-screen mt-4 bg-gradient-to-t from-amber-100 to-white py-8 px-4 sm:px-10">
         <div className="w-full mx-auto">
           {/* HERO SECTION */}
           <div className="flex flex-col sm:flex-row gap-6 mb-8">
@@ -219,6 +219,25 @@ const AiAstrologerDetails = () => {
               </div>
             </div>
           </div>
+        </div>
+
+          <div className="hidden lg:inline absolute  top-8 right-10">
+          <a
+            href="https://astrotring.shop/product/metal-dhan-yog-bracelet-with-free-raw-selenite-plate"
+            target="__blank"
+            rel="noopener noreferrer"
+            className="relative block w-full h-96 overflow-hidden shadow-md bg-white/80 backdrop-blur-sm hover:shadow-lg transition-transform duration-300 hover:scale-[1.02] "
+          >
+            <img
+              src="/ad5.jpeg"
+              alt="Advertisement"
+              className="w-full h-full object-fill"
+            />
+            <span className="absolute top-2 right-2 bg-black/50 text-white text-[10px] px-2 py-0.5 rounded-full">
+              Ad
+            </span>
+          </a>
+         
         </div>
       </div>
 
