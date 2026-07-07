@@ -48,7 +48,7 @@ const AiAstrologerDetails = () => {
 
   useEffect(() => {
     if (isLoggedIn && showLogin && astro) {
-      navigate("/ai-chat", { state: chatState });
+      navigate(`/ai-chat/${astro.slug}/${astro.expertises?.[0]?.slug}`, { state: chatState });
       setShowLogin(false);
     }
   }, [isLoggedIn, showLogin, navigate, astro, chatState]);
@@ -75,8 +75,8 @@ const AiAstrologerDetails = () => {
 
   return (
     <>
-      <div className="min-h-screen bg-gradient-to-b from-amber-50 to-white py-8 px-4">
-        <div className="max-w-[1300px] mx-auto">
+      <div className="min-h-screen mt-4 bg-gradient-to-t from-amber-100 to-white py-8 px-4 sm:px-10">
+        <div className="w-full mx-auto">
           {/* HERO SECTION */}
           <div className="flex flex-col sm:flex-row gap-6 mb-8">
             {/* LEFT COLUMN - Profile Card */}
