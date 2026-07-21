@@ -16,6 +16,7 @@ import remarkGfm from "remark-gfm";
 import { toast } from "react-toastify";
 import { ChevronLeft, Wallet, X } from "lucide-react";
 import { fetchWalletDetails } from "@/redux/slice/walletSlice";
+import { openRechargeModal } from "@/redux/slice/uiSlice";
 
 const AIChatBot = () => {
   const navigate = useNavigate();
@@ -414,7 +415,7 @@ const AIChatBot = () => {
                       Your wallet balance is low. Please recharge to continue.
                     </p>
                     <button
-                      onClick={() => navigate("/dashboard/wallet")}
+                      onClick={() => dispatch(openRechargeModal())}
                       className="mt-6 w-full bg-amber-500 hover:bg-amber-600 text-white font-medium py-2.5 px-4 rounded-xl transition-colors shadow-sm hover:shadow cursor-pointer"
                     >
                       Recharge Now
