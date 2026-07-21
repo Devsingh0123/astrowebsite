@@ -176,9 +176,9 @@ function WalletDashboard() {
                 <h2 className="text-5xl font-bold text-primary">
                   {formatCurrency(walletData.balance || 0)}
                 </h2>
-                <Badge variant="outline" className="text-xs">
+                {/* <Badge variant="outline" className="text-xs">
                   Wallet ID: {walletData.id || "N/A"}
-                </Badge>
+                </Badge> */}
               </div>
               <div className="grid grid-cols-2 gap-4 mt-6">
                 <div className="space-y-1">
