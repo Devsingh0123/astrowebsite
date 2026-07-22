@@ -123,7 +123,8 @@ const AIChatBot = () => {
       const errData = err;
       if (
         errData?.type === "wallet_error" ||
-        errData?.type === "free_limit_exceeded"
+        errData?.type === "insufficient_balance" ||
+        errData?.type === "free_limit_exceeded" 
       ) {
         setShowRechargeModal(true);
       } else {
@@ -428,7 +429,10 @@ const AIChatBot = () => {
                       Your wallet balance is low. Please recharge to continue.
                     </p>
                     <button
-                      onClick={() => dispatch(openRechargeModal())}
+                      onClick={() => {
+                        dispatch(openRechargeModal());
+                        setShowRechargeModal(false);
+                      }}
                       className="mt-6 w-full bg-amber-500 hover:bg-amber-600 text-white font-medium py-2.5 px-4 rounded-xl transition-colors shadow-sm hover:shadow cursor-pointer"
                     >
                       Recharge Now
