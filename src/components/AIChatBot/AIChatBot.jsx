@@ -49,19 +49,31 @@ const AIChatBot = () => {
   const bottomRef = useRef();
 
   // AIChatBot.jsx के अंदर, सभी useState के नीचे यह function डालें
+  // const formatMarkdownText = (text) => {
+  //   if (!text) return text;
+
+  //   let formatted = text
+  //     // 1. Numbered List (1., 2., 3.) से पहले newline डालें
+  //     .replace(/(\d+\.\s+)/g, "\n$1")
+  //     // 2. Bullet List (*, -) से पहले newline डालें (अगर भविष्य में आए)
+  //     .replace(/(\*\s+)/g, "\n$1")
+  //     // 3. अगर 3 से ज्यादा newline आ जाएं तो उन्हें 2 में बदल दें (साफ-सफाई)
+  //     .replace(/\n{3,}/g, "\n\n");
+
+  //   return formatted.trimStart();
+  // };
+
   const formatMarkdownText = (text) => {
-    if (!text) return text;
+  if (!text) return text;
 
-    let formatted = text
-      // 1. Numbered List (1., 2., 3.) से पहले newline डालें
-      .replace(/(\d+\.\s+)/g, "\n$1")
-      // 2. Bullet List (*, -) से पहले newline डालें (अगर भविष्य में आए)
-      .replace(/(\*\s+)/g, "\n$1")
-      // 3. अगर 3 से ज्यादा newline आ जाएं तो उन्हें 2 में बदल दें (साफ-सफाई)
-      .replace(/\n{3,}/g, "\n\n");
+  let formatted = text
+    .replace(/(\d+\.\s+)/g, "\n$1")     // Numbered List: 1., 2.
+    .replace(/(\*\s+)/g, "\n$1")        // Bullet: * 
+    .replace(/(-\s+)/g, "\n$1")         // 🟢 नया – Bullet: - 
+    .replace(/\n{3,}/g, "\n\n");        // Extra newlines clean
 
-    return formatted.trimStart();
-  };
+  return formatted.trimStart();
+};
 
   useEffect(() => {
     if (expertiseSlug && astrologerSlug) {
@@ -274,7 +286,7 @@ const AIChatBot = () => {
             </div>
 
             {/* Messages area */}
-            <div className="flex-1 p-4 space-y-3">
+            <div className="flex-1 py-2 space-y-3">
               {!sessionId && messages.length === 0 && (
                 <div className="text-center text-gray-400 mt-20">
                   {astrologerDetails
@@ -295,7 +307,7 @@ const AIChatBot = () => {
                   className={`flex ${msg.sender === "user" ? "justify-end" : "justify-start"}`}
                 >
                   <span
-                    className={`inline-block px-4 rounded-md max-w-[80%] ${
+                    className={`inline-block px-4 rounded-md max-w-[85%] ${
                       msg.sender === "user"
                         ? "bg-amber-400 text-white"
                         : "bg-white border border-gray-100"
@@ -359,6 +371,7 @@ const AIChatBot = () => {
                       >
                         {/* 🔥 यहाँ पर `formatMarkdownText` Function Apply करें */}
                         {formatMarkdownText(msg.message)}
+                        
                       </Markdown>
                     </div>
                   </span>
