@@ -19,6 +19,9 @@ function WalletDashboard() {
   useEffect(() => {
     dispatch(fetchWalletDetails());
   }, [dispatch]);
+  useEffect(() => {
+    dispatch(fetchRechargeHistory());
+  }, [dispatch]);
 
 
   if (loading && !details) {
@@ -86,7 +89,7 @@ function WalletDashboard() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="space-y-2">
-            <h1 className="text-3xl font-bold tracking-tight flex items-center gap-3">
+            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight flex items-center gap-3">
               <Wallet className="w-8 h-8 text-primary" />
               Wallet Dashboard
             </h1>
@@ -94,7 +97,7 @@ function WalletDashboard() {
           </div>
           <button
             onClick={() => dispatch(openRechargeModal())}
-            className="bg-amber-500 hover:bg-amber-600 text-gray-710 px-6 py-2.5 rounded-lg font-semibold shadow-md transition-colors flex items-center gap-0 shrink-0 cursor-pointer"
+            className="bg-amber-500 hover:bg-amber-600 text-gray-710 px-6 py-2.5 rounded-lg font-semibold shadow-md transition-colors flex items-center justify-center gap-0 shrink-0 cursor-pointer"
           >
             <Plus className="w-5 h-5 " />
             Add Money to Wallet
@@ -277,7 +280,6 @@ function WalletDashboard() {
           </CardContent>
         </Card>
       </div>
-y
     </div>
   );
 }
