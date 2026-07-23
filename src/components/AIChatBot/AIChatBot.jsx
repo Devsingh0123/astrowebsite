@@ -48,32 +48,19 @@ const AIChatBot = () => {
 
   const bottomRef = useRef();
 
-  // AIChatBot.jsx के अंदर, सभी useState के नीचे यह function डालें
-  // const formatMarkdownText = (text) => {
-  //   if (!text) return text;
 
-  //   let formatted = text
-  //     // 1. Numbered List (1., 2., 3.) से पहले newline डालें
-  //     .replace(/(\d+\.\s+)/g, "\n$1")
-  //     // 2. Bullet List (*, -) से पहले newline डालें (अगर भविष्य में आए)
-  //     .replace(/(\*\s+)/g, "\n$1")
-  //     // 3. अगर 3 से ज्यादा newline आ जाएं तो उन्हें 2 में बदल दें (साफ-सफाई)
-  //     .replace(/\n{3,}/g, "\n\n");
-
-  //   return formatted.trimStart();
-  // };
 
   const formatMarkdownText = (text) => {
-  if (!text) return text;
+    if (!text) return text;
 
-  let formatted = text
-    .replace(/(\d+\.\s+)/g, "\n$1")     // Numbered List: 1., 2.
-    .replace(/(\*\s+)/g, "\n$1")        // Bullet: * 
-    .replace(/(-\s+)/g, "\n$1")         // 🟢 नया – Bullet: - 
-    .replace(/\n{3,}/g, "\n\n");        // Extra newlines clean
+    let formatted = text
+      .replace(/(\d+\.\s+)/g, "\n$1") // Numbered List: 1., 2.
+      .replace(/(\*\s+)/g, "\n$1") // Bullet: *
+      .replace(/(-\s+)/g, "\n$1") //  new – Bullet: -
+      .replace(/\n{3,}/g, "\n\n"); // Extra newlines clean
 
-  return formatted.trimStart();
-};
+    return formatted.trimStart();
+  };
 
   useEffect(() => {
     if (expertiseSlug && astrologerSlug) {
@@ -124,7 +111,7 @@ const AIChatBot = () => {
       if (
         errData?.type === "wallet_error" ||
         errData?.type === "insufficient_balance" ||
-        errData?.type === "free_limit_exceeded" 
+        errData?.type === "free_limit_exceeded"
       ) {
         setShowRechargeModal(true);
       } else {
@@ -140,6 +127,8 @@ const AIChatBot = () => {
     setInput("");
     try {
       await dispatch(sendChatMessage({ sessionId, message })).unwrap();
+      // Refresh wallet balance after successful message
+    dispatch(fetchWalletDetails());
       setShowRechargeModal(false);
     } catch (err) {
       const errData = err;
@@ -318,7 +307,7 @@ const AIChatBot = () => {
                       <Markdown
                         remarkPlugins={[remarkGfm]}
                         components={{
-                          // 🟢 Ordered List (Numbered) को सुंदर बनाएँ
+                          //  Ordered List (Numbered) को सुंदर बनाएँ
                           ol: ({ node, children, ...props }) => (
                             <ol
                               className="list-decimal pl-5 my-2 space-y-1"
@@ -327,22 +316,28 @@ const AIChatBot = () => {
                               {children}
                             </ol>
                           ),
-                          // 🟢 Unordered List (Bullet) को सुंदर बनाएँ
+                          //  Unordered List (Bullet) को सुंदर बनाएँ
                           ul: ({ node, children, ...props }) => (
                             <ul
-                              className="list-disc pl-5 my-2 space-y-1"
+                              className="list-none pl-0 my-2 space-y-1"
                               {...props}
                             >
                               {children}
                             </ul>
                           ),
-                          // 🟢 List Items को थोड़ा Padding दें
+                          //  List Items को थोड़ा Padding दें
                           li: ({ node, children, ...props }) => (
-                            <li className="text-sm text-gray-800" {...props}>
-                              {children}
+                            <li
+                              className="flex items-start gap-2 text-sm text-gray-800"
+                              {...props}
+                            >
+                              <span className="text-amber-500 text-base flex-shrink-0">
+                                ✦
+                              </span>
+                              <span>{children}</span>
                             </li>
                           ),
-                          // 🟢 Bold Text को Highlight करें
+                          //  Bold Text को Highlight करें
                           strong: ({ node, children, ...props }) => (
                             <strong
                               className="font-bold text-amber-700"
@@ -351,13 +346,13 @@ const AIChatBot = () => {
                               {children}
                             </strong>
                           ),
-                          // 🟢 Paragraphs के बीच थोड़ा Gap दें
+                          //  Paragraphs के बीच थोड़ा Gap दें
                           p: ({ node, children, ...props }) => (
                             <p className="mb-2 leading-relaxed" {...props}>
                               {children}
                             </p>
                           ),
-                          // 🔵 Links (पहले से है, वैसा ही रखें)
+                          //  Links (पहले से है, वैसा ही रखें)
                           a: ({ href, children }) => (
                             <a
                               href={href}
@@ -370,9 +365,8 @@ const AIChatBot = () => {
                           ),
                         }}
                       >
-                        {/* 🔥 यहाँ पर `formatMarkdownText` Function Apply करें */}
+                        {/*  `formatMarkdownText` Function Apply here*/}
                         {formatMarkdownText(msg.message)}
-                        
                       </Markdown>
                     </div>
                   </span>
