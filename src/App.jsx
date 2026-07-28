@@ -99,6 +99,7 @@ const App = () => {
   const dispatch = useDispatch();
   const { astrologer } = useSelector((state) => state.astroAuth);
   const { user } = useSelector((state) => state.userAuth);
+  const {rechargeModalOpen} = useSelector((state) => state.ui);
   const [role, setRole] = useState(localStorage.getItem("role_id"));
 
   useEffect(() => {
@@ -215,7 +216,7 @@ const App = () => {
           </Route>
         </Routes>
 
-         <Suspense fallback={null}><GlobalRechargeModal /></Suspense>
+         {rechargeModalOpen && <Suspense fallback={null}><GlobalRechargeModal /></Suspense>}
       </Suspense>
     </>
   );
