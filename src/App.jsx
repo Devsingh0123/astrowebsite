@@ -18,6 +18,7 @@ import { userProfile } from "./redux/slice/UserAuth";
 // import Mundan from "./pages/FooterMahurat/Mundan";
 import GoogleTagManager from "./components/common/GoogleTagManager";
 import Loader from "./components/common/Loader";
+import ContactUsPage from "./pages/legal/ContactUsPage";
 // import AuthHOC from "@/components/Home/AuthHOC";
 // import AIChatBot from "@/components/AIChatBot/AIChatBot";
 // import AllAiAstrologers from "./components/AIChatBot/AllAiAstrologers";
@@ -60,6 +61,7 @@ const ServiceDetail = lazy(() => import("./pages/ServiceDetail"));
 
 // all policies are lazy loaded
 const DisclaimerPage = lazy(() => import("./pages/legal/DisclaimerPage"));
+const ContactUsPage = lazy(() => import("./pages/legal/ContactUsPage"));
 const PrivacyPolicyPage = lazy(() => import("./pages/legal/PrivacyPolicyPage"));
 const RefundPolicyPage = lazy(() => import("./pages/legal/RefundPolicyPage"));
 const ShippingPolicyPage = lazy(
@@ -168,6 +170,7 @@ const App = () => {
             />
 
             {/* all policies are here */}
+            <Route path="/contact-information" element={<ContactUsPage />} />
             <Route path="/refund-policy" element={<RefundPolicyPage />} />
             <Route path="/shipping-policy" element={<ShippingPolicyPage />} />
             <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
