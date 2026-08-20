@@ -3,8 +3,9 @@ import { useNavigate } from "react-router-dom";
 import {
   ArrowUpRight,
   Check,
+  MoveRight,
 } from "lucide-react";
-import { GiStarShuriken } from "react-icons/gi";
+
 
 import HeroTaramandal from "./HeroTaramandal";
 
@@ -100,11 +101,11 @@ const Banner = () => {
               onClick={() => navigate("/chat/all-ai-astrologer")}
               className="group mt-9 inline-flex cursor-pointer items-center gap-3 rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 px-6 py-3.5 text-sm font-semibold text-gray-900 shadow-[0_8px_25px_rgba(245,158,11,0.18)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_12px_30px_rgba(245,158,11,0.25)] active:scale-[0.98] sm:px-7 sm:py-4 sm:text-base"
             >
-              
+
 
               <span>Start Free Chat</span>
 
-              <ArrowUpRight
+              <MoveRight
                 className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
                 strokeWidth={2}
               />

@@ -18,7 +18,7 @@ import { userProfile } from "./redux/slice/UserAuth";
 // import Mundan from "./pages/FooterMahurat/Mundan";
 import GoogleTagManager from "./components/common/GoogleTagManager";
 import Loader from "./components/common/Loader";
-import ContactUsPage from "./pages/legal/ContactUsPage";
+
 // import AuthHOC from "@/components/Home/AuthHOC";
 // import AIChatBot from "@/components/AIChatBot/AIChatBot";
 // import AllAiAstrologers from "./components/AIChatBot/AllAiAstrologers";
@@ -100,7 +100,7 @@ const GlobalRechargeModal = lazy(() => import("./components/recharge/GlobalRecha
 const App = () => {
   const path = useLocation().pathname;
   const dispatch = useDispatch();
-  const { astrologer,isAuthenticated } = useSelector((state) => state.astroAuth);
+  const { astrologer, isAuthenticated } = useSelector((state) => state.astroAuth);
   const { user, isLoggedIn } = useSelector((state) => state.userAuth);
   const [role, setRole] = useState(localStorage.getItem("role_id"));
 
@@ -110,16 +110,16 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    if (role == 2 && !astrologer && isAuthenticated ) {
-       console.log("🚀 Dispatching astroProfile! in app");
+    if (role == 2 && !astrologer && isAuthenticated) {
+      console.log("🚀 Dispatching astroProfile! in app");
       dispatch(AstrologerProfile());
     }
 
     if (role == 3 && !user && isLoggedIn) {
-       console.log("🚀 Dispatching userProfile! in app");
+      console.log("🚀 Dispatching userProfile! in app");
       dispatch(userProfile());
     }
-  }, [dispatch, role, astrologer, user,isAuthenticated, isLoggedIn]);
+  }, [dispatch, role, astrologer, user, isAuthenticated, isLoggedIn]);
 
   // useEffect(() => {
   //   window.scrollTo(0, 0);
@@ -140,7 +140,7 @@ const App = () => {
 
   return (
     <>
-      <Suspense  fallback={<div className="text-center py-10">Loading...</div>}>
+      <Suspense fallback={<div className="text-center py-10">Loading...</div>}>
         <GoogleTagManager />
         <Routes>
           <Route path="/" element={<Layout />}>
@@ -210,10 +210,10 @@ const App = () => {
           {/* chatboat  */}
           <Route
             path="/ai-chat/:astrologerSlug/:expertiseSlug?" element={
-            <Suspense fallback={<Loader message="Loading Chat..."/>}>
-              <AIChatBot />
-            </Suspense>
-          } />
+              <Suspense fallback={<Loader message="Loading Chat..." />}>
+                <AIChatBot />
+              </Suspense>
+            } />
 
           {/* Dashboard starts from here */}
           <Route path="/dashboard" element={<AstroLayout />}>
@@ -228,7 +228,7 @@ const App = () => {
         </Routes>
 
       </Suspense>
-         <Suspense fallback={null}><GlobalRechargeModal /></Suspense>
+      <Suspense fallback={null}><GlobalRechargeModal /></Suspense>
     </>
   );
 };
