@@ -12,12 +12,12 @@ import { useDispatch, useSelector } from "react-redux";
 
 const Banner = () => {
   const navigate = useNavigate();
-   const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const { allAiAstrologers, isFetchingAllAiAstrologers } = useSelector(
     (state) => state.aiChat,
   );
 
-  const allAiAstrologersSlice =allAiAstrologers?.slice(0,3);
+  const allAiAstrologersSlice = allAiAstrologers?.slice(0, 3);
 
   const wheelContainerRef = useRef(null);
   const [wheelSize, setWheelSize] = useState(400);
@@ -64,36 +64,38 @@ const Banner = () => {
         <div className="flex flex-col items-center md:flex-row md:gap-8 lg:gap-12">
 
           {/* ================= LEFT ================= */}
-          <div className="w-full md:w-1/2">
+          <div className="relative w-full md:w-1/2 flex flex-col items-start z-10">
+            {/* Soft decorative background glow */}
+            <div className="absolute -left-16 -top-16 -z-10 h-72 w-72 rounded-full bg-amber-100/30 blur-3xl sm:h-96 sm:w-96 pointer-events-none"></div>
 
-  <div className="inline-flex items-center gap-3 px-3 py-1.5 rounded-full border border-gray-200 w-fit mb-4">
-      
-      {/* 1. Pulse Active Dot */}
-      <div className="relative flex h-2 w-2">
-        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-        <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-      </div>
+            {/* Active Status Badge */}
+            <div className="inline-flex items-center gap-3 px-3.5 py-2 rounded-full border border-gray-200/80 bg-white/80 backdrop-blur-md w-fit mb-5 shadow-[0_2px_8px_rgba(0,0,0,0.02)] transition-all hover:border-amber-200">
+              {/* 1. Pulse Active Dot */}
+              <div className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+              </div>
 
-      {/* 2. Status Text */}
-      <span className="text-gray-600 text-sm font-light tracking-wide">
-        AI Astrologers 
-      </span>
+              {/* 2. Status Text */}
+              <span className="text-gray-700 text-xs sm:text-sm font-medium tracking-wide">
+                AI Astrologers 
+              </span>
 
-      {/* 3. Overlapping Avatars Stack */}
-      <div className="flex items-center -space-x-1.5 ml-1">
-        {allAiAstrologersSlice?.map((astro, i) => (
-          <img
-            key={i}
-            src={astro.image}
-            alt="Astrologer profile"
-            className="w-5 h-5 sm:w-6 sm:h-6 rounded-full object-cover border border-white ring-1 ring-gray-100 shadow-sm"
-          />
-        ))}
-      </div>
+              {/* 3. Overlapping Avatars Stack */}
+              <div className="flex items-center -space-x-1.5 ml-1">
+                {allAiAstrologersSlice?.map((astro, i) => (
+                  <img
+                    key={i}
+                    src={astro.image}
+                    alt="Astrologer profile"
+                    className="w-5.5 h-5.5 sm:w-6.5 sm:h-6.5 rounded-full object-cover border-2 border-white shadow-sm ring-1 ring-gray-100"
+                  />
+                ))}
+              </div>
+            </div>
 
-    </div>
             {/* Heading */}
-            <h1 className="max-w-xl text-4xl font-extrabold leading-[1.08] tracking-[-0.03em] text-gray-900 sm:text-5xl md:text-4xl lg:text-5xl xl:text-6xl">
+            <h1 className="max-w-xl text-4xl font-extrabold leading-[1.1] tracking-[-0.03em] text-gray-900 sm:text-5xl md:text-4.5xl lg:text-5xl xl:text-6.5xl">
               ASK. DISCOVER.{" "}
               <span className="bg-gradient-to-r from-amber-500 via-amber-600 to-orange-500 bg-clip-text text-transparent">
                 UNDERSTAND.
@@ -101,13 +103,12 @@ const Banner = () => {
             </h1>
 
             {/* Subtitle */}
-            <p className="mt-4 text-sm font-medium uppercase tracking-[0.22em] text-gray-400 sm:text-base">
+            <p className="mt-4 text-xs font-semibold uppercase tracking-[0.25em] bg-gradient-to-r from-amber-600 to-orange-500 bg-clip-text text-transparent sm:text-sm">
               AI Astrology Chat
             </p>
 
             {/* Features */}
-            <div className="mt-8 grid grid-cols-1 gap-y-4 sm:grid-cols-2 sm:gap-x-6">
-
+            <div className="mt-8 grid grid-cols-2 gap-y-4 sm:grid-cols-2 sm:gap-x-6 w-full max-w-lg">
               {features.map((feature) => (
                 <div
                   key={feature}
