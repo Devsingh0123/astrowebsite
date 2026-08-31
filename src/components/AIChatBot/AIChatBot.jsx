@@ -4,11 +4,14 @@ import { Link, useNavigate, useLocation, useParams } from "react-router-dom";
 import logo from "@/assets/logo.png";
 import {
   startSession,
+  startChat,
   sendChatMessage,
   closeSession,
   addUserMessageLocally,
   fetchChatHistory,
   fetchAiAstrologerDetails,
+  fetchAstrologerQuestions,
+  clearAstrologerQuestions,
 } from "@/redux/slice/aiChatSlice";
 // import { api } from "@/redux/baseApi";
 import { toast } from "react-toastify";
@@ -31,13 +34,14 @@ const AIChatBot = () => {
 
   const {
     sessionId,
-    sessionQuestions,
+    astrologerQuestions,
+    isFetchingAstrologerQuestions,
     messages,
     isLoading,
     isStartingSession,
     astrologerDetails,
     followUpQuestions,
-
+chatBilling,
     error,
   } = useSelector((state) => state.aiChat);
   const { details: walletDetails } = useSelector((state) => state.wallet);
@@ -51,6 +55,8 @@ const AIChatBot = () => {
   const [showCustomInput, setShowCustomInput] = useState(false);
   const [showRechargeModal, setShowRechargeModal] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
+  const [elapsedSeconds, setElapsedSeconds] = useState(0);
+  const [chatEnded, setChatEnded] = useState(false);
 
   const bottomRef = useRef();
 
@@ -62,7 +68,7 @@ const AIChatBot = () => {
   }, [isLoggedIn]);
 
   useEffect(() => {
-    if (isLoggedIn  && expertiseSlug && astrologerSlug) {
+    if (isLoggedIn  && expertiseSlug && astrologerSlug && !sessionId  &&  !chatEnded) {
       dispatch(
         startSession({
           astrologerSlug: astrologerSlug,
@@ -70,7 +76,7 @@ const AIChatBot = () => {
         }),
       );
     }
-  }, [dispatch, expertiseSlug, astrologerSlug, isLoggedIn, sessionId]);
+  }, [dispatch, expertiseSlug, astrologerSlug, isLoggedIn, sessionId, chatEnded]);
 
   // Get astrologer details (will remain visible even after refreshing)
   useEffect(() => {
@@ -79,12 +85,67 @@ const AIChatBot = () => {
     }
   }, [astrologerSlug, dispatch]);
 
-  //  Fetch the history once the sessionId is received.
+  // Fetch astrologer questions separately
   useEffect(() => {
-    if (sessionId) {
-      dispatch(fetchChatHistory(sessionId));
+    if (astrologerSlug && expertiseSlug) {
+      dispatch(fetchAstrologerQuestions({ astrologerSlug, expertiseSlug }));
     }
-  }, [sessionId, dispatch]);
+    return () => {
+      dispatch(clearAstrologerQuestions());
+    };
+  }, [astrologerSlug, expertiseSlug, dispatch]);
+
+  //  Fetch the history once the sessionId is received.
+  // useEffect(() => {
+  //   if (sessionId) {
+  //     dispatch(fetchChatHistory(sessionId));
+  //   }
+  // }, [sessionId, dispatch]);
+
+  useEffect(() => {
+  if (sessionId) {
+    dispatch(fetchChatHistory(sessionId));
+
+    dispatch(startChat(sessionId))
+      .unwrap()
+      .then((response) => {
+        console.log("START CHAT SUCCESS:", response);
+      })
+      .catch((error) => {
+        console.error("START CHAT FAILED:", error);
+      });
+  }
+}, [sessionId, dispatch]);
+
+useEffect(() => {
+  if (!chatBilling?.isChatActive || !chatBilling?.chatActiveSince) {
+    return;
+  }
+
+  const startTime = new Date(
+    chatBilling.chatActiveSince
+  ).getTime();
+
+  const updateTimer = () => {
+    const now = Date.now();
+
+    const difference = Math.floor(
+      (now - startTime) / 1000
+    );
+
+    setElapsedSeconds(Math.max(0, difference));
+  };
+
+  // Immediately calculate
+  updateTimer();
+
+  const interval = setInterval(updateTimer, 1000);
+
+  return () => clearInterval(interval);
+}, [
+  chatBilling?.isChatActive,
+  chatBilling?.chatActiveSince,
+]);
 
   // Auto-scroll
   useEffect(() => {
@@ -157,13 +218,38 @@ const AIChatBot = () => {
     if (sessionId) {
       try {
         await dispatch(closeSession(sessionId)).unwrap();
+        setChatEnded(true);
+    setElapsedSeconds(0);
+
+    toast.success("Chat ended successfully");
       } catch (err) {
-        console.error("Close session error:", err);
+         toast.error(err || "Something went wrong")
+        console.log("Close session error:::::::::::::::::::::::::::::::::::::::::::::::::::", err);
       }
     }
   };
 
   
+
+  const formatTime = (totalSeconds) => {
+  const hours = Math.floor(totalSeconds / 3600);
+
+  const minutes = Math.floor(
+    (totalSeconds % 3600) / 60,
+  );
+
+  const seconds = totalSeconds % 60;
+
+  if (hours > 0) {
+    return `${String(hours).padStart(2, "0")}:${String(
+      minutes,
+    ).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+  }
+
+  return `${String(minutes).padStart(2, "0")}:${String(
+    seconds,
+  ).padStart(2, "0")}`;
+};
 
   // console.log(sessionQuestions);
 
@@ -224,10 +310,12 @@ const AIChatBot = () => {
                     className="h-8 sm:h-10 w-auto max-w-[100px] sm:max-w-[150px] object-contain"
                   />
                 </Link>
+
                 {astrologerDetails?.name && (
                   <div className="flex items-center gap-1 text-[9px] pl-1">
                     <span className="w-1 h-1 bg-green-500 rounded-full inline-block animate-pulse"></span>
                     <span className="text-green-600 font-medium">Online</span>
+                    <span className="text-green-600 font-medium">⏱ {formatTime(elapsedSeconds)}</span>
                     <span className="text-gray-600 font-medium ml-1">
                       • {astrologerDetails.name}
                     </span>
@@ -248,12 +336,12 @@ const AIChatBot = () => {
             </div>
 
             {sessionId && (
-              <div className="flex-shrink-0 hidden">
+              <div className="flex-shrink-0 ">
                 <button
                   onClick={handleManualCloseSession}
                   className="p-1.5 sm:p-2 rounded-lg text-xs font-medium bg-red-100 text-red-600 hover:bg-red-200 "
                 >
-                  ❌ Close Session
+                  ❌ End Chat
                 </button>
               </div>
             )}
@@ -262,12 +350,12 @@ const AIChatBot = () => {
           <div className="flex-1 mt-2 flex flex-col overflow-y-auto">
             {/* Question chips */}
             <div className="grid grid-cols-1 md:grid-cols-2  gap-2 px-4 sm:px-10">
-              {isStartingSession ? (
+              {isFetchingAstrologerQuestions ? (
                 <span className="text-xs text-gray-400 col-span-full text-center">
                   Loading questions...
                 </span>
-              ) : sessionQuestions?.length > 0 ? (
-                sessionQuestions?.map((q, idx) => (
+              ) : astrologerQuestions?.questions?.length > 0 ? (
+                astrologerQuestions?.questions?.map((q, idx) => (
                   <button
                     key={q.id ?? idx}
                     onClick={() =>

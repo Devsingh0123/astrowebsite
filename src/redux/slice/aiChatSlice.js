@@ -62,20 +62,51 @@ export const startSession = createAsyncThunk(
         astrologer_slug: astrologerSlug,
         expertise_slug: expertiseSlug,
       });
-      //  console.log("FULL SESSION RESPONSE:", response.data);
       const sessionId = response.data?.session_id || response.data?.data?.id;
-      const questions =
-        response.data?.data?.questions || response.data?.questions || [];
-
       if (!sessionId) throw new Error("No session ID returned");
-      //  console.log("SESSION ID:", sessionId);
-      // console.log("QUESTIONS:", questions);
-      return { sessionId, questions };
+      return sessionId;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
     }
   },
 );
+
+export const closeSession = createAsyncThunk(
+  "aiChat/closeSession",
+  async (sessionId, { rejectWithValue }) => {
+    try {
+      await api.post(`/user/ai-chat/stop-chat/${sessionId}`);
+      return sessionId;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to close session",
+      );
+    }
+  },
+);
+
+
+export const startChat = createAsyncThunk(
+  "aiChat/startChat",
+  async (sessionId, { rejectWithValue }) => {
+    try {
+      const response = await api.post(
+        `/user/ai-chat/start-chat/${sessionId}`,
+      );
+
+      console.log("START CHAT RESPONSE:", response.data);
+
+      return response.data;
+    } catch (error) {
+      console.error("START CHAT ERROR:", error.response?.data);
+
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to start chat",
+      );
+    }
+  },
+);
+
 
 export const sendChatMessage = createAsyncThunk(
   "aiChat/sendMessage",
@@ -112,19 +143,7 @@ export const fetchChatHistory = createAsyncThunk(
   },
 );
 
-export const closeSession = createAsyncThunk(
-  "aiChat/closeSession",
-  async (sessionId, { rejectWithValue }) => {
-    try {
-      await api.post(`/user/ai-chat/close-session/${sessionId}`);
-      return sessionId;
-    } catch (error) {
-      return rejectWithValue(
-        error.response?.data?.message || "Failed to close session",
-      );
-    }
-  },
-);
+
 // ---------- Initial State ----------
 const initialState = {
   allAiAstrologers: null,
@@ -141,11 +160,17 @@ const initialState = {
   messages: [],
   isLoading: false,
   isStartingSession: false,
-  sessionQuestions: [],
   followUpQuestions: [], 
 
   isHistoryLoading: false,
   chatHistory:{},
+
+  chatBilling: {
+  chatActiveSince: null,
+  freeMinutes: 0,
+  pricePerMinute: 0,
+  isChatActive: false,
+},
 
   error: null,
 };
@@ -214,19 +239,15 @@ const aiChatSlice = createSlice({
       // start session
       .addCase(startSession.pending, (state) => {
         state.isStartingSession = true;
-       
         state.messages = []; // clear old messages
-        state.sessionQuestions = []; // clear old questions
       })
       .addCase(startSession.fulfilled, (state, action) => {
         state.isStartingSession = false;
-        state.sessionId = action.payload.sessionId;
-        state.sessionQuestions = action.payload.questions; // store questions
+        state.sessionId = action.payload;
       })
       .addCase(startSession.rejected, (state, action) => {
         state.isStartingSession = false;
         state.sessionId = null;
-        state.sessionQuestions = [];
       })
       .addCase(sendChatMessage.pending, (state) => {
         state.isLoading = true;
@@ -254,14 +275,13 @@ const aiChatSlice = createSlice({
         state.followUpQuestions = [];
         state.messages.push({
           sender: "assistant",
-          message: "Sorry, something went wrong. Please try again.",
+          message: action.payload?.message || "Sorry, something went wrong. Please try again.",
         });
       })
-      // close sessiom
+      // close session
       .addCase(closeSession.fulfilled, (state) => {
         state.sessionId = null;
         state.messages = [];
-        state.sessionQuestions = [];
       })
       .addCase(closeSession.rejected, (state, action) => {
         console.error("Close session error:", action.payload);
@@ -284,7 +304,32 @@ const aiChatSlice = createSlice({
       .addCase(fetchChatHistory.rejected, (state, action) => {
         state.isHistoryLoading = false;
         state.error = action.payload || "Something went wrong";
-      });
+      })
+      // ----- start chat billing -----
+.addCase(startChat.pending, (state) => {
+  state.error = null;
+})
+
+.addCase(startChat.fulfilled, (state, action) => {
+  state.chatBilling.chatActiveSince =
+    action.payload.chat_active_since;
+
+  state.chatBilling.freeMinutes =
+    action.payload.free_minutes;
+
+  state.chatBilling.pricePerMinute =
+    action.payload.price_per_minute;
+
+  state.chatBilling.isChatActive =
+    action.payload.status;
+})
+
+.addCase(startChat.rejected, (state, action) => {
+  state.error =
+    action.payload?.message || "Failed to start chat";
+
+  state.chatBilling.isChatActive = false;
+})
   },
 });
 
