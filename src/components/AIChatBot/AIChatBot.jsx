@@ -15,7 +15,7 @@ import {
 } from "@/redux/slice/aiChatSlice";
 // import { api } from "@/redux/baseApi";
 import { toast } from "react-toastify";
-import { ChevronLeft, Plus, SendHorizontal, Wallet, X } from "lucide-react";
+import { ChevronLeft, Plus, SendHorizontal, Wallet, X, Timer } from "lucide-react";
 import { fetchWalletDetails } from "@/redux/slice/walletSlice";
 import { openRechargeModal } from "@/redux/slice/uiSlice";
 import MarkdownRenderer from "./MarkdownRenderer";
@@ -30,7 +30,7 @@ const AIChatBot = () => {
   const dispatch = useDispatch();
 
   const { astrologerSlug, expertiseSlug } = useParams();
-  const { isLoggedIn } = useSelector((state) => state.userAuth); 
+  const { isLoggedIn } = useSelector((state) => state.userAuth);
 
   const {
     sessionId,
@@ -41,7 +41,8 @@ const AIChatBot = () => {
     isStartingSession,
     astrologerDetails,
     followUpQuestions,
-chatBilling,
+    chatBilling,
+    chatFreeUsed,
     error,
   } = useSelector((state) => state.aiChat);
   const { details: walletDetails } = useSelector((state) => state.wallet);
@@ -56,7 +57,6 @@ chatBilling,
   const [showRechargeModal, setShowRechargeModal] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
-  const [chatEnded, setChatEnded] = useState(false);
 
   const bottomRef = useRef();
 
@@ -67,16 +67,46 @@ chatBilling,
     }
   }, [isLoggedIn]);
 
+  // Navigation guard when chat is active
   useEffect(() => {
-    if (isLoggedIn  && expertiseSlug && astrologerSlug && !sessionId  &&  !chatEnded) {
-      dispatch(
-        startSession({
-          astrologerSlug: astrologerSlug,
-          expertiseSlug: expertiseSlug,
-        }),
-      );
+    const handleBeforeUnload = (e) => {
+      if (chatBilling?.isChatActive && sessionId) {
+        dispatch(closeSession(sessionId));
+        e.preventDefault();
+        e.returnValue = "";
+        return "";
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [chatBilling?.isChatActive, sessionId, dispatch]);
+
+  // Close session on unmount when chat is active
+  useEffect(() => {
+    return () => {
+      if (chatBilling?.isChatActive && sessionId) {
+        dispatch(closeSession(sessionId));
+      }
+    };
+  }, [chatBilling?.isChatActive, sessionId, dispatch]);
+
+  // Refresh wallet balance periodically when chat is active
+  useEffect(() => {
+    if (!chatBilling?.isChatActive) {
+      return;
     }
-  }, [dispatch, expertiseSlug, astrologerSlug, isLoggedIn, sessionId, chatEnded]);
+
+    const interval = setInterval(() => {
+      dispatch(fetchWalletDetails());
+    }, 30000); // Refresh every 30 seconds
+
+    return () => clearInterval(interval);
+  }, [chatBilling?.isChatActive, dispatch]);
+
 
   // Get astrologer details (will remain visible even after refreshing)
   useEffect(() => {
@@ -95,57 +125,58 @@ chatBilling,
     };
   }, [astrologerSlug, expertiseSlug, dispatch]);
 
-  //  Fetch the history once the sessionId is received.
-  // useEffect(() => {
-  //   if (sessionId) {
-  //     dispatch(fetchChatHistory(sessionId));
-  //   }
-  // }, [sessionId, dispatch]);
 
   useEffect(() => {
-  if (sessionId) {
-    dispatch(fetchChatHistory(sessionId));
-
-    dispatch(startChat(sessionId))
-      .unwrap()
-      .then((response) => {
-        console.log("START CHAT SUCCESS:", response);
-      })
-      .catch((error) => {
-        console.error("START CHAT FAILED:", error);
-      });
+  if (isLoggedIn && astrologerSlug && expertiseSlug) {
+    dispatch(
+    startSession({
+      astrologerSlug,
+      expertiseSlug,
+    }),
+  )
   }
-}, [sessionId, dispatch]);
+}, []);
+  
 
-useEffect(() => {
-  if (!chatBilling?.isChatActive || !chatBilling?.chatActiveSince) {
-    return;
-  }
+// Fetch the history once the sessionId is received.
+  useEffect(() => {
+    // console.log("sessionId in history effect1", sessionId);
+    if (sessionId) {
+      // console.log("sessionId in history effect2", sessionId);
+      dispatch(fetchChatHistory(sessionId));
+    }
+  }, [sessionId]);
 
-  const startTime = new Date(
-    chatBilling.chatActiveSince
-  ).getTime();
 
-  const updateTimer = () => {
-    const now = Date.now();
+  useEffect(() => {
+    if (!chatBilling?.isChatActive || !chatBilling?.chatActiveSince) {
+      return;
+    }
 
-    const difference = Math.floor(
-      (now - startTime) / 1000
-    );
+    const startTime = new Date(
+      chatBilling.chatActiveSince
+    ).getTime();
 
-    setElapsedSeconds(Math.max(0, difference));
-  };
+    const updateTimer = () => {
+      const now = Date.now();
 
-  // Immediately calculate
-  updateTimer();
+      const difference = Math.floor(
+        (now - startTime) / 1000
+      );
 
-  const interval = setInterval(updateTimer, 1000);
+      setElapsedSeconds(Math.max(0, difference));
+    };
 
-  return () => clearInterval(interval);
-}, [
-  chatBilling?.isChatActive,
-  chatBilling?.chatActiveSince,
-]);
+    // Immediately calculate
+    updateTimer();
+
+    const interval = setInterval(updateTimer, 1000);
+
+    return () => clearInterval(interval);
+  }, [
+    chatBilling?.isChatActive,
+    chatBilling?.chatActiveSince,
+  ]);
 
   // Auto-scroll
   useEffect(() => {
@@ -160,16 +191,40 @@ useEffect(() => {
       setShowLogin(true);
       return;
     }
-    if (!sessionId) {
-      toast.error("No active session. Please wait.");
-      return;
+    
+    let currentSessionId = sessionId;
+    
+    // Create session if not exists
+    if (!currentSessionId) {
+      try {
+        const result = await dispatch(
+          startSession({
+            astrologerSlug: astrologerSlug,
+            expertiseSlug: expertiseSlug,
+          })
+        ).unwrap();
+        currentSessionId = result.sessionId;
+      } catch (err) {
+        toast.error(err || "Failed to start session");
+        return;
+      }
     }
+    
+    // Start chat billing only if free quota is used
+    if (!chatBilling?.isChatActive && chatFreeUsed) {
+      try {
+        await dispatch(startChat(currentSessionId)).unwrap();
+      } catch (err) {
+        toast.error(err || "Failed to start chat");
+        return;
+      }
+    }
+    
     dispatch(addUserMessageLocally(question));
     try {
       await dispatch(
-        sendChatMessage({ sessionId, message: question }),
+        sendChatMessage({ sessionId: currentSessionId, message: question }),
       ).unwrap();
-      dispatch(fetchWalletDetails());
       setShowRechargeModal(false);
     } catch (err) {
       const errData = err;
@@ -191,13 +246,40 @@ useEffect(() => {
       return;
     }
     const message = input.trim();
-    if (!message || !sessionId) return;
+    if (!message) return;
+    
+    let currentSessionId = sessionId;
+    
+    // Create session if not exists
+    if (!currentSessionId) {
+      try {
+        const result = await dispatch(
+          startSession({
+            astrologerSlug: astrologerSlug,
+            expertiseSlug: expertiseSlug,
+          })
+        ).unwrap();
+        currentSessionId = result.sessionId;
+      } catch (err) {
+        toast.error(err || "Failed to start session");
+        return;
+      }
+    }
+    
+    // Start chat billing only if free quota is used
+    if (!chatBilling?.isChatActive && chatFreeUsed) {
+      try {
+        await dispatch(startChat(currentSessionId)).unwrap();
+      } catch (err) {
+        toast.error(err || "Failed to start chat");
+        return;
+      }
+    }
+    
     dispatch(addUserMessageLocally(message));
     setInput("");
     try {
-      await dispatch(sendChatMessage({ sessionId, message })).unwrap();
-      // Refresh wallet balance after successful message
-    dispatch(fetchWalletDetails());
+      await dispatch(sendChatMessage({ sessionId: currentSessionId, message })).unwrap();
       setShowRechargeModal(false);
     } catch (err) {
       const errData = err;
@@ -218,38 +300,37 @@ useEffect(() => {
     if (sessionId) {
       try {
         await dispatch(closeSession(sessionId)).unwrap();
-        setChatEnded(true);
-    setElapsedSeconds(0);
-
-    toast.success("Chat ended successfully");
+        setElapsedSeconds(0);
+dispatch(fetchWalletDetails());
+        toast.success("Chat ended successfully");
       } catch (err) {
-         toast.error(err || "Something went wrong")
+        toast.error(err || "Something went wrong")
         console.log("Close session error:::::::::::::::::::::::::::::::::::::::::::::::::::", err);
       }
     }
   };
 
-  
+
 
   const formatTime = (totalSeconds) => {
-  const hours = Math.floor(totalSeconds / 3600);
+    const hours = Math.floor(totalSeconds / 3600);
 
-  const minutes = Math.floor(
-    (totalSeconds % 3600) / 60,
-  );
+    const minutes = Math.floor(
+      (totalSeconds % 3600) / 60,
+    );
 
-  const seconds = totalSeconds % 60;
+    const seconds = totalSeconds % 60;
 
-  if (hours > 0) {
-    return `${String(hours).padStart(2, "0")}:${String(
-      minutes,
-    ).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
-  }
+    if (hours > 0) {
+      return `${String(hours).padStart(2, "0")}:${String(
+        minutes,
+      ).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+    }
 
-  return `${String(minutes).padStart(2, "0")}:${String(
-    seconds,
-  ).padStart(2, "0")}`;
-};
+    return `${String(minutes).padStart(2, "0")}:${String(
+      seconds,
+    ).padStart(2, "0")}`;
+  };
 
   // console.log(sessionQuestions);
 
@@ -315,7 +396,6 @@ useEffect(() => {
                   <div className="flex items-center gap-1 text-[9px] pl-1">
                     <span className="w-1 h-1 bg-green-500 rounded-full inline-block animate-pulse"></span>
                     <span className="text-green-600 font-medium">Online</span>
-                    <span className="text-green-600 font-medium">⏱ {formatTime(elapsedSeconds)}</span>
                     <span className="text-gray-600 font-medium ml-1">
                       • {astrologerDetails.name}
                     </span>
@@ -324,27 +404,43 @@ useEffect(() => {
               </div>
             </div>
 
+            {/* Center: Timer */}
+            {chatBilling?.chatActiveSince && (
+              <div className="flex-1 flex justify-center">
+                <div className={`flex items-center gap-2 px-2 py-1 rounded-lg shadow-md border ${chatBilling?.isChatActive ? 'bg-white/90 border-amber-300' : 'bg-gray-100 border-gray-300'}`}>
+                  <Timer className={`w-4 h-4 ${chatBilling?.isChatActive ? 'text-amber-600' : 'text-gray-500'}`} />
+                  <span className="text-sm font-bold text-gray-700">
+                    {formatTime(elapsedSeconds)}
+                  </span>
+                  <span className="text-xs text-gray-600 font-medium">
+                    {chatBilling?.isChatActive ? 'Active' : 'Paused'}
+                  </span>
+                </div>
+              </div>
+            )}
+
             {/* Right: Wallet Balance */}
-            <div className="flex-shrink-0">
+            <div className=" flex items-center gap-1">
               <div className="flex items-center gap-1 bg-white/80 px-2 py-1 rounded-lg shadow-sm">
-              <Plus className="w-4 h-4 text-green-600 rounded border bg-amber-200 cursor-pointer" onClick={() => navigate("/dashboard/wallet")}/>
+                <Plus className="w-4 h-4 text-green-600 rounded border bg-amber-200 cursor-pointer" onClick={() => navigate("/dashboard/wallet")} />
                 <Wallet className="w-4 h-4 text-amber-600" />
                 <span className="text-sm font-bold text-gray-800">
                   ₹{walletBalance}
                 </span>
               </div>
+              {chatBilling?.isChatActive && (
+                <div className=" ">
+                  <button
+                    onClick={handleManualCloseSession}
+                    className="px-2 py-1.5 rounded-lg text-xs font-semibold bg-red-100 text-red-600 hover:bg-red-200 cursor-pointer"
+                  >
+                    End Chat
+                  </button>
+                </div>
+              )}
             </div>
 
-            {sessionId && (
-              <div className="flex-shrink-0 ">
-                <button
-                  onClick={handleManualCloseSession}
-                  className="p-1.5 sm:p-2 rounded-lg text-xs font-medium bg-red-100 text-red-600 hover:bg-red-200 "
-                >
-                  ❌ End Chat
-                </button>
-              </div>
-            )}
+
           </div>
 
           <div className="flex-1 mt-2 flex flex-col overflow-y-auto">
@@ -503,7 +599,7 @@ useEffect(() => {
                     disabled={!sessionId || isLoading}
                     className="bg-amber-500 rounded-full p-2 self-end hover:bg-amber-600 disabled:opacity-50 transition cursor-pointer "
                   >
-                    <SendHorizontal strokeWidth={2} className="w-6 h-6 text-gray-700"/>
+                    <SendHorizontal strokeWidth={2} className="w-6 h-6 text-gray-700" />
                   </button>
                 </div>
               )}
@@ -545,7 +641,7 @@ useEffect(() => {
           </a>
         </div>
       </div>
-      
+
       {showLogin && (
         <UserLogin
           defaultOpen={true}

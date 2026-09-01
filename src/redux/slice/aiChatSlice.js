@@ -63,8 +63,9 @@ export const startSession = createAsyncThunk(
         expertise_slug: expertiseSlug,
       });
       const sessionId = response.data?.session_id || response.data?.data?.id;
+      const chatFreeUsed = response?.data?.chat_free_used || response.data?.data?.chat_free_used;
       if (!sessionId) throw new Error("No session ID returned");
-      return sessionId;
+      return { sessionId, chatFreeUsed };
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
     }
@@ -75,7 +76,9 @@ export const closeSession = createAsyncThunk(
   "aiChat/closeSession",
   async (sessionId, { rejectWithValue }) => {
     try {
-      await api.post(`/user/ai-chat/stop-chat/${sessionId}`);
+      const response = await api.post(`/user/ai-chat/stop-chat/${sessionId}`);
+
+      console.log("CLOSE SESSION RESPONSE:", response);
       return sessionId;
     } catch (error) {
       return rejectWithValue(
@@ -121,7 +124,8 @@ export const sendChatMessage = createAsyncThunk(
         response.data?.message ||
         "Sorry, I couldn't reply.";
       const remainingQuestions = response.data?.remaining_questions || [];
-      return { reply, remainingQuestions };
+      const chatFreeUsed = response.data?.chat_free_used || response.data?.data?.chat_free_used;
+      return { reply, remainingQuestions, chatFreeUsed };
     } catch (error) {
       return rejectWithValue(error.response?.data);
     }
@@ -160,7 +164,8 @@ const initialState = {
   messages: [],
   isLoading: false,
   isStartingSession: false,
-  followUpQuestions: [], 
+  followUpQuestions: [],
+  chatFreeUsed: false, 
 
   isHistoryLoading: false,
   chatHistory:{},
@@ -243,7 +248,8 @@ const aiChatSlice = createSlice({
       })
       .addCase(startSession.fulfilled, (state, action) => {
         state.isStartingSession = false;
-        state.sessionId = action.payload;
+        state.sessionId = action.payload.sessionId;
+        state.chatFreeUsed = action.payload.chatFreeUsed;
       })
       .addCase(startSession.rejected, (state, action) => {
         state.isStartingSession = false;
@@ -268,6 +274,10 @@ const aiChatSlice = createSlice({
         ) {
           state. followUpQuestions  = action.payload.remainingQuestions;
         }
+        // Update chatFreeUsed from API response
+        if (action.payload.chatFreeUsed !== undefined) {
+          state.chatFreeUsed = action.payload.chatFreeUsed;
+        }
       })
       .addCase(sendChatMessage.rejected, (state, action) => {
         state.isLoading = false;
@@ -281,7 +291,8 @@ const aiChatSlice = createSlice({
       // close session
       .addCase(closeSession.fulfilled, (state) => {
         state.sessionId = null;
-        state.messages = [];
+        state.chatBilling.isChatActive = false;
+        // Keep chatActiveSince to persist timer for potential resume
       })
       .addCase(closeSession.rejected, (state, action) => {
         console.error("Close session error:", action.payload);
