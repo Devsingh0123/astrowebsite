@@ -25,7 +25,7 @@ import UserLogin from "@/components/UserLogin";
 
 const AIChatBot = () => {
 
-  console.log("chatbotloading..........................................................")
+  console.log("chatbotloading....................")
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -48,9 +48,9 @@ const AIChatBot = () => {
   const { details: walletDetails } = useSelector((state) => state.wallet);
   const walletBalance = walletDetails?.data?.balance || 0;
 
-  console.log("astrologer details", astrologerDetails);
-  console.log("chat messages", messages);
-  console.log("followUpQuestions", followUpQuestions);
+  // console.log("astrologer details", astrologerDetails);
+  // console.log("chat messages", messages);
+  // console.log("followUpQuestions", followUpQuestions);
 
   const [input, setInput] = useState("");
   const [showCustomInput, setShowCustomInput] = useState(false);
@@ -190,7 +190,7 @@ const AIChatBot = () => {
         await dispatch(startChat(currentSessionId)).unwrap();
       } catch (err) {
         const errData = err;
-        console.log("errData", errData);
+        // console.log("errData", errData);
         if (errData?.type == "insufficient_balance") {
           setRechargeMessage(errData?.message);
           setShowRechargeModal(true);
@@ -295,7 +295,7 @@ const AIChatBot = () => {
         toast.success("Chat ended successfully");
       } catch (err) {
         toast.error(err || "Something went wrong")
-        console.log("Close session error:::::::::::::::::::::::::::::::::::::::::::::::::::", err);
+        // console.log("Close session error:", err);
       }
     }
   };
