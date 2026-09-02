@@ -68,33 +68,6 @@ const AIChatBot = () => {
     }
   }, [isLoggedIn]);
 
-  // Navigation guard when chat is active
-  useEffect(() => {
-    const handleBeforeUnload = (e) => {
-      if (chatBilling?.isChatActive && sessionId) {
-        dispatch(closeSession(sessionId));
-        e.preventDefault();
-        e.returnValue = "";
-        return "";
-      }
-    };
-
-    window.addEventListener("beforeunload", handleBeforeUnload);
-
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
-  }, [chatBilling?.isChatActive, sessionId, dispatch]);
-
-  // Close session on unmount when chat is active
-  useEffect(() => {
-    return () => {
-      if (chatBilling?.isChatActive && sessionId) {
-        dispatch(closeSession(sessionId));
-      }
-    };
-  }, [chatBilling?.isChatActive, sessionId, dispatch]);
-
   // Refresh wallet balance periodically when chat is active
   useEffect(() => {
     if (!chatBilling?.isChatActive) {
@@ -284,7 +257,7 @@ const AIChatBot = () => {
       } catch (err) {
         const errData = err;
         if (errData?.type == "insufficient_balance") {
-          setRechargeMessage(errData?.message );
+          setRechargeMessage(errData?.message);
           setShowRechargeModal(true);
           return;
         }
@@ -398,7 +371,10 @@ const AIChatBot = () => {
                 size={24}
                 strokeWidth={2.5}
                 className="text-gray-500 cursor-pointer"
-                onClick={() => navigate(-1)}
+                onClick={() => {
+                  navigate(-1);
+                  handleManualCloseSession();
+                }}
               />
               <div className="flex flex-col items-start">
                 <Link to="/">
