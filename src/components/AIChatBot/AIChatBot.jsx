@@ -52,7 +52,7 @@ const AIChatBot = () => {
   const walletBalance = walletDetails?.data?.balance || 0;
 
   // console.log("astrologer details", astrologerDetails);
-  // console.log("chat messages", messages);
+  console.log("chat messages", messages);
   // console.log("followUpQuestions", followUpQuestions);
 
   const [input, setInput] = useState("");
@@ -369,10 +369,20 @@ const AIChatBot = () => {
   const formatMessageTime = (createdAt) => {
     if (!createdAt) return null;
 
-    return new Intl.DateTimeFormat("en-IN", {
-      hour: "numeric",
-      minute: "2-digit",
-    }).format(new Date(createdAt));
+    // Convert "YYYY-MM-DD HH:MM:SS" to "YYYY-MM-DDTHH:MM:SS" for robust cross-browser parsing
+    const formattedDate = typeof createdAt === "string" ? createdAt.replace(" ", "T") : createdAt;
+
+    try {
+      const date = new Date(formattedDate);
+      if (isNaN(date.getTime())) return null;
+      return new Intl.DateTimeFormat("en-IN", {
+        hour: "numeric",
+        minute: "2-digit",
+      }).format(date);
+    } catch (e) {
+      console.error("Error formatting message time:", e);
+      return null;
+    }
   };
 
   // console.log(sessionQuestions);
