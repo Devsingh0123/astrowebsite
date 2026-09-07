@@ -63,6 +63,31 @@ const AIChatBot = () => {
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
 
   const bottomRef = useRef();
+  const activeChatRef = useRef({ sessionId: null, isActive: false });
+  const isClosingSessionRef = useRef(false);
+
+  useEffect(() => {
+    activeChatRef.current = {
+      sessionId,
+      isActive: Boolean(chatBilling?.isChatActive),
+    };
+
+    if (chatBilling?.isChatActive) {
+      isClosingSessionRef.current = false;
+    }
+  }, [chatBilling?.isChatActive, sessionId]);
+
+  // End an active chat when this route is unmounted (for example, navigating away).
+  useEffect(() => {
+    return () => {
+      const { sessionId: activeSessionId, isActive } = activeChatRef.current;
+
+      if (activeSessionId && isActive && !isClosingSessionRef.current) {
+        isClosingSessionRef.current = true;
+        dispatch(closeSession(activeSessionId));
+      }
+    };
+  }, [dispatch]);
 
   // Show login modal if unauthenticated user tries to access chat
   useEffect(() => {
@@ -136,7 +161,7 @@ const AIChatBot = () => {
         }),
       )
     }
-  }, []);
+  }, [dispatch, expertiseSlug, astrologerSlug, isLoggedIn]);
 
 
   // Fetch the history once the sessionId is received.
@@ -312,11 +337,13 @@ const AIChatBot = () => {
   // Close session
   const handleManualCloseSession = async () => {
     if (sessionId) {
+      isClosingSessionRef.current = true;
       try {
         await dispatch(closeSession(sessionId)).unwrap();
         dispatch(fetchWalletDetails());
         toast.success("Chat ended successfully");
       } catch (err) {
+        isClosingSessionRef.current = false;
         toast.error(err || "Something went wrong")
         // console.log("Close session error:", err);
       }
@@ -342,7 +369,7 @@ const AIChatBot = () => {
   // console.log(sessionQuestions);
 
   return (
-    <div className="flex h-[100dvh] min-h-[100dvh] flex-col overflow-hidden bg-amber-50">
+    <div className="fixed inset-0 flex h-[100dvh] min-h-[100dvh] flex-col overflow-hidden overscroll-contain bg-amber-50">
       <div className="flex h-full w-full min-h-0">
         {/* Left Advertisement */}
         <div className="hidden 2xl:flex 2xl:basis-1/5 2xl:flex-none 2xl:flex-col items-center justify-center gap-4">
@@ -379,9 +406,9 @@ const AIChatBot = () => {
         </div>
 
         {/* Chat Box Container */}
-        <div className="relative mx-auto flex min-w-0 w-full flex-1 flex-col overflow-hidden bg-white shadow-2xl lg:max-w-4xl">
+        <div className="relative mx-auto flex min-w-0 w-full flex-1 flex-col overflow-hidden bg-white pt-16 shadow-2xl lg:max-w-4xl">
           {/* Header */}
-          <div className="sticky top-0 z-30 flex shrink-0 flex-wrap items-center justify-between gap-2 border-b border-amber-300 bg-amber-400 p-2 shadow-sm">
+          <div className="absolute inset-x-0 top-0 z-40 flex h-16 items-center justify-between gap-2 border-b border-amber-300 bg-amber-400 p-2 shadow-sm">
             {/* Left: Back + Logo + Astrologer Info */}
             <div className="flex items-center gap-2 flex-shrink-0">
               <ChevronLeft
