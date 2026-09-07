@@ -341,8 +341,12 @@ const aiChatSlice = createSlice({
         const status = action.payload;
         console.log("Chat status response:", status);
 
-        // Sync chat active state with backend
         state.chatBilling.isChatActive = status.chat_active;
+        // The API provides this only while a chat is active. Preserve the
+        // existing start time when the chat stops so the displayed timer freezes.
+        if (status.chat_active_since) {
+          state.chatBilling.chatActiveSince = status.chat_active_since;
+        }
 
         // If chat is not active, store the end details
         if (!status.chat_active) {
