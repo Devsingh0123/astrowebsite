@@ -16,7 +16,7 @@ import {
 } from "@/redux/slice/aiChatSlice";
 // import { api } from "@/redux/baseApi";
 import { toast } from "react-toastify";
-import { ChevronLeft, Plus, SendHorizontal, Wallet, X, Timer } from "lucide-react";
+import { CheckCheck, ChevronLeft, Plus, SendHorizontal, Wallet, X, Timer } from "lucide-react";
 import { fetchWalletDetails } from "@/redux/slice/walletSlice";
 import { openRechargeModal } from "@/redux/slice/uiSlice";
 import MarkdownRenderer from "./MarkdownRenderer";
@@ -112,7 +112,7 @@ const AIChatBot = () => {
 
   // Poll the active session so billing/end-of-chat updates are reflected promptly.
   useEffect(() => {
-    if (!sessionId) {
+    if (!sessionId || !chatBilling?.isChatActive) {
       return;
     }
 
@@ -122,7 +122,7 @@ const AIChatBot = () => {
     }, 2000);
 
     return () => clearInterval(interval);
-  }, [sessionId, dispatch]);
+  }, [sessionId, chatBilling?.isChatActive, dispatch]);
 
   // Stop timer and show recharge modal when chat is ended by backend
   useEffect(() => {
@@ -366,6 +366,15 @@ const AIChatBot = () => {
     ).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
   };
 
+  const formatMessageTime = (createdAt) => {
+    if (!createdAt) return null;
+
+    return new Intl.DateTimeFormat("en-IN", {
+      hour: "numeric",
+      minute: "2-digit",
+    }).format(new Date(createdAt));
+  };
+
   // console.log(sessionQuestions);
 
   return (
@@ -516,9 +525,22 @@ const AIChatBot = () => {
                 <div key={idx} className={`flex w-full mb-4 ${msg.sender === "user" ? "justify-end " : "justify-start"}`}>
                   <div className={`max-w-[90%] md:max-w-[80%] px-5 py-2 rounded-2xl ${msg.sender === "user" ? "bg-amber-400 text-gray-800 rounded-br-none shadow-sm mr-1 sm:mr-0" : "bg-white shadow-sm border border-gray-100 rounded-bl-sm"}`}>
                     {msg.sender === "user" ? (
-                      <div className="text-sm text whitespace-pre-wrap leading-relaxed">{msg.message}</div>
+                      <div>
+                        <div className="text-sm text whitespace-pre-wrap leading-relaxed">{msg.message}</div>
+                        <div className="mt-1 flex items-center justify-end gap-1 text-[10px] text-gray-500">
+                          {formatMessageTime(msg.created_at)}
+                          <CheckCheck className="h-3.5 w-3.5 text-blue-600" strokeWidth={2.5} aria-label="Message sent" />
+                        </div>
+                      </div>
                     ) : (
-                      <MarkdownRenderer content={msg.message} />
+                      <div>
+                        <MarkdownRenderer content={msg.message} />
+                        {formatMessageTime(msg.created_at) && (
+                          <div className="mt-1 text-right text-[10px] text-gray-400">
+                            {formatMessageTime(msg.created_at)}
+                          </div>
+                        )}
+                      </div>
                     )}
                   </div>
                 </div>
