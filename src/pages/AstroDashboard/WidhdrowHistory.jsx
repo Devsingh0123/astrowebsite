@@ -10,6 +10,8 @@ import {
   XCircle,
   Clock,
   ArrowUpRight,
+  ChevronLeft,
+  ChevronRight,
   X,
 } from "lucide-react";
 import {
@@ -23,13 +25,13 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+// import {
+//   Select,
+//   SelectContent,
+//   SelectItem,
+//   SelectTrigger,
+//   SelectValue,
+// } from "@/components/ui/select";
 import {
   Dialog,
   DialogContent,
@@ -41,100 +43,7 @@ import { fetchRechargeHistory } from "@/redux/slice/walletSlice";
 import { cn } from "@/lib/utils";
 import { useDispatch, useSelector } from "react-redux";
 
-// Sample withdraw history data
-const withdrawalData = [
-  {
-    id: "WD001",
-    amount: 5000,
-    status: "completed",
-    date: "2026-01-25",
-    time: "10:30 AM",
-    method: "Bank Transfer",
-    accountNumber: "****1234",
-    bankName: "HDFC Bank",
-    ifsc: "HDFC0001234",
-    transactionId: "TXN123456789",
-    processingTime: "2 hours",
-    fees: 50,
-    netAmount: 4950,
-  },
-  {
-    id: "WD002",
-    amount: 3500,
-    status: "pending",
-    date: "2026-01-26",
-    time: "02:15 PM",
-    method: "UPI",
-    accountNumber: "user@upi",
-    bankName: "PhonePe",
-    ifsc: "-",
-    transactionId: "Pending",
-    processingTime: "In Progress",
-    fees: 35,
-    netAmount: 3465,
-  },
-  {
-    id: "WD003",
-    amount: 7500,
-    status: "completed",
-    date: "2026-01-20",
-    time: "11:45 AM",
-    method: "Bank Transfer",
-    accountNumber: "****5678",
-    bankName: "SBI",
-    ifsc: "SBIN0005678",
-    transactionId: "TXN987654321",
-    processingTime: "3 hours",
-    fees: 75,
-    netAmount: 7425,
-  },
-  {
-    id: "WD004",
-    amount: 2000,
-    status: "rejected",
-    date: "2026-01-18",
-    time: "04:00 PM",
-    method: "UPI",
-    accountNumber: "user@upi",
-    bankName: "Google Pay",
-    ifsc: "-",
-    transactionId: "-",
-    processingTime: "1 hour",
-    fees: 0,
-    netAmount: 0,
-    rejectionReason: "Insufficient balance in admin account",
-  },
-  {
-    id: "WD005",
-    amount: 10000,
-    status: "completed",
-    date: "2026-01-15",
-    time: "09:20 AM",
-    method: "Bank Transfer",
-    accountNumber: "****9012",
-    bankName: "ICICI Bank",
-    ifsc: "ICIC0009012",
-    transactionId: "TXN456789123",
-    processingTime: "4 hours",
-    fees: 100,
-    netAmount: 9900,
-  },
-  {
-    id: "WD006",
-    amount: 4200,
-    status: "pending",
-    date: "2026-01-27",
-    time: "03:30 PM",
-    method: "Bank Transfer",
-    accountNumber: "****3456",
-    bankName: "Axis Bank",
-    ifsc: "UTIB0003456",
-    transactionId: "Pending",
-    processingTime: "In Progress",
-    fees: 42,
-    netAmount: 4158,
-  },
-];
+
 
 const StatusBadge = ({ status }) => {
   const statusConfig = {
@@ -175,86 +84,62 @@ const TransactionDetailModal = ({ transaction, open, onClose }) => {
             Transaction Details
           </DialogTitle>
           <DialogDescription>
-            Complete information about withdrawal #{transaction.id}
+            Complete information about recharge #{transaction.id}
           </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-6 mt-4">
-          {/* Status Section */}
-          <div className="bg-slate-50 rounded-lg p-4 border border-slate-200">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-slate-600 mb-1">Current Status</p>
-                <StatusBadge status={transaction.status} />
-              </div>
-              <div className="text-right">
-                <p className="text-sm text-slate-600 mb-1">Transaction ID</p>
-                <p className="font-mono font-semibold text-slate-800">
+          <div className="bg-slate-50 rounded-lg p-4 border border-slate-200 flex justify-between">
+{/* recharge id */}
+            <Card className="border-primary/20 p-2">
+              <CardContent >
+                <p className="text-sm text-slate-600 mb-1">Recharge ID</p>
+                <p className="text-2xl font-bold text-primary">
                   {transaction.id}
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* Amount Section */}
-          <div className="grid grid-cols-2 gap-4">
-            <Card className="border-primary/20">
-              <CardContent className="pt-6">
-                <p className="text-sm text-slate-600 mb-1">Requested Amount</p>
-                <p className="text-3xl font-bold text-primary">
-                  ₹{transaction.amount.toLocaleString()}
                 </p>
               </CardContent>
             </Card>
-            <Card className="border-green-200">
-              <CardContent className="pt-6">
-                <p className="text-sm text-slate-600 mb-1">Net Amount</p>
-                <p className="text-3xl font-bold text-green-600">
-                  ₹{transaction.netAmount.toLocaleString()}
+          {/* Amount Section */}
+            <Card className="border-primary/20 p-2">
+              <CardContent >
+                <p className="text-sm text-slate-600 mb-1">Recharge Amount</p>
+                <p className="text-2xl font-bold text-primary">
+                  ₹{transaction.amount.toLocaleString()}
                 </p>
               </CardContent>
             </Card>
           </div>
 
           {/* Transaction Details */}
-          <Card>
-            <CardHeader className="bg-primary/5 pb-3">
+          <Card className="py-4">
+            <CardHeader className="bg-primary/5">
               <CardTitle className="text-lg">Transaction Information</CardTitle>
             </CardHeader>
-            <CardContent className="pt-4">
+            <CardContent >
               <div className="grid grid-cols-2 gap-4">
-                <DetailRow label="Date" value={transaction.date} />
-                <DetailRow label="Time" value={transaction.time} />
+                <DetailRow label="Recharge Date" value={transaction.date} />
+                <DetailRow label="Recharge Time" value={transaction.time} />
                 <DetailRow label="Payment Method" value={transaction.method} />
                 <DetailRow
-                  label="Processing Time"
-                  value={transaction.processingTime}
-                />
-                <DetailRow
-                  label="Transaction Fees"
-                  value={`₹${transaction.fees}`}
-                />
-                <DetailRow
-                  label="Bank Transaction ID"
+                  label="Gateway Transaction ID"
                   value={transaction.transactionId}
                 />
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Bank Details */}
-          <Card>
-            <CardHeader className="bg-primary/5 pb-3">
-              <CardTitle className="text-lg">Bank Account Details</CardTitle>
-            </CardHeader>
-            <CardContent className="pt-4">
-              <div className="grid grid-cols-2 gap-4">
-                <DetailRow label="Bank Name" value={transaction.bankName} />
                 <DetailRow
-                  label="Account Number"
-                  value={transaction.accountNumber}
+                  label="Balance Before Recharge"
+                  value={`₹${transaction.balanceBefore.toLocaleString()}`}
                 />
-                <DetailRow label="IFSC Code" value={transaction.ifsc} />
+                <DetailRow
+                  label="Balance After Recharge"
+                  value={`₹${transaction.balanceAfter.toLocaleString()}`}
+                />
+                <DetailRow
+                  label="Payment ID"
+                  value={transaction.paymentId}
+                />
+                <DetailRow
+                  label="Wallet ID"
+                  value={transaction.walletId}
+                />
               </div>
             </CardContent>
           </Card>
@@ -280,10 +165,10 @@ const TransactionDetailModal = ({ transaction, open, onClose }) => {
               <X className="w-4 h-4 mr-2" />
               Close
             </Button>
-            <Button className="flex-1 bg-primary text-black hover:bg-orange-400">
+            {/* <Button className="flex-1 bg-primary text-black hover:bg-orange-400">
               <Download className="w-4 h-4 mr-2" />
               Download Receipt
-            </Button>
+            </Button> */}
           </div>
         </div>
       </DialogContent>
@@ -302,9 +187,10 @@ function WidhdrowHistory() {
  
 
   const [searchTerm, setSearchTerm] = useState("");
-  const [statusFilter, setStatusFilter] = useState("all");
-  const [methodFilter, setMethodFilter] = useState("all");
+  // const [statusFilter, setStatusFilter] = useState("all");
+  // const [methodFilter, setMethodFilter] = useState("all");
   const [dateFilter, setDateFilter] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
   const [selectedTransaction, setSelectedTransaction] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const dispatch = useDispatch();
@@ -316,39 +202,62 @@ function WidhdrowHistory() {
 
 
  useEffect(() => {
-    dispatch(fetchRechargeHistory());
-  }, [dispatch]);
+    dispatch(fetchRechargeHistory(currentPage));
+  }, [dispatch, currentPage]);
   
-  const rechargeData=rechargeHistory?.data?.data
-  console.log("rechargeData", rechargeData);
+  const rechargeData = rechargeHistory?.data?.data || [];
+  const pagination = rechargeHistory?.data;
+
+  // Convert the recharge-history API response into the shape used by this table.
+  const transactionHistoryData = rechargeData.map((item) => {
+    const rechargedAt = new Date(item.recharged_at);
+
+    return {
+      id: item.id,
+      amount: Number(item.amount),
+      status: "completed",
+      date: rechargedAt.toISOString().slice(0, 10),
+      time: rechargedAt.toLocaleTimeString("en-IN", {
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
+      method: item.payment_method,
+      transactionId: item.gateway_txn_id,
+      paymentId: item.payment_id,
+      walletId: item.wallet_id,
+      balanceBefore: Number(item.balance_before),
+      balanceAfter: Number(item.balance_after),
+    };
+  });
+
   // Filter logic
-  const filteredData = withdrawalData.filter((item) => {
+  const filteredData = transactionHistoryData.filter((item) => {
     const matchesSearch =
-      item.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.transactionId.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesStatus =
-      statusFilter === "all" || item.status === statusFilter;
-    const matchesMethod =
-      methodFilter === "all" || item.method === methodFilter;
+      String(item.id).toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.transactionId?.toLowerCase().includes(searchTerm.toLowerCase());
+    // const matchesStatus =
+    //   statusFilter === "all" || item.status === statusFilter;
+    // const matchesMethod =
+    //   methodFilter === "all" || item.method === methodFilter;
     const matchesDate = !dateFilter || item.date === dateFilter;
 
-    return matchesSearch && matchesStatus && matchesMethod && matchesDate;
+    return matchesSearch && matchesDate;
   });
 
 
 
-  // Calculate statistics
-  const stats = {
-    total: withdrawalData.reduce((sum, item) => sum + item.amount, 0),
-    completed: withdrawalData
-      .filter((item) => item.status === "completed")
-      .reduce((sum, item) => sum + item.amount, 0),
-    pending: withdrawalData
-      .filter((item) => item.status === "pending")
-      .reduce((sum, item) => sum + item.amount, 0),
-    rejected: withdrawalData.filter((item) => item.status === "rejected")
-      .length,
-  };
+  // Statistics are currently not needed because the summary cards are hidden.
+  // const stats = {
+  //   total: withdrawalData.reduce((sum, item) => sum + item.amount, 0),
+  //   completed: withdrawalData
+  //     .filter((item) => item.status === "completed")
+  //     .reduce((sum, item) => sum + item.amount, 0),
+  //   pending: withdrawalData
+  //     .filter((item) => item.status === "pending")
+  //     .reduce((sum, item) => sum + item.amount, 0),
+  //   rejected: withdrawalData.filter((item) => item.status === "rejected")
+  //     .length,
+  // };
 
   const handleViewDetails = (transaction) => {
     setSelectedTransaction(transaction);
@@ -362,14 +271,14 @@ function WidhdrowHistory() {
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-slate-800 flex items-center gap-3 mb-2">
             <DollarSign className="w-10 h-10 text-primary" />
-            Withdrawal History
+            Recharge History
           </h1>
           <p className="text-slate-600">
-            Track and manage all your withdrawal transactions
+            Track and manage all your transactions
           </p>
         </div>
 
-        {/* Statistics Cards */}
+        {/* Statistics Cards - currently not needed
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
           <Card className="border-primary/30 bg-gradient-to-br from-primary/5 to-orange-50">
             <CardContent className=" ">
@@ -427,9 +336,10 @@ function WidhdrowHistory() {
             </CardContent>
           </Card>
         </div>
+        */}
 
         {/* Filters */}
-        <Card className="mb-6 border-2 border-primary/20">
+        <Card className="py-4 border-2 border-primary/20">
           <CardHeader className="bg-primary/5">
             <CardTitle className="flex items-center gap-2">
               <Filter className="w-5 h-5 text-primary" />
@@ -439,8 +349,8 @@ function WidhdrowHistory() {
               Filter withdrawals by status, method, date, or search
             </CardDescription>
           </CardHeader>
-          <CardContent className="pt-6">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <CardContent >
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Search */}
               <div className="space-y-2">
                 <Label className="text-sm font-medium">Search</Label>
@@ -455,13 +365,11 @@ function WidhdrowHistory() {
                 </div>
               </div>
 
-              {/* Status Filter */}
+              {/*
               <div className="space-y-2">
                 <Label className="text-sm font-medium">Status</Label>
                 <Select value={statusFilter} onValueChange={setStatusFilter}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="All Status" />
-                  </SelectTrigger>
+                  <SelectTrigger><SelectValue placeholder="All Status" /></SelectTrigger>
                   <SelectContent>
                     <SelectItem value="all">All Status</SelectItem>
                     <SelectItem value="completed">Completed</SelectItem>
@@ -471,13 +379,10 @@ function WidhdrowHistory() {
                 </Select>
               </div>
 
-              {/* Method Filter */}
               <div className="space-y-2">
                 <Label className="text-sm font-medium">Payment Method</Label>
                 <Select value={methodFilter} onValueChange={setMethodFilter}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="All Methods" />
-                  </SelectTrigger>
+                  <SelectTrigger><SelectValue placeholder="All Methods" /></SelectTrigger>
                   <SelectContent>
                     <SelectItem value="all">All Methods</SelectItem>
                     <SelectItem value="Bank Transfer">Bank Transfer</SelectItem>
@@ -485,6 +390,7 @@ function WidhdrowHistory() {
                   </SelectContent>
                 </Select>
               </div>
+              */}
 
               {/* Date Filter */}
               <div className="space-y-2">
@@ -508,8 +414,8 @@ function WidhdrowHistory() {
                 size="sm"
                 onClick={() => {
                   setSearchTerm("");
-                  setStatusFilter("all");
-                  setMethodFilter("all");
+                  // setStatusFilter("all");
+                  // setMethodFilter("all");
                   setDateFilter("");
                 }}
               >
@@ -520,11 +426,11 @@ function WidhdrowHistory() {
         </Card>
 
         {/* Transactions Table */}
-        <Card className="border-2 border-primary/20">
+        <Card className="py-4 border-2 border-primary/20">
           <CardHeader className="bg-primary/5">
             <CardTitle>Transaction History</CardTitle>
             <CardDescription>
-              Showing {filteredData.length} of {withdrawalData.length}{" "}
+              Showing {filteredData.length} of {transactionHistoryData.length}{" "}
               transactions
             </CardDescription>
           </CardHeader>
@@ -549,7 +455,7 @@ function WidhdrowHistory() {
                       Status
                     </th>
                     <th className="px-6 py-4 text-left text-sm font-semibold text-slate-700">
-                      Account
+                      Transaction ID
                     </th>
                     <th className="px-6 py-4 text-center text-sm font-semibold text-slate-700">
                       Action
@@ -589,9 +495,6 @@ function WidhdrowHistory() {
                           <p className="font-bold text-slate-800">
                             ₹{transaction.amount.toLocaleString()}
                           </p>
-                          <p className="text-xs text-slate-500">
-                            Fee: ₹{transaction.fees}
-                          </p>
                         </td>
                         <td className="px-6 py-4">
                           <Badge variant="outline" className="capitalize">
@@ -602,11 +505,8 @@ function WidhdrowHistory() {
                           <StatusBadge status={transaction.status} />
                         </td>
                         <td className="px-6 py-4">
-                          <p className="text-sm text-slate-700">
-                            {transaction.bankName}
-                          </p>
                           <p className="text-xs text-slate-500 font-mono">
-                            {transaction.accountNumber}
+                            {transaction.transactionId}
                           </p>
                         </td>
                         <td className="px-6 py-4 text-center">
@@ -625,6 +525,33 @@ function WidhdrowHistory() {
                 </tbody>
               </table>
             </div>
+            {pagination?.last_page > 1 && (
+              <div className="flex items-center justify-between border-t border-slate-200 px-6 py-4">
+                <p className="text-sm text-slate-600">
+                  Page {pagination.current_page} of {pagination.last_page}
+                </p>
+                <div className="flex gap-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    disabled={!pagination.prev_page_url || loading}
+                    onClick={() => setCurrentPage((page) => page - 1)}
+                  >
+                    <ChevronLeft className="mr-1 h-4 w-4" />
+                    Previous
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    disabled={!pagination.next_page_url || loading}
+                    onClick={() => setCurrentPage((page) => page + 1)}
+                  >
+                    Next
+                    <ChevronRight className="ml-1 h-4 w-4" />
+                  </Button>
+                </div>
+              </div>
+            )}
           </CardContent>
         </Card>
       </div>

@@ -25,13 +25,8 @@ import { Separator } from "@/components/ui/separator";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import {
-  createRazorpayOrder,
   fetchWalletDetails,
   fetchWalletChatStatistics,
-  verifyRazorpayPayment,
-  fetchRechargeHistory,
-  fetchPayoutHistory,
-  createPayoutRequest,
 } from "@/redux/slice/walletSlice";
 import { toast } from "react-toastify";
 import { openRechargeModal } from "@/redux/slice/uiSlice";
@@ -62,18 +57,15 @@ function WalletDashboard() {
     dispatch(fetchWalletDetails());
   }, [dispatch]);
   useEffect(() => {
-    dispatch(fetchRechargeHistory());
-  }, [dispatch]);
-  useEffect(() => {
     dispatch(fetchWalletChatStatistics());
   }, [dispatch]);
 
   if (loading && !details) {
     return (
       <div className="min-h-screen bg-slate-50 flex items-center justify-center">
-        <div className="text-xl font-semibold text-gray-500 animate-pulse">
+        <p className="text-md text-gray-900 animate-pulse">
           Loading Wallet Data...
-        </div>
+        </p>
       </div>
     );
   }
