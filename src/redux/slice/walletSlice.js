@@ -48,7 +48,7 @@ export const fetchPayoutHistory = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await api.get('/payout/history');
-       console.log("fetch payout history",response)
+      //  console.log("fetch payout history",response)
       return response.data.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || 'Failed to fetch payout history');
