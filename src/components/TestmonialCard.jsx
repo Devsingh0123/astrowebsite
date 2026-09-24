@@ -2,20 +2,24 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Star, User } from "lucide-react"
 
 const TestmonialCard = ({ id, name, avatar, rating, service, message }) => {
+    const numericRating = Number(rating);
+    const starCount = Number.isFinite(numericRating)
+        ? Math.max(0, Math.min(5, Math.round(numericRating)))
+        : 0;
     return (
         <Card key={id} className="w-full rounded-tl-4xl rounded-br-4xl rounded-bl-none rounded-tr-none border shadow-sm">
             <CardContent className="p-5 space-y-4">
 
                 {/* Rating */}
                 <div className="flex items-center gap-1 text-yellow-500">
-                    {[...Array(rating)].map((_, i) => (
+                    {Array.from({ length: starCount }, (_, i) => (
                         <Star key={i} size={16} fill="currentColor" />
                     ))}
                 </div>
 
                 {/* Testimonial Text */}
                 <p className="text-sm text-gray-900 leading-relaxed">
-                    "{message}"
+                    {message}
                 </p>
 
                 {/* User Info */}
