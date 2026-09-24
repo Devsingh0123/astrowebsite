@@ -3,13 +3,10 @@ import UserAuthReducer from "./slice/UserAuth";
 import HoroscopeReducer from "./slice/HoroscopesSlice";
 import AstroAuthReducer from "./slice/AstroAuth";
 import WalletReducer from "./slice/walletSlice";
-import blogReducer from './slice/BlogSlice';
-import aiChatReducer from './slice/aiChatSlice';
-import uiReducer from './slice/uiSlice';
-import aiAstrologerReviewReducer from './slice/aiAstrologerReviewSlice';
-
-
-
+import blogReducer from "./slice/BlogSlice";
+import aiChatReducer from "./slice/aiChatSlice";
+import uiReducer from "./slice/uiSlice";
+import aiAstrologerReviewReducer from "./slice/aiAstrologerReviewSlice";
 
 export const store = configureStore({
   reducer: {
@@ -21,6 +18,5 @@ export const store = configureStore({
     aiChat: aiChatReducer,
     ui: uiReducer,
     aiAstrologerReview: aiAstrologerReviewReducer,
-    
   },
 });

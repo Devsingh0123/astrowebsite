@@ -31,6 +31,7 @@ import MarkdownRenderer from "./MarkdownRenderer";
 import AstrologerRecommendations from "./AstrologerRecommendations";
 import { BeatLoader } from "react-spinners";
 import UserLogin from "@/components/UserLogin";
+import AstrologerReviewDialog from "./AstrologerReviewDialog";
 
 const AIChatBot = () => {
   // console.log("chatbotloading....................");
@@ -68,6 +69,17 @@ const AIChatBot = () => {
   const [rechargeMessage, setRechargeMessage] = useState("");
   const [showLogin, setShowLogin] = useState(false);
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
+  const [reviewTarget, setReviewTarget] = useState(null);
+  const [reviewedSessions, setReviewedSessions] = useState([]);
+
+  const reviewKey = (target) => JSON.stringify([target.astrologerSlug, target.expertiseSlug, target.sessionId]);
+  const currentReviewTarget = {
+    astrologerId: astrologerDetails?.slug === astrologerSlug ? astrologerDetails.id : null,
+    astrologerSlug,
+    expertiseSlug,
+    sessionId,
+    name: astrologerDetails?.slug === astrologerSlug ? astrologerDetails.name : astrologerSlug,
+  };
 
   const bottomRef = useRef();
   const activeChatRef = useRef({ sessionId: null, isActive: false });
@@ -347,6 +359,7 @@ const AIChatBot = () => {
       setElapsedSeconds(0);
       setShowRechargeModal(false);
       setRechargeMessage("");
+      setReviewTarget(null);
       setInput(question || "");
       setShowCustomInput(Boolean(question));
       navigate(`/ai-chat/${encodeURIComponent(astro.slug)}/${encodeURIComponent(astro.expertise.slug)}`);
@@ -359,13 +372,17 @@ const AIChatBot = () => {
   };
 
   // Close session
-  const handleManualCloseSession = async () => {
+  const handleManualCloseSession = async (promptReview = false) => {
     if (sessionId) {
+      const target = { ...currentReviewTarget };
       isClosingSessionRef.current = true;
       try {
         await dispatch(closeSession(sessionId)).unwrap();
         dispatch(fetchWalletDetails());
         toast.success("Chat ended successfully");
+        if (promptReview && target.astrologerId && !reviewedSessions.includes(reviewKey(target))) {
+          setReviewTarget(target);
+        }
       } catch (err) {
         isClosingSessionRef.current = false;
         toast.error(err || "Something went wrong");
@@ -680,6 +697,18 @@ const AIChatBot = () => {
 
           {/* Input area */}
           <div className="z-20 shrink-0 border-t border-amber-100 bg-white/95 px-3 py-3 shadow-[0_-6px_18px_rgba(0,0,0,0.04)] backdrop-blur sm:px-6">
+            {isLoggedIn && sessionId && !isStartingSession && (
+              <div className="mb-2 text-right">
+                <button
+                  type="button"
+                  disabled={!currentReviewTarget.astrologerId || reviewedSessions.includes(reviewKey(currentReviewTarget))}
+                  onClick={() => setReviewTarget({ ...currentReviewTarget })}
+                  className="text-xs font-medium text-amber-700 underline underline-offset-2 disabled:text-gray-400 disabled:no-underline"
+                >
+                  {reviewedSessions.includes(reviewKey(currentReviewTarget)) ? "Review submitted" : "Rate astrologer"}
+                </button>
+              </div>
+            )}
             {!showCustomInput ? (
               <button
                 type="button"
@@ -723,7 +752,7 @@ const AIChatBot = () => {
 
           {chatBilling?.isChatActive && (
             <button
-              onClick={handleManualCloseSession}
+              onClick={() => handleManualCloseSession(true)}
               className="absolute bottom-20 right-4 z-30 rounded-full bg-red-600 px-4 py-2 text-xs font-semibold text-white shadow-lg transition hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-offset-2 cursor-pointer sm:bottom-24"
             >
               End Chat
@@ -765,6 +794,19 @@ const AIChatBot = () => {
           </a>
         </div>
       </div>
+
+      {isLoggedIn && reviewTarget && reviewTarget.astrologerSlug === astrologerSlug && reviewTarget.expertiseSlug === expertiseSlug && (
+        <AstrologerReviewDialog
+          key={reviewKey(reviewTarget)}
+          target={reviewTarget}
+          onClose={() => setReviewTarget(null)}
+          onSubmitted={(target) => {
+            setReviewedSessions((previous) => [...previous, reviewKey(target)]);
+            setReviewTarget(null);
+            toast.success("Thank you for your review!");
+          }}
+        />
+      )}
 
       {showLogin && (
         <UserLogin
