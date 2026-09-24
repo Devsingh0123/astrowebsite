@@ -19,7 +19,7 @@ const TestmonialCard = ({ id, name, avatar, rating, service, message }) => {
 
                 {/* Testimonial Text */}
                 <p className="text-sm text-gray-900 leading-relaxed">
-                    "{message}"
+                    {message}
                 </p>
 
                 {/* User Info */}

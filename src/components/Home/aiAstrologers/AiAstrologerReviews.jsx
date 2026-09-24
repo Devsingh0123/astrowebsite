@@ -1,26 +1,23 @@
-import { useEffect } from "react";
+﻿import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import TestmonialCard from "@/components/TestmonialCard";
-import { fetchAiAstrologerReviewsBySlug } from "@/redux/slice/aiAstrologerReviewSlice";
+import { fetchAiAstrologerReviewsById } from "@/redux/slice/aiAstrologerReviewSlice";
 
-const AiAstrologerReviews = ({ slug }) => {
+const AiAstrologerReviews = ({ astrologerId }) => {
   const dispatch = useDispatch();
   const {
     astrologerReviews,
-    astrologerReviewsSlug,
+    astrologerReviewsId,
     astrologerReviewsLoading,
     astrologerReviewsError,
   } = useSelector((state) => state.aiAstrologerReview);
 
   useEffect(() => {
-    if (slug) dispatch(fetchAiAstrologerReviewsBySlug(slug));
-  }, [dispatch, slug]);
+    if (astrologerId) dispatch(fetchAiAstrologerReviewsById(astrologerId));
+  }, [dispatch, astrologerId]);
 
-  const reviewData = astrologerReviews?.data ?? astrologerReviews;
-  const reviews = Array.isArray(reviewData)
-    ? reviewData
-    : Array.isArray(reviewData?.data) ? reviewData.data : [];
-  const isLoading = astrologerReviewsLoading || astrologerReviewsSlug !== slug;
+  const reviews = astrologerReviews ?? [];
+  const isLoading = astrologerReviewsLoading || astrologerReviewsId !== astrologerId;
 
   return (
     <section className="mb-12" aria-labelledby="astrologer-reviews-heading">
@@ -32,7 +29,7 @@ const AiAstrologerReviews = ({ slug }) => {
       ) : astrologerReviewsError ? (
         <div className="rounded-xl border border-amber-200 bg-white p-6">
           <p role="alert" className="text-gray-600">Unable to load reviews. Please try again.</p>
-          <button type="button" onClick={() => dispatch(fetchAiAstrologerReviewsBySlug(slug))} className="mt-3 rounded-lg bg-amber-400 px-4 py-2 text-sm font-medium hover:bg-amber-500">
+          <button type="button" onClick={() => dispatch(fetchAiAstrologerReviewsById(astrologerId))} className="mt-3 rounded-lg bg-amber-400 px-4 py-2 text-sm font-medium hover:bg-amber-500">
             Try again
           </button>
         </div>
@@ -58,3 +55,4 @@ const AiAstrologerReviews = ({ slug }) => {
 };
 
 export default AiAstrologerReviews;
+

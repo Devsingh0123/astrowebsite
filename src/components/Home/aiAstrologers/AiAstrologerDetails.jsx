@@ -241,7 +241,9 @@ const AiAstrologerDetails = () => {
             </div>
           </div>
 
-          <AiAstrologerReviews slug={slug} />
+          {astro.slug === slug && astro.id && (
+            <AiAstrologerReviews astrologerId={astro.id} />
+          )}
 
           {/* LANGUAGES KNOWN CARD */}
           {/* <div className="mb-12">

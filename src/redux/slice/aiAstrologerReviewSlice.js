@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+﻿import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { api } from "../baseApi";
 
 export const submitAiAstrologerReview = createAsyncThunk(
@@ -32,32 +32,33 @@ export const fetchAllAiAstrologerReviews = createAsyncThunk(
   "aiAstrologerReview/fetchAll",
   async (_, { rejectWithValue }) => {
     try {
-      // Placeholder endpoint: replace when the backend API is ready.
-      const res = await api.get("/user/ai-astrologer-reviews");
+      const res = await api.get("/astrologer/reviews");
       if (res.data?.status === false) {
         return rejectWithValue(res.data.message || "Failed to load reviews");
       }
-      return res.data;
+      // Keep the review list; the homepage does not need pagination metadata.
+      return res.data?.data?.reviews?.data ?? [];
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || "Failed to load reviews");
     }
   },
 );
 
-export const fetchAiAstrologerReviewsBySlug = createAsyncThunk(
-  "aiAstrologerReview/fetchBySlug",
-  async (slug, { rejectWithValue }) => {
-    if (typeof slug !== "string" || !slug.trim()) {
-      return rejectWithValue("Astrologer slug is required.");
+export const fetchAiAstrologerReviewsById = createAsyncThunk(
+  "aiAstrologerReview/fetchById",
+  async (astrologerId, { rejectWithValue }) => {
+    if (!Number.isInteger(Number(astrologerId)) || Number(astrologerId) <= 0) {
+      return rejectWithValue("A valid astrologer ID is required.");
     }
 
     try {
-      // Dynamic placeholder route for a particular astrologer's reviews.
-      const res = await api.get(`/user/ai-astrologer-reviews/${encodeURIComponent(slug.trim())}`);
+      const res = await api.get("/astrologer/reviews", {
+        params: { astrologer_id: astrologerId },
+      });
       if (res.data?.status === false) {
         return rejectWithValue(res.data.message || "Failed to load astrologer reviews");
       }
-      return res.data;
+      return res.data?.data?.reviews?.data ?? [];
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || "Failed to load astrologer reviews");
     }
@@ -71,7 +72,7 @@ const initialState = {
   allReviewsLoading: false,
   allReviewsError: null,
   astrologerReviews: null,
-  astrologerReviewsSlug: null,
+  astrologerReviewsId: null,
   astrologerReviewsLoading: false,
   astrologerReviewsError: null,
   astrologerReviewsRequestId: null,
@@ -108,21 +109,21 @@ const aiAstrologerReviewSlice = createSlice({
         state.allReviewsLoading = false;
         state.allReviewsError = action.payload || action.error.message;
       })
-      .addCase(fetchAiAstrologerReviewsBySlug.pending, (state, action) => {
-        state.astrologerReviewsSlug = action.meta.arg;
+      .addCase(fetchAiAstrologerReviewsById.pending, (state, action) => {
+        state.astrologerReviewsId = action.meta.arg;
         state.astrologerReviewsLoading = true;
         state.astrologerReviewsError = null;
         state.astrologerReviews = null;
         state.astrologerReviewsRequestId = action.meta.requestId;
       })
-      .addCase(fetchAiAstrologerReviewsBySlug.fulfilled, (state, action) => {
+      .addCase(fetchAiAstrologerReviewsById.fulfilled, (state, action) => {
         // Ignore an older response after switching astrologers.
         if (state.astrologerReviewsRequestId !== action.meta.requestId) return;
         state.astrologerReviewsLoading = false;
         state.astrologerReviews = action.payload;
         state.astrologerReviewsRequestId = null;
       })
-      .addCase(fetchAiAstrologerReviewsBySlug.rejected, (state, action) => {
+      .addCase(fetchAiAstrologerReviewsById.rejected, (state, action) => {
         if (state.astrologerReviewsRequestId !== action.meta.requestId) return;
         state.astrologerReviewsLoading = false;
         state.astrologerReviewsError = action.payload || action.error.message;
@@ -133,3 +134,4 @@ const aiAstrologerReviewSlice = createSlice({
 
 export const { clearReviewError } = aiAstrologerReviewSlice.actions;
 export default aiAstrologerReviewSlice.reducer;
+

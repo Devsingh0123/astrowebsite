@@ -15,11 +15,7 @@ const Testmonial = () => {
     dispatch(fetchAllAiAstrologerReviews());
   }, [dispatch]);
 
-  // Support a direct list, a data envelope, or a paginated data envelope.
-  const reviewData = allReviews?.data ?? allReviews;
-  const reviews = Array.isArray(reviewData)
-    ? reviewData
-    : Array.isArray(reviewData?.data) ? reviewData.data : [];
+  const reviews = allReviews ?? [];
 
   return (
     <section className="py-10">
@@ -43,14 +39,13 @@ const Testmonial = () => {
             <p className="py-6 text-center text-gray-500">No reviews yet.</p>
           ) : (
             <Slider slideCount={2}>
-              {reviews.map((review, index) => (
+              {reviews.map((review) => (
                 <TestmonialCard
-                  key={review.id ?? index}
-                  name={review.user_name || review.user?.name || review.name || "Anonymous"}
-                  avatar={review.user?.avatar || review.avatar}
+                  key={review.id}
+                  name={review.user?.name || "Anonymous"}
                   rating={review.rating}
-                  service={review.astrologer?.name || review.astrologer_name || review.service}
-                  message={review.review || review.message || "No written review provided."}
+                  service={review.astrologer?.name}
+                  message={review.review || "No written review provided."}
                 />
               ))}
             </Slider>
