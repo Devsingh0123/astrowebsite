@@ -1,6 +1,6 @@
-﻿import { useEffect, useState } from "react";
+﻿import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ArrowRight, Sun, UserRound, X } from "lucide-react";
 import { motion as Motion, useReducedMotion } from "framer-motion";
 import {
@@ -19,6 +19,8 @@ let shownThisSession = false;
 const HomeWelcomePopup = () => {
   const { isLoggedIn } = useSelector((state) => state.userAuth);
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
+  const navigateAfterClose = useRef(false);
   const reduceMotion = useReducedMotion();
   const bubbleAnimation = (delay) => ({
     initial: reduceMotion ? false : { opacity: 0, y: 12, scale: 0.97 },
@@ -61,11 +63,25 @@ const HomeWelcomePopup = () => {
     return () => window.clearTimeout(timer);
   }, [isLoggedIn]);
 
+  const handleChatClick = () => {
+    navigateAfterClose.current = true;
+    setOpen(false);
+  };
+
+  // Finish closing the popup before changing pages to avoid flicker.
+  const handlePopupClosed = (event) => {
+    if (!navigateAfterClose.current) return;
+    event.preventDefault();
+    navigateAfterClose.current = false;
+    navigate("/chat/all-ai-astrologer");
+  };
+
   return (
     <Dialog open={open && !isLoggedIn} onOpenChange={setOpen}>
       <DialogContent
         showCloseButton={false}
-        className="block max-h-[90dvh] overflow-y-auto rounded-3xl border border-white/80 bg-gradient-to-br from-[#fff9e8] via-amber-50/95 to-white p-0 shadow-[0_24px_90px_rgba(0,0,0,0.22)] motion-reduce:animate-none sm:max-w-[min(820px,calc(100%-3rem))]"
+        onCloseAutoFocus={handlePopupClosed}
+        className="block max-h-[90dvh] overflow-y-auto rounded-3xl border border-white/80 bg-gradient-to-br from-[#fff9e8] via-amber-50/95 to-white p-0 shadow-[0_24px_90px_rgba(0,0,0,0.22)] selection:bg-amber-300 selection:text-amber-950 motion-reduce:animate-none sm:max-w-[min(820px,calc(100%-3rem))]"
       >
         <DialogClose
           className="absolute right-3 top-3 z-20 flex h-8 w-8 items-center justify-center rounded-full bg-white/70 text-gray-500 transition hover:bg-amber-100 hover:text-gray-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600"
@@ -97,9 +113,9 @@ const HomeWelcomePopup = () => {
               whileTap={reduceMotion ? undefined : { scale: 0.98 }}
               className="mt-6 w-fit"
             >
-              <Link
-                to="/chat/all-ai-astrologer"
-                onClick={() => setOpen(false)}
+              <button
+                type="button"
+                onClick={handleChatClick}
                 className="group inline-flex min-h-12 items-center justify-between gap-10 rounded-full bg-gradient-to-r from-amber-400 to-amber-500 px-6 py-3 text-base font-semibold text-gray-900 shadow-[0_6px_18px_rgba(245,158,11,0.22)] transition-shadow hover:shadow-[0_8px_24px_rgba(245,158,11,0.32)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-amber-600"
               >
                 Chat Now{" "}
@@ -107,7 +123,7 @@ const HomeWelcomePopup = () => {
                   className="h-5 w-5 transition-transform group-hover:translate-x-1 motion-reduce:transform-none"
                   aria-hidden="true"
                 />
-              </Link>
+              </button>
             </Motion.div>
           </div>
           <div
@@ -197,3 +213,4 @@ const HomeWelcomePopup = () => {
 };
 
 export default HomeWelcomePopup;
+
