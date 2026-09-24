@@ -3,7 +3,7 @@ import { api } from "../baseApi";
 
 export const submitAiAstrologerReview = createAsyncThunk(
   "aiAstrologerReview/submit",
-  async ({ astrologer_id, slug, review, rating }, { getState, rejectWithValue }) => {
+  async ({ astrologer_id, review, rating }, { getState, rejectWithValue }) => {
     const { token, isLoggedIn } = getState().userAuth;
 
     if (!isLoggedIn || !token) {
@@ -11,11 +11,10 @@ export const submitAiAstrologerReview = createAsyncThunk(
     }
 
     try {
-      // Placeholder endpoint: replace when the backend API is ready.
       const res = await api.post(
-        "/user/ai-astrologer-reviews",
-        { astrologer_id, slug, review, rating }
-        
+        "/user/astrologer/review",
+        { astrologer_id, rating, review },
+        { headers: { "Content-Type": "application/json" } },
       );
       if (res.data?.status === false) {
         return rejectWithValue(res.data.message || "Review submission failed");

@@ -21,7 +21,6 @@ export default function AstrologerReviewDialog({ target, onClose, onSubmitted })
     try {
       await dispatch(submitAiAstrologerReview({
         astrologer_id: target.astrologerId,
-        slug: target.astrologerSlug,
         rating,
         review: review.trim(),
       })).unwrap();
