@@ -1,4 +1,4 @@
-﻿import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { api } from "../baseApi";
 
 export const submitAiAstrologerReview = createAsyncThunk(
@@ -58,7 +58,10 @@ export const fetchAiAstrologerReviewsById = createAsyncThunk(
       if (res.data?.status === false) {
         return rejectWithValue(res.data.message || "Failed to load astrologer reviews");
       }
-      return res.data?.data?.reviews?.data ?? [];
+      return {
+        reviews: res.data?.data?.reviews?.data ?? [],
+        rating: res.data?.data?.rating ?? null,
+      };
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || "Failed to load astrologer reviews");
     }
@@ -72,6 +75,7 @@ const initialState = {
   allReviewsLoading: false,
   allReviewsError: null,
   astrologerReviews: null,
+  astrologerRating: null,
   astrologerReviewsId: null,
   astrologerReviewsLoading: false,
   astrologerReviewsError: null,
@@ -114,13 +118,15 @@ const aiAstrologerReviewSlice = createSlice({
         state.astrologerReviewsLoading = true;
         state.astrologerReviewsError = null;
         state.astrologerReviews = null;
+        state.astrologerRating = null;
         state.astrologerReviewsRequestId = action.meta.requestId;
       })
       .addCase(fetchAiAstrologerReviewsById.fulfilled, (state, action) => {
         // Ignore an older response after switching astrologers.
         if (state.astrologerReviewsRequestId !== action.meta.requestId) return;
         state.astrologerReviewsLoading = false;
-        state.astrologerReviews = action.payload;
+        state.astrologerReviews = action.payload?.reviews ?? [];
+        state.astrologerRating = action.payload?.rating ?? null;
         state.astrologerReviewsRequestId = null;
       })
       .addCase(fetchAiAstrologerReviewsById.rejected, (state, action) => {

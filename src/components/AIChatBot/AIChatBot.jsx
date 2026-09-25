@@ -87,6 +87,17 @@ const AIChatBot = () => {
   const switchInProgressRef = useRef(false);
 
   useEffect(() => {
+    const previous = activeChatRef.current;
+    // Prompt when the current active chat ends, not on initial inactive state.
+    if (
+      previous.sessionId === sessionId && previous.isActive &&
+      chatBilling?.isChatActive === false && chatEndType &&
+      !isClosingSessionRef.current && !switchInProgressRef.current &&
+      isLoggedIn && astrologerDetails?.slug === astrologerSlug && astrologerDetails?.id
+    ) {
+      const target = { sessionId, astrologerSlug, expertiseSlug, astrologerId: astrologerDetails.id, name: astrologerDetails.name };
+      if (!reviewedSessions.includes(reviewKey(target))) setReviewTarget(target);
+    }
     activeChatRef.current = {
       sessionId,
       isActive: Boolean(chatBilling?.isChatActive),
@@ -95,7 +106,7 @@ const AIChatBot = () => {
     if (chatBilling?.isChatActive) {
       isClosingSessionRef.current = false;
     }
-  }, [chatBilling?.isChatActive, sessionId]);
+  }, [chatBilling?.isChatActive, sessionId, chatEndType, isLoggedIn, astrologerDetails, astrologerSlug, expertiseSlug, reviewedSessions]);
 
   // End an active chat when this route is unmounted (for example, navigating away).
   useEffect(() => {
@@ -132,11 +143,11 @@ const AIChatBot = () => {
 
   // Poll the active session so billing/end-of-chat updates are reflected promptly.
   useEffect(() => {
-    if (!sessionId || !chatFreeUsed ) {
+    if (!sessionId || !chatFreeUsed) {
       return;
     }
 
-    dispatch(fetchChatStatus(sessionId ));
+    dispatch(fetchChatStatus(sessionId));
     const interval = setInterval(() => {
       dispatch(fetchChatStatus(sessionId));
     }, 2000);
@@ -659,7 +670,7 @@ const AIChatBot = () => {
           </div>
 
           {/* Recharge Modal */}
-          {showRechargeModal && (
+          {showRechargeModal && !reviewTarget && (
             <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50 p-4">
               <div className="bg-white rounded-2xl shadow-2xl max-w-sm w-full p-6 relative animate-in fade-in zoom-in duration-200">
                 <button
@@ -697,18 +708,6 @@ const AIChatBot = () => {
 
           {/* Input area */}
           <div className="z-20 shrink-0 border-t border-amber-100 bg-white/95 px-3 py-3 shadow-[0_-6px_18px_rgba(0,0,0,0.04)] backdrop-blur sm:px-6">
-            {isLoggedIn && sessionId && !isStartingSession && (
-              <div className="mb-2 text-right">
-                <button
-                  type="button"
-                  disabled={!currentReviewTarget.astrologerId || reviewedSessions.includes(reviewKey(currentReviewTarget))}
-                  onClick={() => setReviewTarget({ ...currentReviewTarget })}
-                  className="text-xs font-medium text-amber-700 underline underline-offset-2 disabled:text-gray-400 disabled:no-underline"
-                >
-                  {reviewedSessions.includes(reviewKey(currentReviewTarget)) ? "Review submitted" : "Rate astrologer"}
-                </button>
-              </div>
-            )}
             {!showCustomInput ? (
               <button
                 type="button"
