@@ -21,7 +21,7 @@ const Testmonial = () => {
     <section className="py-10">
       <div className="container">
         <ComponentHead
-          className="text-start mb-5"
+          className="text-start"
           heading="Testimonials"
           title="Hear from our satisfied clients about their experiences with our expert astrologers and the positive impact on their lives."
         />
@@ -43,8 +43,10 @@ const Testmonial = () => {
                 <TestmonialCard
                   key={review.id}
                   name={review.user?.name || "Anonymous"}
+                  avatar={review.user?.profile_image}
                   rating={review.rating}
                   service={review.astrologer?.name}
+                  expertise={review.astrologer?.expertises?.[0]?.name}
                   message={review.review || "No written review provided."}
                 />
               ))}
