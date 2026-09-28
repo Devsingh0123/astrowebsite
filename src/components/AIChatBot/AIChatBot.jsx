@@ -735,9 +735,10 @@ const AIChatBot = () => {
               <div className="bg-white rounded-2xl shadow-2xl max-w-sm w-full p-6 relative animate-in fade-in zoom-in duration-200">
                 <button
                   onClick={() => {
+                    // Closing recharge is not a finish event: the user is still reading
+                    // the answer. Leaving later (back or logo) asks through askReview.
                     setShowRechargeModal(false);
                     setRechargeMessage("");
-                    askReview();
                   }}
                   className="absolute top-3 right-3 text-gray-400 hover:text-gray-600 transition-colors cursor-pointer"
                   aria-label="Close"
