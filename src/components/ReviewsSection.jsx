@@ -396,7 +396,7 @@ const ReviewsSection = ({ astrologerId }) => {
         setError("");
 
         const res = await fetch(
-          "https://astro.astrotring.com/api/reviews"
+          "https://backend.astrotring.com/api/reviews"
         );
 
         if (!res.ok) throw new Error("Network error");
