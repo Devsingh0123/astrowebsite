@@ -75,12 +75,14 @@ export const createPayoutRequest = createAsyncThunk(
 // ---------- Razorpay: Create Order ----------
 export const createRazorpayOrder = createAsyncThunk(
   'wallet/createRazorpayOrder',
-  async (amount, { rejectWithValue }) => {
+  async ({ amount, extraPercent }, { rejectWithValue }) => {
     try {
-      const response = await api.post('/razorpay/create-order', { amount });
+      const response = await api.post('/razorpay/create-order', { amount,extraPercent  });
       return response.data; // expects { order_id, amount, currency }
     } catch (error) {
-      return rejectWithValue(error.response?.data?.message || 'Failed to create Razorpay order');
+      console.error("🔴 Razorpay Order API Error:", error); 
+      
+      return rejectWithValue(error.response?.data?.message || error.message|| 'Failed to create Razorpay order');
     }
   }
 );
@@ -88,11 +90,12 @@ export const createRazorpayOrder = createAsyncThunk(
 // ---------- Razorpay: Verify Payment ----------
 export const verifyRazorpayPayment = createAsyncThunk(
   'wallet/verifyRazorpayPayment',
-  async ({ paymentData, amount }, { rejectWithValue, dispatch }) => {
+  async ({ paymentData, amount, extraPercent }, { rejectWithValue, dispatch }) => {
     try {
       const response = await api.post('/razorpay/verify', {
         ...paymentData,
         amount,
+        extraPercent
       });
       await dispatch(fetchWalletDetails()); // refresh balance
       await dispatch(fetchRechargeHistory()); // refresh recharge history

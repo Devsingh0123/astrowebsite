@@ -7,20 +7,11 @@ import { toast } from 'react-toastify';
 import { IndianRupee } from 'lucide-react';
 
 const RECHARGE_PACKS = [
-  { pay: 50, label: "Get ₹50" },
-  { pay: 100, label: "Get ₹100" },
-  { pay: 199, label: "Get ₹199" },
-  { pay: 300, label: "Get ₹300" },
-  { pay: 500, label: "Get ₹500" },
-  { pay: 1000, label: "Get ₹1000" },
-  { pay: 2000, label: "Get ₹2000" },
-  { pay: 3000, label: "Get ₹3000" },
-  { pay: 5000, label: "Get ₹5000" },
-  { pay: 10000, label: "Get ₹10000" },
-  { pay: 15000, label: "Get ₹15000" },
-  { pay: 20000, label: "Get ₹20000" },
-  { pay: 50000, label: "Get ₹50000" },
-  
+  { pay: 200, label: "100% Extra", extraPercent: 100 },
+  { pay: 500, label: "50% Extra", extraPercent: 50 },
+  { pay: 1000, label: "5% Extra", extraPercent: 5 },
+  { pay: 2000, label: "10% Extra", extraPercent: 10 },
+  { pay: 3000, label: "10% Extra", extraPercent: 10 },
 ];
 
 const RechargePackList = () => {
@@ -30,13 +21,13 @@ const RechargePackList = () => {
   const { user } = useSelector((state) => state.userAuth);
   const { astrologer } = useSelector((state) => state.astroAuth);
 
-  const handlePayment = async (amount) => {
+  const handlePayment = async (amount,extraPercent) => {
     if (!window.Razorpay) {
       toast.error("Razorpay SDK not loaded.");
       return;
     }
     try {
-      const orderData = await dispatch(createRazorpayOrder(amount)).unwrap();
+      const orderData = await dispatch(createRazorpayOrder({amount,extraPercent})).unwrap();
       const options = {
         key: import.meta.env.VITE_RAZORPAY_KEY_ID,
         amount: orderData.amount,
@@ -52,7 +43,8 @@ const RechargePackList = () => {
                 razorpay_order_id: response.razorpay_order_id,
                 razorpay_signature: response.razorpay_signature,
               },
-              amount
+              amount,
+              extraPercent 
             })).unwrap();
             await dispatch(fetchWalletDetails()).unwrap();
             toast.success("Recharge Successful!");
@@ -89,16 +81,17 @@ const RechargePackList = () => {
         {RECHARGE_PACKS.map((pack) => (
           <div
             key={pack.pay}
-            onClick={() => handlePayment(pack.pay)}
+            onClick={() => handlePayment(pack.pay,pack.extraPercent)}
             className="bg-[#FFF9E6] border border-[#E5C780] rounded-md cursor-pointer hover:shadow-md hover:border-amber-500 transition-all group"
           >
-            <div className="bg-amber-500 w-full py-1 text-center text-xs font-medium text-amber-900">
-              {pack.label}
-            </div>
+            
             <div className="flex items-center justify-center py-5">
               <span className="text-xl font-semibold group-hover:scale-110 transition-transform">
                 ₹ {pack.pay.toLocaleString()}
               </span>
+            </div>
+            <div className="bg-amber-300 w-full py-1 text-center text-xs font-medium text-green-800">
+              {pack.label}
             </div>
           </div>
         ))}
