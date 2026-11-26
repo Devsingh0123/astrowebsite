@@ -232,7 +232,7 @@ const Header = () => {
 
       horoscope.forEach((ele) => {
         if (ele.type && !horosSet.has(ele.type)) {
-          if (ele.type.toLowerCase() === "weekly") return;
+          // if (ele.type.toLowerCase() === "weekly") return;
 
           horosSet.add(ele.type);
 
