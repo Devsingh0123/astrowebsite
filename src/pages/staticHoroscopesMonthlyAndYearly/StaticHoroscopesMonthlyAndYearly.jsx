@@ -1,13 +1,7 @@
 // src/pages/StaticHoroscopesMonthlyAndYearly.jsx
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  getHoroscope,
-  getHoroscopeById,
-  clearCurrentHoroscope,
-} from '@/redux/slice/HoroscopesSlice';
-
+import { api } from '@/redux/baseApi';
 // Zodiac images (unchanged)
 import aries from '../../assets/zodiacSigns/aries.png';
 import aquarius from '../../assets/zodiacSigns/aquarius.png';
@@ -38,6 +32,11 @@ const ZODIAC_SIGNS = [
 ];
 
 const TIME_PERIOD_INFO = {
+  yesterday: { title: "Yesterday's Horoscope", description: 'Your horoscope for yesterday' },
+  today: { title: "Today's Horoscope", description: 'Your horoscope for today' },
+  tomorrow: { title: "Tomorrow's Horoscope", description: 'Your horoscope for tomorrow' },
+  daily: { title: 'Daily Horoscope', description: 'Your daily horoscope' },
+  weekly: { title: 'Weekly Horoscope', description: 'Your horoscope for this week' },
   monthly: {
     title: 'Monthly Horoscope',
     description: 'What the stars have in store for you this month',
@@ -62,7 +61,7 @@ const sectionIcons = {
 };
 
 // Reusable section card component
-const SectionCard = ({ title, text, dates, isMonthly }) => {
+const SectionCard = ({ title, text }) => {
   if (!text) return null;
   const icon = sectionIcons[title.toLowerCase()] || sectionIcons.default;
   return (
@@ -71,53 +70,45 @@ const SectionCard = ({ title, text, dates, isMonthly }) => {
         <span className="text-xl">{icon}</span> {title.charAt(0).toUpperCase() + title.slice(1)}
       </h3>
       <p className="text-gray-600 text-sm leading-relaxed">{text}</p>
-      {isMonthly && dates && dates.length > 0 && (
-        <div className="mt-4">
-          <span className="text-xs font-medium text-orange-600 uppercase tracking-wider">Best dates:</span>
-          <div className="flex flex-wrap gap-2 mt-2">
-            {dates.map((date) => (
-              <span key={date} className="bg-orange-50 text-orange-700 px-3 py-1 rounded-full text-xs font-medium border border-orange-100">
-                {date}
-              </span>
-            ))}
-          </div>
-        </div>
-      )}
     </div>
   );
 };
 
 const StaticHoroscopesMonthlyAndYearly = () => {
   const { timePeriod, zodiac } = useParams();
-  const dispatch = useDispatch();
+  if (!Object.hasOwn(TIME_PERIOD_INFO, timePeriod)) {
+    return <p className="py-10 text-center">Horoscope period not found.</p>;
+  }
 
-  const currentTimePeriod = timePeriod === 'yearly' ? 'yearly' : 'monthly';
-  const selectedZodiac = zodiac || 'aries';
+  return <HoroscopePeriod key={timePeriod} currentTimePeriod={timePeriod} selectedZodiac={zodiac || 'aries'} />;
+};
 
-  // Redux state selectors
-  const idMap = useSelector((state) => state.horoscope.idMap);
-  const currentHoroscope = useSelector((state) => state.horoscope.currentHoroscope);
-  const loading = useSelector((state) => state.horoscope.loading);
-  const error = useSelector((state) => state.horoscope.error);
+const HoroscopePeriod = ({ currentTimePeriod, selectedZodiac }) => {
+  const [readings, setReadings] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [attempt, setAttempt] = useState(0);
 
-  // Fetch all horoscopes once to build ID map
   useEffect(() => {
-    if (Object.keys(idMap).length === 0) {
-      dispatch(getHoroscope());
-    }
-  }, [dispatch, idMap]);
+    const controller = new AbortController();
+    setLoading(true);
+    setError(null);
+    api.get('/horoscopes', { params: { type: currentTimePeriod }, signal: controller.signal })
+      .then(({ data }) => {
+        if (!controller.signal.aborted) setReadings(data.data);
+      })
+      .catch((err) => {
+        if (!controller.signal.aborted) setError(err.response?.data?.message || 'Failed to fetch horoscope');
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setLoading(false);
+      });
+    return () => controller.abort();
+  }, [currentTimePeriod, attempt]);
 
-  // When period or zodiac changes, fetch the specific horoscope by ID
-  useEffect(() => {
-    const key = `${currentTimePeriod}-${selectedZodiac}`;
-    const id = idMap[key];
-    if (id) {
-      dispatch(getHoroscopeById(id));
-    } else if (Object.keys(idMap).length > 0) {
-      dispatch(clearCurrentHoroscope());
-    }
-  }, [currentTimePeriod, selectedZodiac, idMap, dispatch]);
-
+  const currentHoroscope = readings.find(
+    (reading) => reading.type === currentTimePeriod && reading.zodiac?.slug === selectedZodiac
+  );
   const timeInfo = TIME_PERIOD_INFO[currentTimePeriod];
 
   // Build dynamic sections from API data
@@ -131,13 +122,12 @@ const StaticHoroscopesMonthlyAndYearly = () => {
             key,
             title: key.charAt(0).toUpperCase() + key.slice(1),
             text: section.text,
-            dates: section.dates || null,
           })),
         watch_out: currentHoroscope.warning || null,
       }
     : null;
 
-    console.log("horoscopeData",horoscopeData)
+
 
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-4">
@@ -166,11 +156,7 @@ const StaticHoroscopesMonthlyAndYearly = () => {
               <div className="text-center py-10 text-red-500">
                 <p>Error: {error}</p>
                 <button
-                  onClick={() => {
-                    const key = `${currentTimePeriod}-${selectedZodiac}`;
-                    const id = idMap[key];
-                    if (id) dispatch(getHoroscopeById(id));
-                  }}
+                  onClick={() => setAttempt((previous) => previous + 1)}
                   className="mt-4 px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700"
                 >
                   Retry
@@ -187,14 +173,22 @@ const StaticHoroscopesMonthlyAndYearly = () => {
                   {horoscopeData.description}
                 </p>
 
+                {currentHoroscope.lucky?.numbers?.length > 0 && (
+                  <div className="mb-6 flex flex-wrap items-center gap-2">
+                    <span className="font-semibold text-orange-800">Lucky numbers</span>
+                    {currentHoroscope.lucky.numbers.map((number) => (
+                      <span key={number} className="rounded-full bg-orange-50 px-3 py-1 text-sm font-semibold text-orange-800">
+                        {number}
+                      </span>
+                    ))}
+                  </div>
+                )}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   {horoscopeData.sections.map((section) => (
                     <SectionCard
                       key={section.key}
                       title={section.title}
                       text={section.text}
-                      dates={section.dates}
-                      isMonthly={currentTimePeriod === 'monthly'}
                     />
                   ))}
                 </div>
@@ -212,7 +206,7 @@ const StaticHoroscopesMonthlyAndYearly = () => {
               </div>
             )}
 
-            {!loading && !error && !horoscopeData && Object.keys(idMap).length > 0 && (
+            {!loading && !error && !horoscopeData && (
               <div className="text-center py-10 text-gray-400">
                 No horoscope data found for {selectedZodiac}.
               </div>
